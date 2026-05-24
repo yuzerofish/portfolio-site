@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- SEO -->
+    <title>TravelTrace - 交互式环球旅行轨迹可视化</title>
+    <meta name="description" content="探索全球旅行路线，通过交互式地图动画体验环球旅程。支持100+城市、70+路线，中英文双语。旅游路线规划、世界旅行航线图、交互式地图可视化工具。" />
+    <meta name="keywords" content="旅行,地图,轨迹,可视化,环球,路线,TravelTrace,旅游路线,旅行规划,交互式地图,世界旅行,航线图,行程规划" />
+    <link rel="canonical" href="https://traveltrace.life/" />
+    <meta name="robots" content="index, follow" />
+
+    <!-- 多语言 -->
+    <!--
+      hreflang 始终指向首页 (https://traveltrace.life/)。
+      虽然各路线页面有自己的 URL (/route/:routeId)，但首页会自动重定向到当前路线，
+      因此首页作为多语言 fallback 页面是合理且符合规范的。
+    -->
+    <link rel="alternate" hreflang="zh" href="https://traveltrace.life/" />
+    <link rel="alternate" hreflang="en" href="https://traveltrace.life/" />
+    <link rel="alternate" hreflang="x-default" href="https://traveltrace.life/" />
+
+    <!-- Open Graph -->
+    <meta property="og:title" content="TravelTrace - 交互式环球旅行轨迹可视化" />
+    <meta property="og:description" content="探索全球旅行路线，通过交互式地图动画体验环球旅程。" />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://traveltrace.life/" />
+    <meta property="og:image" content="https://traveltrace.life/logo.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="TravelTrace - 交互式环球旅行轨迹可视化" />
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="TravelTrace - 环球旅行轨迹可视化" />
+    <meta name="twitter:description" content="通过动画地图探索全球旅行路线" />
+    <meta name="twitter:image" content="https://traveltrace.life/logo.png" />
+
+    <!-- Google Search Console（请替换为实际验证码） -->
+    <meta name="google-site-verification" content="请替换为实际验证码" />
+
+    <!-- 结构化数据 -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      "name": "TravelTrace",
+      "url": "https://traveltrace.life/",
+      "description": "交互式环球旅行轨迹可视化工具，支持多条世界旅行路线动画展示",
+      "applicationCategory": "TravelApplication",
+      "operatingSystem": "Web",
+      "browserRequirements": "Requires JavaScript",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      },
+      "author": {
+        "@type": "Organization",
+        "name": "TravelTrace"
+      }
+    }
+    </script>
+
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@500;700&family=DM+Serif+Display:ital@0;1&display=swap" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@500;700&family=DM+Serif+Display:ital@0;1&display=swap" media="print" onload="this.media='all'" />
+    <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@500;700&family=DM+Serif+Display:ital@0;1&display=swap" /></noscript>
+    <script type="module" crossorigin src="/assets/index-hiVCSVBG.js"></script>
+    <link rel="stylesheet" crossorigin href="/assets/index-C2aMHdcw.css">
+  </head>
+  <body>
+    <div id="root"></div>
+  </body>
+</html>

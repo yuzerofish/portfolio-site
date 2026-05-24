@@ -1,0 +1,22 @@
+<svg width="1200" height="630" viewBox="0 0 1200 630" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- 背景渐变 -->
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#667eea;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#764ba2;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="630" fill="url(#bg)"/>
+
+  <!-- Logo 大图标 -->
+  <g transform="translate(450, 180)">
+    <rect width="72.6" height="66" rx="12" fill="#16a34a"/>
+    <rect x="79.2" width="52.8" height="132" rx="12" fill="#d97706"/>
+    <rect y="72.6" width="72.6" height="59.4" rx="12" fill="#0891b2"/>
+  </g>
+
+  <!-- 文字 -->
+  <text x="600" y="380" font-family="system-ui, -apple-system, 'Noto Sans SC', sans-serif" font-size="64" font-weight="700" fill="white" text-anchor="middle">世界的形状</text>
+  <text x="600" y="440" font-family="system-ui, -apple-system, sans-serif" font-size="28" font-weight="400" fill="white" opacity="0.9" text-anchor="middle" letter-spacing="0.08em">SHAPE OF THE WORLD</text>
+  <text x="600" y="500" font-family="system-ui, -apple-system, sans-serif" font-size="20" font-weight="400" fill="white" opacity="0.7" text-anchor="middle">用 Treemap 观察世界是怎么构成的</text>
+</svg>

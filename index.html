@@ -1,0 +1,915 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Yusually · Explorer of Worlds</title>
+  <link rel="icon" type="image/svg+xml" href="assets/yusually-logo.svg" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300..800;1,9..40,300..800&family=JetBrains+Mono:ital,wght@0,400;0,600;1,400&family=Staatliches&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --bg: #0a0a0a;
+      --bg-card: #111111;
+      --bg-elevated: #181818;
+      --text: #e8e6e0;
+      --text-muted: #8a867e;
+      --accent: #d4763a;
+      --accent-glow: rgba(212, 118, 58, .25);
+      --gold: #c9a96e;
+      --border: #1e1e1e;
+      --radius: 12px;
+      --font-display: 'Staatliches', 'Impact', sans-serif;
+      --font-body: 'DM Sans', system-ui, sans-serif;
+      --font-cn: 'Noto Sans SC', system-ui, sans-serif;
+      --font-mono: 'JetBrains Mono', 'SF Mono', monospace;
+      --nav-h: 64px;
+    }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: var(--font-body);
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+    }
+    ::selection { background: var(--accent); color: #fff; }
+    img { max-width: 100%; display: block; }
+    a { color: inherit; text-decoration: none; }
+    ul { list-style: none; }
+
+    #noise {
+      position: fixed; inset: 0; z-index: 9999;
+      pointer-events: none; opacity: .035;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+      background-repeat: repeat;
+      background-size: 256px 256px;
+    }
+    #loader {
+      position: fixed; inset: 0; z-index: 10000;
+      background: var(--bg);
+      display: flex; align-items: center; justify-content: center;
+      flex-direction: column;
+      transition: opacity .8s ease, visibility .8s ease;
+    }
+    #loader.hidden { opacity: 0; visibility: hidden; }
+    #loader span {
+      font-family: var(--font-display);
+      font-size: clamp(2rem, 5vw, 4rem);
+      letter-spacing: .15em;
+      color: var(--accent);
+      animation: pulse 1.2s ease-in-out infinite;
+    }
+    #loader .loader-logo {
+      width: 64px;
+      height: 64px;
+      margin-bottom: 18px;
+      filter: drop-shadow(0 0 18px rgba(212,118,58,.24));
+    }
+    #loader .bar {
+      margin-top: 24px; width: 120px; height: 2px;
+      background: var(--border); border-radius: 2px; overflow: hidden;
+    }
+    #loader .bar::after {
+      content: ''; display: block; width: 40%; height: 100%;
+      background: var(--accent);
+      animation: load 1.2s ease-in-out infinite;
+    }
+    @keyframes pulse {
+      0%, 100% { opacity: .4; }
+      50% { opacity: 1; }
+    }
+    @keyframes load {
+      0% { transform: translateX(-100%); }
+      100% { transform: translateX(350%); }
+    }
+
+    .grid-bg {
+      position: fixed; inset: 0; z-index: 0;
+      pointer-events: none;
+      background-image:
+        linear-gradient(rgba(255,255,255,.02) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,.02) 1px, transparent 1px);
+      background-size: 64px 64px;
+    }
+
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      height: var(--nav-h);
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 clamp(20px, 5vw, 48px);
+      backdrop-filter: blur(20px) saturate(1.4);
+      -webkit-backdrop-filter: blur(20px) saturate(1.4);
+      background: rgba(10,10,10,.75);
+      border-bottom: 1px solid var(--border);
+    }
+    nav .logo {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      font-family: var(--font-display);
+      font-size: 1.5rem;
+      letter-spacing: .08em;
+      color: var(--text);
+      line-height: 1;
+      min-width: 0;
+    }
+    nav .logo-mark {
+      width: 34px;
+      height: 34px;
+      flex: 0 0 34px;
+      filter: drop-shadow(0 0 10px rgba(212,118,58,.18));
+    }
+    nav .logo-word {
+      padding-top: 2px;
+    }
+    nav .logo-word span { color: var(--accent); }
+    nav ul {
+      display: flex; gap: 24px;
+      font-size: .85rem;
+      text-transform: uppercase;
+      letter-spacing: .1em;
+    }
+    nav ul a {
+      color: var(--text-muted);
+      transition: color .2s;
+      position: relative;
+    }
+    nav ul a::after {
+      content: ''; position: absolute; left: 0; bottom: -4px;
+      width: 0; height: 1px; background: var(--accent);
+      transition: width .3s;
+    }
+    nav ul a:hover { color: var(--text); }
+    nav ul a:hover::after { width: 100%; }
+    nav ul a.active { color: var(--text); }
+    nav ul a.active::after { width: 100%; }
+
+    .nav-actions {
+      display: flex; align-items: center; gap: 12px;
+    }
+    .lang-switch {
+      display: flex; align-items: center; gap: 2px;
+    }
+    .lang-switch button {
+      background: none; border: none; color: var(--text-muted);
+      font-family: var(--font-mono);
+      font-size: .72rem;
+      padding: 4px 8px;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: all .2s;
+      letter-spacing: .04em;
+    }
+    .lang-switch button:hover { color: var(--text); }
+    .lang-switch button.active {
+      color: var(--accent);
+      background: rgba(212,118,58,.1);
+    }
+    .lang-switch .sep {
+      color: var(--border);
+      font-size: .7rem;
+    }
+    .nav-cta {
+      padding: 8px 20px;
+      border: 1px solid var(--accent);
+      border-radius: 100px;
+      font-size: .75rem;
+      text-transform: uppercase;
+      letter-spacing: .1em;
+      color: var(--accent);
+      transition: all .25s;
+    }
+    .nav-cta:hover {
+      background: var(--accent);
+      color: #fff;
+    }
+
+    html.zh body,
+    html.zh .hero-desc,
+    html.zh .featured-content p,
+    html.zh .project-card p,
+    html.zh .about-text p {
+      font-family: var(--font-cn);
+    }
+
+    .menu-toggle {
+      display: none; flex-direction: column; gap: 5px;
+      cursor: pointer; background: none; border: none; padding: 4px;
+    }
+    .menu-toggle span {
+      display: block; width: 24px; height: 1.5px;
+      background: var(--text); transition: all .3s;
+      border-radius: 2px;
+    }
+    .menu-toggle.open span:nth-child(1) { transform: rotate(45deg) translate(5px, 5px); }
+    .menu-toggle.open span:nth-child(2) { opacity: 0; }
+    .menu-toggle.open span:nth-child(3) { transform: rotate(-45deg) translate(4px, -4px); }
+
+    section { position: relative; z-index: 1; }
+    .section-label {
+      font-family: var(--font-mono);
+      font-size: .75rem;
+      color: var(--accent);
+      text-transform: uppercase;
+      letter-spacing: .15em;
+      margin-bottom: 12px;
+    }
+    .section-title {
+      font-family: var(--font-display);
+      font-size: clamp(2.2rem, 6vw, 4.5rem);
+      line-height: 1.05;
+      letter-spacing: .02em;
+      margin-bottom: 24px;
+    }
+    .reveal {
+      opacity: 0; transform: translateY(30px);
+      transition: opacity .8s ease, transform .8s ease;
+    }
+    .reveal.visible {
+      opacity: 1; transform: translateY(0);
+    }
+
+    #hero {
+      min-height: 100vh;
+      display: flex; flex-direction: column;
+      justify-content: center;
+      padding: var(--nav-h) clamp(20px, 6vw, 80px);
+      position: relative;
+    }
+    #hero .hero-sub {
+      font-family: var(--font-mono);
+      font-size: clamp(.75rem, 1.2vw, .9rem);
+      color: var(--accent);
+      letter-spacing: .2em;
+      text-transform: uppercase;
+      margin-bottom: 16px;
+      opacity: 0;
+      animation: fadeUp .8s .3s forwards;
+    }
+    #hero h1 {
+      font-family: var(--font-display);
+      font-size: clamp(3rem, 12vw, 8rem);
+      line-height: .92;
+      letter-spacing: -.02em;
+      opacity: 0;
+      animation: fadeUp .8s .5s forwards;
+    }
+    #hero h1 .line2 { display: block; color: var(--text-muted); }
+    #hero h1 .line3 { display: block; color: var(--text-muted); }
+    #hero h1 .accent { color: var(--accent); }
+    #hero .hero-desc {
+      max-width: 480px;
+      margin-top: 32px;
+      font-size: clamp(1rem, 1.3vw, 1.15rem);
+      color: var(--text-muted);
+      line-height: 1.7;
+      opacity: 0;
+      animation: fadeUp .8s .7s forwards;
+    }
+    #hero .hero-actions {
+      display: flex; gap: 16px; margin-top: 40px; flex-wrap: wrap;
+      opacity: 0;
+      animation: fadeUp .8s .9s forwards;
+    }
+    .btn {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 12px 28px;
+      border-radius: 100px;
+      font-size: .85rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: .08em;
+      transition: all .25s;
+      border: none; cursor: pointer;
+    }
+    .btn-primary {
+      background: var(--accent);
+      color: #fff;
+    }
+    .btn-primary:hover {
+      background: #e0854a;
+      transform: translateY(-2px);
+      box-shadow: 0 8px 32px var(--accent-glow);
+    }
+    .btn-outline {
+      border: 1px solid var(--border);
+      color: var(--text);
+      background: transparent;
+    }
+    .btn-outline:hover {
+      border-color: var(--text);
+      transform: translateY(-2px);
+    }
+    #hero .hero-scroll {
+      position: absolute; bottom: 32px; left: 50%;
+      transform: translateX(-50%);
+      font-size: .7rem; text-transform: uppercase;
+      letter-spacing: .2em; color: var(--text-muted);
+      animation: bob 2s ease-in-out infinite;
+    }
+    @keyframes bob {
+      0%, 100% { transform: translateX(-50%) translateY(0); }
+      50% { transform: translateX(-50%) translateY(8px); }
+    }
+    @keyframes fadeUp {
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .hero-corner {
+      position: absolute;
+      width: 120px; height: 120px;
+      border: 1px solid rgba(255,255,255,.04);
+      pointer-events: none;
+    }
+    .hero-corner.tl { top: var(--nav-h); left: 0; border-right: none; border-bottom: none; }
+    .hero-corner.br { bottom: 0; right: 0; border-left: none; border-top: none; }
+
+    #projects {
+      padding: 120px clamp(20px, 6vw, 80px);
+    }
+    .featured {
+      position: relative;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+      margin-top: 40px;
+      transition: all .4s;
+    }
+    .featured:hover {
+      border-color: rgba(212,118,58,.3);
+      box-shadow: 0 0 60px rgba(212,118,58,.06);
+    }
+    .featured-inner {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      min-height: 420px;
+    }
+    .featured-content {
+      padding: clamp(32px, 4vw, 56px);
+      display: flex; flex-direction: column; justify-content: center;
+    }
+    .featured-content .tag {
+      display: inline-block;
+      font-family: var(--font-mono);
+      font-size: .7rem;
+      text-transform: uppercase;
+      letter-spacing: .15em;
+      color: var(--gold);
+      margin-bottom: 16px;
+    }
+    .featured-content h2 {
+      font-family: var(--font-display);
+      font-size: clamp(1.8rem, 3vw, 3rem);
+      line-height: 1.05;
+      margin-bottom: 16px;
+    }
+    .featured-content p {
+      color: var(--text-muted);
+      font-size: .95rem;
+      line-height: 1.7;
+      max-width: 400px;
+    }
+    .featured-content .tech {
+      display: flex; gap: 8px; margin-top: 24px; flex-wrap: wrap;
+    }
+    .featured-content .tech span {
+      padding: 4px 12px;
+      background: rgba(255,255,255,.04);
+      border: 1px solid var(--border);
+      border-radius: 100px;
+      font-family: var(--font-mono);
+      font-size: .7rem;
+      color: var(--text-muted);
+    }
+    .featured-content .link-out {
+      margin-top: 28px;
+      display: inline-flex; align-items: center; gap: 8px;
+      color: var(--accent);
+      font-size: .85rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: .08em;
+      transition: gap .25s;
+    }
+    .featured-content .link-out:hover { gap: 14px; }
+    .featured-visual {
+      position: relative;
+      background: linear-gradient(135deg, #1a1410 0%, #0f0f0f 100%);
+      display: flex; align-items: center; justify-content: center;
+      overflow: hidden;
+    }
+    .featured-visual .globe-art {
+      width: 280px; height: 280px;
+      border-radius: 50%;
+      background: radial-gradient(circle at 35% 35%, rgba(212,118,58,.15), transparent 70%);
+      border: 1px solid rgba(212,118,58,.15);
+      position: relative;
+      animation: float 6s ease-in-out infinite;
+    }
+    .featured-visual .globe-art .ring {
+      position: absolute; top: 50%; left: 50%;
+      transform: translate(-50%, -50%) rotateX(60deg);
+      width: 360px; height: 100px;
+      border: 1px solid rgba(212,118,58,.08);
+      border-radius: 50%;
+    }
+    .featured-visual .globe-art .ring:nth-child(2) { width: 320px; height: 80px; }
+    .featured-visual .globe-art .ring:nth-child(3) { width: 400px; height: 120px; }
+    .featured-visual .label {
+      position: absolute; bottom: 24px;
+      font-family: var(--font-mono);
+      font-size: .65rem;
+      color: var(--text-muted);
+      letter-spacing: .1em;
+    }
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-12px); }
+    }
+    .project-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+      gap: 20px;
+      margin-top: 48px;
+    }
+    .project-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+      transition: all .3s;
+    }
+    .project-card:hover {
+      border-color: rgba(255,255,255,.08);
+      transform: translateY(-4px);
+    }
+    .project-card-visual {
+      height: 180px;
+      display: flex; align-items: center; justify-content: center;
+      position: relative; overflow: hidden;
+    }
+    .project-card-visual img {
+      width: 100%; height: 100%; object-fit: cover;
+    }
+    .project-card-visual .svg-logo {
+      max-width: 60px; max-height: 60px; opacity: .6;
+    }
+    .project-card-visual .fallback {
+      font-size: 3rem; opacity: .4;
+    }
+    .project-card-body {
+      padding: 24px 28px 28px;
+    }
+    .project-card-body .icon {
+      font-size: 1.2rem; margin-bottom: 8px;
+    }
+    .project-card-body h3 {
+      font-family: var(--font-display);
+      font-size: 1.3rem;
+      letter-spacing: .02em;
+      margin-bottom: 8px;
+    }
+    .project-card-body p {
+      color: var(--text-muted);
+      font-size: .85rem;
+      line-height: 1.6;
+    }
+    .project-card-body .status {
+      display: inline-block;
+      margin-top: 14px;
+      font-family: var(--font-mono);
+      font-size: .65rem;
+      text-transform: uppercase;
+      letter-spacing: .1em;
+      padding: 4px 10px;
+      border-radius: 100px;
+      border: 1px solid var(--border);
+      color: var(--text-muted);
+    }
+    .project-card-body .status.live { color: #5bbd7e; border-color: rgba(91,189,126,.2); }
+    .project-card-url {
+      display: block;
+      margin-top: 12px;
+      font-family: var(--font-mono);
+      font-size: .7rem;
+      color: var(--text-muted);
+      opacity: .5;
+      transition: opacity .2s;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+    .project-card:hover .project-card-url {
+      opacity: .8;
+    }
+    .project-card-url:hover {
+      color: var(--accent) !important;
+      opacity: 1 !important;
+    }
+
+    #about {
+      padding: 120px clamp(20px, 6vw, 80px);
+    }
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 64px;
+      margin-top: 40px;
+    }
+    .about-text p {
+      color: var(--text-muted);
+      font-size: .95rem;
+      line-height: 1.8;
+      margin-bottom: 16px;
+    }
+    .about-text p:last-child { margin-bottom: 0; }
+    .about-skills { display: flex; flex-direction: column; gap: 20px; }
+    .skill-group label {
+      display: block;
+      font-size: .75rem;
+      text-transform: uppercase;
+      letter-spacing: .15em;
+      color: var(--text-muted);
+      margin-bottom: 8px;
+    }
+    .skill-group .tags { display: flex; gap: 8px; flex-wrap: wrap; }
+    .skill-group .tags span {
+      padding: 6px 14px;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 100px;
+      font-size: .82rem;
+      color: var(--text);
+      transition: all .2s;
+    }
+    .skill-group .tags span:hover { border-color: var(--accent); color: var(--accent); }
+
+    #contact {
+      padding: 80px clamp(20px, 6vw, 80px) 40px;
+      border-top: 1px solid var(--border);
+      text-align: center;
+    }
+    #contact h2 {
+      font-family: var(--font-display);
+      font-size: clamp(2rem, 4vw, 3rem);
+      margin-bottom: 12px;
+    }
+    #contact p { color: var(--text-muted); margin-bottom: 32px; }
+    .contact-links { display: flex; justify-content: center; gap: 24px; flex-wrap: wrap; }
+    .contact-links a {
+      display: flex; align-items: center; gap: 8px;
+      padding: 10px 20px;
+      border: 1px solid var(--border);
+      border-radius: 100px;
+      font-size: .85rem;
+      color: var(--text-muted);
+      transition: all .25s;
+    }
+    .contact-links a:hover { border-color: var(--text); color: var(--text); transform: translateY(-2px); }
+
+    footer {
+      padding: 24px clamp(20px, 6vw, 80px);
+      border-top: 1px solid var(--border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: .78rem;
+      color: var(--text-muted);
+      flex-wrap: wrap; gap: 12px;
+    }
+    footer .powered { font-family: var(--font-mono); font-size: .7rem; }
+    footer .powered a { color: var(--accent); }
+
+    .toast {
+      position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%);
+      z-index: 999;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      padding: 12px 24px;
+      border-radius: 100px;
+      font-size: .85rem;
+      color: var(--text);
+      opacity: 0; visibility: hidden;
+      transition: all .4s;
+      white-space: nowrap;
+    }
+    .toast.show { opacity: 1; visibility: visible; transform: translateX(-50%) translateY(0); }
+
+    @media (max-width: 768px) {
+      nav { justify-content: flex-start; gap: 14px; }
+      nav ul { display: none; }
+      nav ul.open {
+        display: flex; flex-direction: column;
+        position: absolute; top: var(--nav-h); left: 0; right: 0;
+        background: rgba(10,10,10,.95);
+        backdrop-filter: blur(20px);
+        padding: 24px 32px 32px;
+        gap: 20px;
+        border-bottom: 1px solid var(--border);
+      }
+      nav .nav-cta { display: none; }
+      nav .nav-actions { margin-left: auto; margin-right: 42px; }
+      .nav-actions { gap: 4px; }
+      .menu-toggle {
+        display: flex;
+        position: absolute;
+        right: 20px;
+        top: 50%;
+        transform: translateY(-50%);
+      }
+      nav .logo-mark { width: 32px; height: 32px; flex-basis: 32px; }
+      nav .logo-word { display: none; }
+      nav .logo { gap: 0; }
+      #hero .hero-actions { flex-direction: column; align-items: flex-start; }
+      #hero .hero-actions .btn { max-width: 100%; }
+      .featured-inner { grid-template-columns: 1fr; }
+      .featured-visual { min-height: 240px; }
+      .featured-visual .globe-art { width: 180px; height: 180px; }
+      .featured-visual .globe-art .ring { width: 240px; height: 60px; }
+      .featured-visual .globe-art .ring:nth-child(2) { width: 200px; height: 50px; }
+      .featured-visual .globe-art .ring:nth-child(3) { width: 280px; height: 70px; }
+      .about-grid { grid-template-columns: 1fr; gap: 40px; }
+      .project-grid { grid-template-columns: 1fr; }
+      #hero h1 { font-size: clamp(2.5rem, 15vw, 4rem); }
+    }
+  </style>
+</head>
+<body>
+<div id="noise"></div>
+<div id="loader"><img src="assets/yusually-logo.svg" alt="" class="loader-logo" aria-hidden="true"><span>Yusually</span><div class="bar"></div></div>
+<div class="grid-bg"></div>
+<div class="toast" id="toast"></div>
+
+<!-- NAV -->
+<nav>
+  <a href="#hero" class="logo" aria-label="Yusually home">
+    <img src="assets/yusually-logo.svg" alt="" class="logo-mark" aria-hidden="true">
+    <span class="logo-word">Y<span>u</span>sually</span>
+  </a>
+  <ul id="nav-links">
+    <li><a href="#projects" data-i18n="nav.work">Work</a></li>
+    <li><a href="deploy.html" data-i18n="nav.deploy">Deploy</a></li>
+    <li><a href="#about" data-i18n="nav.about">About</a></li>
+    <li><a href="#contact" data-i18n="nav.contact">Contact</a></li>
+  </ul>
+  <div class="nav-actions">
+    <div class="lang-switch">
+      <button class="active" data-lang="en">EN</button>
+      <span class="sep">|</span>
+      <button data-lang="zh">中</button>
+    </div>
+    <a href="deploy.html" class="nav-cta" data-i18n="nav.deployBtn">+ Deploy</a>
+  </div>
+  <button class="menu-toggle" id="menu-toggle" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-corner tl"></div>
+  <div class="hero-corner br"></div>
+  <p class="hero-sub" data-i18n="hero.subtitle">Explorer · Creator · Lifelong Learner</p>
+  <h1>
+    <span class="line1" data-i18n="hero.line1">Exploring the</span>
+    <span class="line2"><span data-i18n="hero.line2a">World,</span> <span class="accent" data-i18n="hero.line2b">One</span> <span data-i18n="hero.line2c">Project</span></span>
+    <span class="line3" data-i18n="hero.line3">at a Time</span>
+  </h1>
+  <p class="hero-desc" data-i18n="hero.desc">Once I found joy in exploring maps. Now I explore different ways of living. Building things on the web, tracing travels, and documenting the journey.</p>
+  <div class="hero-actions">
+    <a href="#projects" class="btn btn-primary" data-i18n="hero.btn1">View Work ↓</a>
+    <a href="deploy.html" class="btn btn-outline" data-i18n="hero.btn2">Deploy with PinMe</a>
+  </div>
+  <div class="hero-scroll" data-i18n="hero.scroll">Scroll</div>
+</section>
+
+<!-- PROJECTS -->
+<section id="projects">
+  <p class="section-label reveal" data-i18n="section.work.label">· Featured Work</p>
+  <h2 class="section-title reveal"><span data-i18n="section.work.title1">Selected</span><br><span data-i18n="section.work.title2">Projects</span></h2>
+
+  <!-- Featured: TravelTrace -->
+  <div class="featured reveal">
+    <a href="https://traveltrace.life" target="_blank" rel="noopener" class="featured-inner">
+      <div class="featured-content">
+        <span class="tag" data-i18n="feat.tag">✦ Featured Project</span>
+        <h2>TravelTrace</h2>
+        <p data-i18n="feat.desc">An interactive travel journal and route visualization platform born from a love of maps. Trace your journeys, pin memories, and share adventures through an elegant map-based interface.</p>
+        <div class="tech">
+          <span>React</span><span>Mapbox</span><span>Node.js</span>
+          <span data-i18n="feat.tech4">PostgreSQL</span>
+        </div>
+        <span class="link-out" data-i18n="feat.link">Visit Live →</span>
+      </div>
+      <div class="featured-visual">
+        <div class="globe-art">
+          <div class="ring"></div>
+          <div class="ring"></div>
+          <div class="ring"></div>
+        </div>
+        <span class="label">traveltrace.life</span>
+      </div>
+    </a>
+  </div>
+
+  <!-- Project Grid -->
+  <div class="project-grid">
+    <!-- 世界的形状 -->
+    <a href="https://shapeof.world/t/world-gdp" target="_blank" rel="noopener" class="project-card reveal">
+      <div class="project-card-visual" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
+        <img src="assets/shapeofworld-logo.svg" alt="世界的形状" class="svg-logo" style="max-width:80px;max-height:80px;opacity:.9;filter:brightness(10);" />
+      </div>
+      <div class="project-card-body">
+        <h3>世界的形状</h3>
+        <p data-i18n="project.shapeofworld.desc">A Treemap data exploration platform that visualizes how the world is composed — GDP, population, trade, and more. Observe complex data through beautiful, interactive maps.</p>
+        <span class="status live" data-i18n="project.shapeofworld.status">● Live</span>
+        <span class="project-card-url">shapeof.world/t/world-gdp</span>
+      </div>
+    </a>
+
+    <!-- 自媒体运营 -->
+    <div class="project-card reveal" onclick="window.open('自媒体运营全维度调研整合.html')" style="cursor:pointer">
+      <div class="project-card-visual" style="background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);">
+        <div class="svg-logo" style="font-size:2.8rem;opacity:.6;">📡</div>
+      </div>
+      <div class="project-card-body">
+        <h3 data-i18n="project.media.title">自媒体运营全维度调研</h3>
+        <p data-i18n="project.media.desc">A comprehensive research report on self-media operations across major Chinese platforms in 2025–2026. Deep analysis of content strategies, monetization, and platform algorithms.</p>
+        <span class="status live" data-i18n="project.media.status">● Research</span>
+        <span class="project-card-url">自媒体运营全维度调研整合.html</span>
+      </div>
+    </div>
+
+    <!-- PinDeploy -->
+    <div class="project-card reveal" onclick="window.location.href='deploy.html'" style="cursor:pointer">
+      <div class="project-card-visual" style="background: linear-gradient(135deg, #1a0f0a 0%, #2a1a10 50%, #3a2515 100%);">
+        <div style="width:80px;height:80px;position:relative;opacity:.4;">
+          <svg viewBox="0 0 80 80" fill="none">
+            <rect x="30" y="20" width="30" height="35" rx="3" stroke="#d4763a" stroke-width="2" fill="none"/>
+            <line x1="35" y1="30" x2="55" y2="30" stroke="#d4763a" stroke-width="2"/>
+            <line x1="35" y1="36" x2="50" y2="36" stroke="#d4763a" stroke-width="2"/>
+            <line x1="35" y1="42" x2="45" y2="42" stroke="#d4763a" stroke-width="2"/>
+            <path d="M45 55 L45 68 L50 65 L50 55" stroke="#d4763a" stroke-width="1.5" fill="none"/>
+            <path d="M25 55 L55 55" stroke="#d4763a" stroke-width="1.5"/>
+          </svg>
+        </div>
+      </div>
+      <div class="project-card-body">
+        <h3 data-i18n="project.deploy.title">PinDeploy</h3>
+        <p data-i18n="project.deploy.desc">One-click static site deployment tool powered by PinMe and IPFS. Drag, drop, ship — making the decentralized web accessible to everyone.</p>
+        <span class="status" data-i18n="project.deploy.status">Tool</span>
+        <span class="project-card-url">/deploy.html</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+  <p class="section-label reveal" data-i18n="section.about.label">· About</p>
+  <h2 class="section-title reveal"><span data-i18n="section.about.title1">From Maps to</span><br><span style="color:var(--accent)" data-i18n="section.about.title2">Lifestyles</span></h2>
+  <div class="about-grid">
+    <div class="about-text reveal">
+      <p data-i18n="about.p1">I'm <strong>Yusually</strong> — someone still figuring out the world. It started with maps: the joy of tracing routes, discovering hidden paths, and understanding how places connect. That curiosity led me from geography to technology, from travel to self-media.</p>
+      <p data-i18n="about.p2">Now I explore different ways of living — through web projects, research, and creative tools. Every project is a new territory, every line of code a step into the unknown.</p>
+    </div>
+    <div class="about-skills reveal">
+      <div class="skill-group">
+        <label data-i18n="about.skill1.label">Mapping &amp; Geo</label>
+        <div class="tags"><span>Mapbox GL</span><span>GPS Data</span><span data-i18n="about.skill1.t1">Route Vis</span><span>GeoJSON</span></div>
+      </div>
+      <div class="skill-group">
+        <label data-i18n="about.skill2.label">Web</label>
+        <div class="tags"><span>React</span><span>TypeScript</span><span>Node.js</span><span>HTML/CSS</span></div>
+      </div>
+      <div class="skill-group">
+        <label data-i18n="about.skill3.label">Research &amp; Content</label>
+        <div class="tags"><span data-i18n="about.skill3.t1">Self-Media</span><span data-i18n="about.skill3.t2">Data Analysis</span><span data-i18n="about.skill3.t3">Content Strategy</span><span data-i18n="about.skill3.t4">Platform Ops</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <h2 class="reveal" data-i18n="contact.title">Let's Explore</h2>
+  <p class="reveal" data-i18n="contact.desc">Got a project idea or just want to connect?</p>
+  <div class="contact-links reveal">
+    <a href="mailto:986486700@qq.com">✉ 986486700@qq.com</a>
+    <a href="https://traveltrace.life" target="_blank" rel="noopener">🌍 TravelTrace</a>
+    <a href="https://shapeof.world" target="_blank" rel="noopener">🔷 世界的形状</a>
+  </div>
+</section>
+
+<footer>
+  <span data-i18n="footer.text">© 2026 Yusually · Explorer of Worlds</span>
+  <span class="powered"><span data-i18n="footer.powered">Deployed via</span> <a href="https://pinme.eth.limo" target="_blank" rel="noopener">PinMe ↗</a></span>
+</footer>
+
+<script>
+const translations = {
+  en: {
+    'nav.work': 'Work', 'nav.deploy': 'Deploy', 'nav.about': 'About', 'nav.contact': 'Contact', 'nav.deployBtn': '+ Deploy',
+    'hero.subtitle': 'Explorer · Creator · Lifelong Learner',
+    'hero.line1': 'Exploring the', 'hero.line2a': 'World,', 'hero.line2b': 'One', 'hero.line2c': 'Project', 'hero.line3': 'at a Time',
+    'hero.desc': 'Once I found joy in exploring maps. Now I explore different ways of living. Building things on the web, tracing travels, and documenting the journey.',
+    'hero.btn1': 'View Work ↓', 'hero.btn2': 'Deploy with PinMe', 'hero.scroll': 'Scroll',
+    'section.work.label': '· Featured Work', 'section.work.title1': 'Selected', 'section.work.title2': 'Projects',
+    'feat.tag': '✦ Featured Project',
+    'feat.desc': 'An interactive travel journal and route visualization platform born from a love of maps. Trace your journeys, pin memories, and share adventures through an elegant map-based interface.',
+    'feat.tech4': 'PostgreSQL', 'feat.link': 'Visit Live →',
+    'project.shapeofworld.desc': 'A Treemap data exploration platform that visualizes how the world is composed — GDP, population, trade, and more. Observe complex data through beautiful, interactive maps.',
+    'project.shapeofworld.status': '● Live',
+    'project.media.title': '自媒体运营全维度调研',
+    'project.media.desc': 'A comprehensive research report on self-media operations across major Chinese platforms in 2025–2026. Deep analysis of content strategies, monetization, and platform algorithms.',
+    'project.media.status': '● Research',
+    'project.deploy.title': 'PinDeploy',
+    'project.deploy.desc': 'One-click static site deployment tool powered by PinMe and IPFS. Drag, drop, ship — making the decentralized web accessible to everyone.',
+    'project.deploy.status': 'Tool',
+    'section.about.label': '· About', 'section.about.title1': 'From Maps to', 'section.about.title2': 'Lifestyles',
+    'about.p1': "I'm <strong>Yusually</strong> — someone still figuring out the world. It started with maps: the joy of tracing routes, discovering hidden paths, and understanding how places connect. That curiosity led me from geography to technology, from travel to self-media.",
+    'about.p2': 'Now I explore different ways of living — through web projects, research, and creative tools. Every project is a new territory, every line of code a step into the unknown.',
+    'about.skill1.label': 'Mapping & Geo', 'about.skill1.t1': 'Route Vis',
+    'about.skill2.label': 'Web',
+    'about.skill3.label': 'Research & Content', 'about.skill3.t1': 'Self-Media', 'about.skill3.t2': 'Data Analysis', 'about.skill3.t3': 'Content Strategy', 'about.skill3.t4': 'Platform Ops',
+    'contact.title': "Let's Explore", 'contact.desc': 'Got a project idea or just want to connect?',
+    'footer.text': '© 2026 Yusually · Explorer of Worlds', 'footer.powered': 'Deployed via'
+  },
+  zh: {
+    'nav.work': '作品', 'nav.deploy': '部署', 'nav.about': '关于', 'nav.contact': '联系', 'nav.deployBtn': '+ 部署',
+    'hero.subtitle': '探索者 · 创造者 · 终身学习者',
+    'hero.line1': '探索世界', 'hero.line2a': '一次一个', 'hero.line2b': '项目', 'hero.line2c': '', 'hero.line3': '从地图到生活方式',
+    'hero.desc': '曾经我在探索地图中找到乐趣，如今我在探索不同的生活方式中寻找答案。构建网页工具、记录旅行轨迹、研究内容生态 — 每一步都是新的旅程。',
+    'hero.btn1': '查看作品 ↓', 'hero.btn2': '用 PinMe 部署', 'hero.scroll': '滚动',
+    'section.work.label': '· 精选作品', 'section.work.title1': '精选', 'section.work.title2': '作品集',
+    'feat.tag': '✦ 精选项目',
+    'feat.desc': '一款源自对地图热爱的交互式旅行日记与路线可视化平台。记录你的旅程、标记回忆，通过优雅的地图界面分享冒险故事。',
+    'feat.tech4': 'PostgreSQL', 'feat.link': '访问网站 →',
+    'project.shapeofworld.desc': '一个 Treemap 数据探索平台，用可视化图表展示世界的构成 — GDP、人口、贸易等。通过美观的交互式地图观察复杂数据。',
+    'project.shapeofworld.status': '● 已上线',
+    'project.media.title': '自媒体运营全维度调研',
+    'project.media.desc': '一份关于 2025–2026 年中国主流平台自媒体运营的全维度研究报告。深度分析内容策略、变现模式和平台算法机制。',
+    'project.media.status': '● 研究报告',
+    'project.deploy.title': 'PinDeploy',
+    'project.deploy.desc': '基于 PinMe 和 IPFS 的一键静态网站部署工具。拖拽、上传、发布 — 让去中心化网络触手可及。',
+    'project.deploy.status': '工具',
+    'section.about.label': '· 关于', 'section.about.title1': '从地图到', 'section.about.title2': '生活方式',
+    'about.p1': '我是 <strong>Yusually</strong> — 一个还在摸索世界的人。从地图开始：路线追踪的乐趣、发现隐藏路径的惊喜、理解万物连接的快感。这份好奇心驱使我从地理走向技术，从旅行走向自媒体。',
+    'about.p2': '如今我通过网页项目、研究报告和创意工具来探索不同的生活方式。每个项目都是一片新领域，每一行代码都是踏入未知的一步。',
+    'about.skill1.label': '地图与地理', 'about.skill1.t1': '路线可视化',
+    'about.skill2.label': '网页开发',
+    'about.skill3.label': '研究与内容', 'about.skill3.t1': '自媒体', 'about.skill3.t2': '数据分析', 'about.skill3.t3': '内容策略', 'about.skill3.t4': '平台运营',
+    'contact.title': '一起探索', 'contact.desc': '有项目想法或者只是想聊聊？',
+    'footer.text': '© 2026 Yusual · 探索世界', 'footer.powered': '通过'
+  }
+};
+
+let currentLang = localStorage.getItem('lang') || 'en';
+function switchLanguage(lang) {
+  currentLang = lang; localStorage.setItem('lang', lang);
+  document.querySelectorAll('[data-i18n]').forEach(el => {
+    const key = el.dataset.i18n;
+    const text = translations[lang]?.[key];
+    if (text !== undefined) el.innerHTML = text;
+  });
+  document.querySelectorAll('.lang-switch button').forEach(btn => {
+    btn.classList.toggle('active', btn.dataset.lang === lang);
+  });
+  document.documentElement.classList.toggle('zh', lang === 'zh');
+  document.documentElement.lang = lang === 'zh' ? 'zh' : 'en';
+}
+document.querySelectorAll('.lang-switch button').forEach(btn => {
+  btn.addEventListener('click', () => switchLanguage(btn.dataset.lang));
+});
+switchLanguage(currentLang);
+
+window.addEventListener('load', () => { setTimeout(() => { document.getElementById('loader').classList.add('hidden'); }, 600); });
+
+const toggle = document.getElementById('menu-toggle');
+const navLinks = document.getElementById('nav-links');
+toggle.addEventListener('click', () => { toggle.classList.toggle('open'); navLinks.classList.toggle('open'); });
+document.querySelectorAll('#nav-links a').forEach(a => {
+  a.addEventListener('click', () => { toggle.classList.remove('open'); navLinks.classList.remove('open'); });
+});
+
+const revealEls = document.querySelectorAll('.reveal');
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => { if (entry.isIntersecting) entry.target.classList.add('visible'); });
+}, { threshold: 0.15 });
+revealEls.forEach(el => observer.observe(el));
+
+let toastTimer;
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  clearTimeout(toastTimer); t.textContent = msg;
+  t.classList.add('show');
+  toastTimer = setTimeout(() => t.classList.remove('show'), 3000);
+}
+</script>
+</body>
+</html>
