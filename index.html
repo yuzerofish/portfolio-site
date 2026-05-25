@@ -653,7 +653,6 @@
   </a>
   <ul id="nav-links">
     <li><a href="#projects" data-i18n="nav.work">Work</a></li>
-    <li><a href="deploy.html" data-i18n="nav.deploy">Deploy</a></li>
     <li><a href="#about" data-i18n="nav.about">About</a></li>
     <li><a href="#contact" data-i18n="nav.contact">Contact</a></li>
   </ul>
@@ -663,7 +662,6 @@
       <span class="sep">|</span>
       <button data-lang="zh">中</button>
     </div>
-    <a href="deploy.html" class="nav-cta" data-i18n="nav.deployBtn">+ Deploy</a>
   </div>
   <button class="menu-toggle" id="menu-toggle" aria-label="Menu">
     <span></span><span></span><span></span>
@@ -683,7 +681,6 @@
   <p class="hero-desc" data-i18n="hero.desc">Once I found joy in exploring maps. Now I explore different ways of living. Building things on the web, tracing travels, and documenting the journey.</p>
   <div class="hero-actions">
     <a href="#projects" class="btn btn-primary" data-i18n="hero.btn1">View Work ↓</a>
-    <a href="deploy.html" class="btn btn-outline" data-i18n="hero.btn2">Deploy with PinMe</a>
   </div>
   <div class="hero-scroll" data-i18n="hero.scroll">Scroll</div>
 </section>
@@ -758,27 +755,6 @@
       </div>
     </div>
 
-    <!-- PinDeploy -->
-    <div class="project-card reveal" onclick="window.location.href='deploy.html'" style="cursor:pointer">
-      <div class="project-card-visual" style="background: linear-gradient(135deg, #1a0f0a 0%, #2a1a10 50%, #3a2515 100%);">
-        <div style="width:80px;height:80px;position:relative;opacity:.4;">
-          <svg viewBox="0 0 80 80" fill="none">
-            <rect x="30" y="20" width="30" height="35" rx="3" stroke="#d4763a" stroke-width="2" fill="none"/>
-            <line x1="35" y1="30" x2="55" y2="30" stroke="#d4763a" stroke-width="2"/>
-            <line x1="35" y1="36" x2="50" y2="36" stroke="#d4763a" stroke-width="2"/>
-            <line x1="35" y1="42" x2="45" y2="42" stroke="#d4763a" stroke-width="2"/>
-            <path d="M45 55 L45 68 L50 65 L50 55" stroke="#d4763a" stroke-width="1.5" fill="none"/>
-            <path d="M25 55 L55 55" stroke="#d4763a" stroke-width="1.5"/>
-          </svg>
-        </div>
-      </div>
-      <div class="project-card-body">
-        <h3 data-i18n="project.deploy.title">PinDeploy</h3>
-        <p data-i18n="project.deploy.desc">One-click static site deployment tool powered by PinMe and IPFS. Drag, drop, ship — making the decentralized web accessible to everyone.</p>
-        <span class="status" data-i18n="project.deploy.status">Tool</span>
-        <span class="project-card-url">/deploy.html</span>
-      </div>
-    </div>
   </div>
 </section>
 
@@ -821,17 +797,17 @@
 
 <footer>
   <span data-i18n="footer.text">© 2026 Yusually · Explorer of Worlds</span>
-  <span class="powered"><span data-i18n="footer.powered">Deployed via</span> <a href="https://pinme.eth.limo" target="_blank" rel="noopener">PinMe ↗</a></span>
+ 
 </footer>
 
 <script>
 const translations = {
   en: {
-    'nav.work': 'Work', 'nav.deploy': 'Deploy', 'nav.about': 'About', 'nav.contact': 'Contact', 'nav.deployBtn': '+ Deploy',
+    'nav.work': 'Work', 'nav.about': 'About', 'nav.contact': 'Contact',
     'hero.subtitle': 'Explorer · Creator · Lifelong Learner',
     'hero.line1': 'Exploring the', 'hero.line2a': 'World,', 'hero.line2b': 'One', 'hero.line2c': 'Project', 'hero.line3': 'at a Time',
     'hero.desc': 'Once I found joy in exploring maps. Now I explore different ways of living. Building things on the web, tracing travels, and documenting the journey.',
-    'hero.btn1': 'View Work ↓', 'hero.btn2': 'Deploy with PinMe', 'hero.scroll': 'Scroll',
+    'hero.btn1': 'View Work ↓', 'hero.scroll': 'Scroll',
     'section.work.label': '· Featured Work', 'section.work.title1': 'Selected', 'section.work.title2': 'Projects',
     'feat.tag': '✦ Featured Project',
     'feat.desc': 'An interactive travel journal and route visualization platform born from a love of maps. Trace your journeys, pin memories, and share adventures through an elegant map-based interface.',
@@ -841,9 +817,6 @@ const translations = {
     'project.media.title': '自媒体运营全维度调研',
     'project.media.desc': 'A comprehensive research report on self-media operations across major Chinese platforms in 2025–2026. Deep analysis of content strategies, monetization, and platform algorithms.',
     'project.media.status': '● Research',
-    'project.deploy.title': 'PinDeploy',
-    'project.deploy.desc': 'One-click static site deployment tool powered by PinMe and IPFS. Drag, drop, ship — making the decentralized web accessible to everyone.',
-    'project.deploy.status': 'Tool',
     'section.about.label': '· About', 'section.about.title1': 'From Maps to', 'section.about.title2': 'Lifestyles',
     'about.p1': "I'm <strong>Yusually</strong> — someone still figuring out the world. It started with maps: the joy of tracing routes, discovering hidden paths, and understanding how places connect. That curiosity led me from geography to technology, from travel to self-media.",
     'about.p2': 'Now I explore different ways of living — through web projects, research, and creative tools. Every project is a new territory, every line of code a step into the unknown.',
@@ -851,14 +824,14 @@ const translations = {
     'about.skill2.label': 'Web',
     'about.skill3.label': 'Research & Content', 'about.skill3.t1': 'Self-Media', 'about.skill3.t2': 'Data Analysis', 'about.skill3.t3': 'Content Strategy', 'about.skill3.t4': 'Platform Ops',
     'contact.title': "Let's Explore", 'contact.desc': 'Got a project idea or just want to connect?',
-    'footer.text': '© 2026 Yusually · Explorer of Worlds', 'footer.powered': 'Deployed via'
+    'footer.text': '© 2026 Yusually · Explorer of Worlds'
   },
   zh: {
-    'nav.work': '作品', 'nav.deploy': '部署', 'nav.about': '关于', 'nav.contact': '联系', 'nav.deployBtn': '+ 部署',
+    'nav.work': '作品', 'nav.about': '关于', 'nav.contact': '联系',
     'hero.subtitle': '探索者 · 创造者 · 终身学习者',
     'hero.line1': '探索世界', 'hero.line2a': '一次一个', 'hero.line2b': '项目', 'hero.line2c': '', 'hero.line3': '从地图到生活方式',
     'hero.desc': '曾经我在探索地图中找到乐趣，如今我在探索不同的生活方式中寻找答案。构建网页工具、记录旅行轨迹、研究内容生态 — 每一步都是新的旅程。',
-    'hero.btn1': '查看作品 ↓', 'hero.btn2': '用 PinMe 部署', 'hero.scroll': '滚动',
+    'hero.btn1': '查看作品 ↓', 'hero.scroll': '滚动',
     'section.work.label': '· 精选作品', 'section.work.title1': '精选', 'section.work.title2': '作品集',
     'feat.tag': '✦ 精选项目',
     'feat.desc': '一款源自对地图热爱的交互式旅行日记与路线可视化平台。记录你的旅程、标记回忆，通过优雅的地图界面分享冒险故事。',
@@ -868,9 +841,6 @@ const translations = {
     'project.media.title': '自媒体运营全维度调研',
     'project.media.desc': '一份关于 2025–2026 年中国主流平台自媒体运营的全维度研究报告。深度分析内容策略、变现模式和平台算法机制。',
     'project.media.status': '● 研究报告',
-    'project.deploy.title': 'PinDeploy',
-    'project.deploy.desc': '基于 PinMe 和 IPFS 的一键静态网站部署工具。拖拽、上传、发布 — 让去中心化网络触手可及。',
-    'project.deploy.status': '工具',
     'section.about.label': '· 关于', 'section.about.title1': '从地图到', 'section.about.title2': '生活方式',
     'about.p1': '我是 <strong>Yusually</strong> — 一个还在摸索世界的人。从地图开始：路线追踪的乐趣、发现隐藏路径的惊喜、理解万物连接的快感。这份好奇心驱使我从地理走向技术，从旅行走向自媒体。',
     'about.p2': '如今我通过网页项目、研究报告和创意工具来探索不同的生活方式。每个项目都是一片新领域，每一行代码都是踏入未知的一步。',
