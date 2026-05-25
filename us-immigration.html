@@ -1,0 +1,533 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>US Population Growth & Immigration Origins</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&display=swap" rel="stylesheet">
+<script src="https://d3js.org/d3.v7.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/topojson-client@3"></script>
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --bg:#070b15;
+  --bg-glass:rgba(12,20,40,0.78);
+  --bg-glass-solid:rgba(12,20,40,0.92);
+  --border:rgba(255,255,255,0.06);
+  --text:#f1f5f9;
+  --text-dim:#64748b;
+  --text-mid:#94a3b8;
+  --accent-gold:#f5b342;
+  --accent-blue:#3b82f6;
+  --blur:blur(18px);
+  --radius:10px;
+  --space-xs:4px;--space-sm:8px;--space-md:14px;--space-lg:20px;--space-xl:28px;
+  --font-display:'Playfair Display',Georgia,serif;
+  --font-body:'DM Sans',system-ui,sans-serif;
+}
+body{background:var(--bg);color:var(--text);font-family:var(--font-body);min-height:100vh;overflow:hidden;display:flex;flex-direction:column}
+
+/* ─── HERO MAP AREA ─── */
+.hero{flex:1;position:relative;overflow:hidden;min-height:0}
+#mapSvg{position:absolute;inset:0;width:100%;height:100%}
+
+/* ─── OVERLAYS ─── */
+.overlay{position:absolute;pointer-events:none;z-index:2}
+.overlay>*{pointer-events:auto}
+
+/* Top bar */
+.top-bar{top:0;left:0;right:0;display:flex;justify-content:space-between;align-items:flex-start;padding:var(--space-lg) var(--space-xl);background:linear-gradient(180deg,rgba(7,11,21,.9) 0%,transparent 100%);pointer-events:none}
+.top-bar>*{pointer-events:auto}
+.brand h1{font-family:var(--font-display);font-size:clamp(20px,2.8vw,40px);font-weight:900;line-height:1.1;background:linear-gradient(135deg,#f1f5f9 40%,var(--accent-gold));-webkit-background-clip:text;-webkit-text-fill-color:transparent;letter-spacing:-.02em}
+.brand .sub{font-size:clamp(10px,1vw,14px);color:var(--text-mid);margin-top:2px;letter-spacing:.3em;text-transform:uppercase}
+.controls-bar{display:flex;align-items:center;gap:var(--space-md);flex-wrap:wrap;justify-content:flex-end}
+
+.year-group{display:flex;align-items:center;gap:2px;background:var(--bg-glass);border:1px solid var(--border);border-radius:8px;padding:3px;backdrop-filter:var(--blur)}
+.year-btn,.year-nav-btn{background:transparent;border:none;color:var(--text-mid);font-family:var(--font-body);font-size:clamp(11px,1.1vw,15px);font-weight:500;padding:6px 14px;border-radius:6px;cursor:pointer;transition:all .25s}
+.year-btn:hover{color:var(--text);background:rgba(255,255,255,.06)}
+.year-btn.active{background:var(--accent-gold);color:#070b15;font-weight:700}
+.year-nav-btn{padding:6px 10px;font-size:clamp(14px,1.3vw,18px);line-height:1}
+.year-nav-btn:hover{color:var(--text);background:rgba(255,255,255,.06)}
+
+.ctrl-group{display:flex;align-items:center;gap:4px;background:var(--bg-glass);border:1px solid var(--border);border-radius:8px;padding:3px;backdrop-filter:var(--blur)}
+.ctrl-btn{background:transparent;border:none;color:var(--text-mid);width:32px;height:32px;border-radius:6px;cursor:pointer;font-size:16px;display:flex;align-items:center;justify-content:center;transition:all .25s}
+.ctrl-btn:hover{color:var(--text);background:rgba(255,255,255,.08)}
+.ctrl-btn.play{width:36px;height:32px;background:var(--accent-gold);color:#070b15}
+.ctrl-btn.play:hover{background:#e8a030}
+
+.lang-btn{background:var(--bg-glass);border:1px solid var(--border);color:var(--text-mid);font-family:var(--font-body);font-size:clamp(10px,1vw,13px);font-weight:600;padding:4px 10px;border-radius:6px;cursor:pointer;transition:all .25s;backdrop-filter:var(--blur);height:32px;letter-spacing:.05em}
+.lang-btn:hover{color:var(--text);background:rgba(255,255,255,.1)}
+
+/* Bottom-left events */
+.events-panel{left:var(--space-xl);bottom:var(--space-xl);max-width:420px;background:var(--bg-glass);backdrop-filter:var(--blur);-webkit-backdrop-filter:var(--blur);border:1px solid var(--border);border-radius:var(--radius);padding:var(--space-md) var(--space-lg)}
+.events-panel .ev-header{font-size:clamp(10px,.9vw,12px);color:var(--accent-gold);text-transform:uppercase;letter-spacing:.15em;font-weight:600;margin-bottom:var(--space-sm)}
+.ev-list{display:flex;flex-direction:column;gap:var(--space-sm)}
+.ev-row{display:flex;gap:var(--space-sm);align-items:flex-start;font-size:clamp(12px,1.1vw,15px);line-height:1.5}
+.ev-row .ev-yr{color:var(--accent-gold);font-weight:700;white-space:nowrap;min-width:44px;font-size:clamp(13px,1.2vw,17px)}
+.ev-row .ev-body{color:var(--text-mid)}
+.ev-row .ev-body strong{color:var(--text);font-weight:600}
+
+/* Bottom-right legend */
+.legend-panel{right:var(--space-xl);bottom:var(--space-xl);background:var(--bg-glass);backdrop-filter:var(--blur);-webkit-backdrop-filter:var(--blur);border:1px solid var(--border);border-radius:var(--radius);padding:var(--space-md) var(--space-lg)}
+.legend-panel .lg-title{font-size:clamp(10px,.9vw,12px);color:var(--text-mid);text-transform:uppercase;letter-spacing:.1em;font-weight:600;margin-bottom:var(--space-xs)}
+.lg-row{display:flex;align-items:center;gap:var(--space-sm);font-size:clamp(11px,1vw,13px);color:var(--text-mid);margin:2px 0}
+.lg-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0}
+.lg-line{width:16px;height:2px;flex-shrink:0;border-radius:1px}
+
+.source-line{position:absolute;bottom:var(--space-sm);right:50%;transform:translateX(50%);font-size:clamp(8px,.8vw,10px);color:rgba(255,255,255,.2);pointer-events:none;white-space:nowrap}
+
+/* ─── STATS BOTTOM BAR ─── */
+.stats-bar{display:flex;gap:1px;background:var(--border);padding:0;flex-shrink:0}
+.stat-card{flex:1;background:var(--bg);padding:var(--space-md) var(--space-lg);min-width:0;display:flex;flex-direction:column;gap:var(--space-xs)}
+.stat-card:first-child{border-radius:0 0 0 0}
+.stat-card:last-child{border-radius:0 0 0 0}
+.stat-label{font-size:clamp(9px,.8vw,11px);color:var(--text-dim);text-transform:uppercase;letter-spacing:.12em;font-weight:600}
+.stat-main{font-size:clamp(22px,2.4vw,36px);font-weight:700;color:var(--text);font-variant-numeric:tabular-nums;line-height:1.1}
+.stat-sub{font-size:clamp(11px,1vw,14px);color:var(--text-mid);display:flex;gap:var(--space-md);flex-wrap:wrap}
+.stat-sub .hl{color:var(--accent-blue);font-weight:600}
+
+/* Stats card variations */
+.stat-card.pop .stat-main{color:var(--accent-gold)}
+.stat-card.gen .mini-bar{display:flex;height:8px;border-radius:4px;overflow:hidden;margin:var(--space-xs) 0;max-width:200px}
+.stat-card.gen .mini-bar div{transition:width .5s}
+.stat-card.gen .bar-labels{display:flex;gap:var(--space-md);font-size:clamp(10px,.9vw,12px);color:var(--text-mid)}
+.stat-card.gen .bar-labels span{display:flex;align-items:center;gap:4px}
+.stat-card.gen .bar-labels .bd{width:7px;height:7px;border-radius:2px}
+.stat-card.origin .stat-main{font-size:clamp(18px,2vw,28px);color:var(--accent-orange)}
+.stat-card.origin .stat-sub{gap:var(--space-xs)}
+.stat-card.drivers .tag-list{display:flex;flex-wrap:wrap;gap:var(--space-xs)}
+.stat-card.drivers .tag{padding:2px 10px;background:rgba(59,130,246,.12);border:1px solid rgba(59,130,246,.25);color:var(--accent-blue);border-radius:20px;font-size:clamp(10px,.9vw,13px);font-weight:500}
+
+/* Pie tooltip */
+#pieTooltip{position:fixed;background:var(--bg-glass-solid);backdrop-filter:var(--blur);border:1px solid var(--border);border-radius:8px;padding:8px 14px;font-size:14px;pointer-events:none;opacity:0;transition:opacity .2s;z-index:100;box-shadow:0 8px 32px rgba(0,0,0,.5)}
+
+@media(max-width:900px){
+  .top-bar{flex-direction:row;gap:var(--space-sm);align-items:center;padding:var(--space-sm) var(--space-md);flex-wrap:wrap}
+  .controls-bar{justify-content:center;flex:1}
+  .brand h1{font-size:clamp(14px,3.5vw,22px)}
+  .brand .sub{display:none}
+  .stats-bar{flex-wrap:wrap}
+  .stat-card{flex:1 1 45%;min-width:0;padding:var(--space-sm) var(--space-md)}
+  .stat-main{font-size:clamp(16px,4vw,24px)}
+  .events-panel{max-width:200px;padding:var(--space-sm) var(--space-md)}
+  .year-group{gap:1px}
+  .year-btn{font-size:clamp(10px,2.5vw,13px);padding:4px 8px}
+  .ctrl-btn{width:26px;height:26px;font-size:13px}
+  .lang-btn{height:26px;padding:2px 8px;font-size:11px}
+}
+@media(max-width:600px){
+  .stats-bar{flex-direction:column}
+  .stat-card{flex:1 1 auto}
+  .events-panel{max-width:160px;left:var(--space-sm);bottom:var(--space-sm);padding:var(--space-xs) var(--space-sm)}
+  .events-panel .ev-header{font-size:9px}
+  .ev-row{font-size:10px;gap:4px}
+  .ev-row .ev-yr{font-size:10px;min-width:28px}
+  .legend-panel{display:none}
+  .year-group{flex-wrap:nowrap;overflow-x:auto}
+  .top-bar{padding:var(--space-xs) var(--space-sm)}
+  .stat-card{padding:var(--space-xs) var(--space-sm)}
+  .stat-main{font-size:clamp(14px,3.5vw,20px)}
+  .stat-label{font-size:8px}
+  .ctrls-group{flex-wrap:nowrap}
+}
+</style>
+</head>
+<body>
+
+<div class="hero" id="mapPanel">
+  <svg id="mapSvg"></svg>
+
+  <!-- Top overlay -->
+  <div class="overlay top-bar">
+    <div class="brand">
+      <h1 id="headerTitle">US Population Growth<br>&amp; Immigration Origins</h1>
+      <div class="sub" id="headerSub">美国人口增长 · 移民来源 · 世代构成 · 1850–2024</div>
+    </div>
+    <div class="controls-bar">
+      <div class="year-group" id="yearGroup">
+        <button class="year-btn active" onclick="switchYear(0)">1850</button>
+        <button class="year-btn" onclick="switchYear(1)">1900</button>
+        <button class="year-btn" onclick="switchYear(2)">1950</button>
+        <button class="year-btn" onclick="switchYear(3)">2000</button>
+        <button class="year-btn" onclick="switchYear(4)">2024</button>
+      </div>
+      <div class="ctrl-group">
+        <button class="ctrl-btn" onclick="prevYear()" id="prevBtn" title="Previous">&#9664;</button>
+        <button class="ctrl-btn play" onclick="togglePlay()" id="playBtn" title="Auto Play">&#9654;</button>
+        <button class="ctrl-btn" onclick="nextYear()" id="nextBtn" title="Next">&#9654;</button>
+      </div>
+      <button class="lang-btn" onclick="toggleLang()" id="langBtn">EN</button>
+    </div>
+  </div>
+
+  <!-- Events overlay (bottom-left) -->
+  <div class="overlay events-panel" id="eventsPanel">
+    <div class="ev-header" id="eventsHeader">Historical Events · 历史事件</div>
+    <div class="ev-list" id="eventsList">
+      <div class="ev-row"><span class="ev-yr">1845</span><div class="ev-body"><strong>Irish Potato Famine</strong> — <span>大量爱尔兰移民进入美国</span></div></div>
+      <div class="ev-row"><span class="ev-yr">1848</span><div class="ev-body"><strong>California Gold Rush</strong> — <span>吸引欧洲及亚洲移民</span></div></div>
+    </div>
+  </div>
+
+  <!-- Legend overlay (bottom-right) -->
+  <div class="overlay legend-panel">
+    <div class="lg-title" id="mapLegendTitle">Immigrant Origins · 移民来源</div>
+    <div class="lg-row"><span class="lg-dot" style="background:#f97316"></span><span id="legendCountry">Source country</span></div>
+    <div class="lg-row"><span class="lg-line" style="background:#3b82f6"></span><span id="legendFlight">Flight path</span></div>
+  </div>
+
+  <div class="source-line" id="srcDataLine">Data: US Census · Pew Research · DHS</div>
+</div>
+
+<!-- Stats bottom bar -->
+<div class="stats-bar" id="statsBar">
+  <div class="stat-card pop">
+    <div class="stat-label" id="popLabel">Population · 人口</div>
+    <div class="stat-main"><span id="totalPop">0</span> <span id="popUnit" style="font-size:.45em;font-weight:400;color:var(--text-mid)">million</span></div>
+    <div class="stat-sub"><span id="nativeLabel">Native-born</span> <span class="hl" id="nativePop">0</span>M &nbsp;·&nbsp; <span id="foreignLabel">Foreign-born</span> <span id="foreignPop">0</span>M</div>
+  </div>
+  <div class="stat-card gen">
+    <div class="stat-label" id="genLabel">Generations · 世代构成</div>
+    <div class="mini-bar" id="miniBar"></div>
+    <div class="bar-labels" id="barLabels"></div>
+  </div>
+  <div class="stat-card origin">
+    <div class="stat-label" id="originLabel">Top Origin · 主要来源</div>
+    <div class="stat-main" id="topOrigin">Ireland</div>
+    <div class="stat-sub" id="originSub">43% of foreign-born</div>
+  </div>
+  <div class="stat-card drivers">
+    <div class="stat-label" id="driverLabel">Growth Drivers · 增长动力</div>
+    <div class="tag-list" id="driverTags"></div>
+  </div>
+</div>
+
+<script>
+// ═══════════════════════════════════════════════════════════════
+// DATA
+// ═══════════════════════════════════════════════════════════════
+const DATA = [{"year":1850,"population":{"total":23.1,"native_born":20.99},"generation":{"first_gen":9.7,"second_gen":11,"third_plus":79.3},"immigrant_origins":[{"country":"Ireland","share":43},{"country":"Germany","share":35},{"country":"United Kingdom","share":12},{"country":"Canada","share":6},{"country":"Other","share":4}],"growth_drivers":["西部扩张","铁路建设","农业开发","欧洲饥荒移民"],"events":[{"title":"Irish Potato Famine","year":1845,"impact":"大量爱尔兰移民进入美国"},{"title":"California Gold Rush","year":1848,"impact":"吸引欧洲及亚洲移民"}]},{"year":1900,"population":{"total":76.2,"native_born":65},"generation":{"first_gen":13.7,"second_gen":20.8,"third_plus":65.5},"immigrant_origins":[{"country":"Germany","share":26},{"country":"Ireland","share":18},{"country":"Italy","share":14},{"country":"Russia/Poland","share":12},{"country":"United Kingdom","share":10},{"country":"Other Europe","share":20}],"growth_drivers":["工业革命","制造业","欧洲移民潮","城市化"],"events":[{"title":"Industrial Revolution","impact":"制造业需要劳动力"},{"title":"Ellis Island Opening","year":1892,"impact":"纽约成为移民入口"}]},{"year":1950,"population":{"total":151.3,"native_born":140},"generation":{"first_gen":6.9,"second_gen":16.2,"third_plus":76.9},"immigrant_origins":[{"country":"Canada","share":18},{"country":"Mexico","share":15},{"country":"Italy","share":12},{"country":"Germany","share":10},{"country":"United Kingdom","share":9},{"country":"Other","share":36}],"growth_drivers":["Baby Boom","二战后经济繁荣","郊区化"],"events":[{"title":"World War II End","year":1945,"impact":"经济扩张"},{"title":"Baby Boom","impact":"出生率暴增"}]},{"year":2000,"population":{"total":282.2,"native_born":250},"generation":{"first_gen":11.4,"second_gen":10,"third_plus":78.6},"immigrant_origins":[{"country":"Mexico","share":30},{"country":"China","share":6},{"country":"India","share":5},{"country":"Philippines","share":5},{"country":"Vietnam","share":4},{"country":"Other Latin America","share":25},{"country":"Other","share":25}],"growth_drivers":["全球化","拉美移民","亚洲技术移民"],"events":[{"title":"1965 Immigration Act","year":1965,"impact":"改变移民来源结构"},{"title":"Tech Boom","impact":"吸引亚洲人才"}]},{"year":2024,"population":{"total":341,"native_born":290},"generation":{"first_gen":14.8,"second_gen":13,"third_plus":72.2},"immigrant_origins":[{"country":"Mexico","share":22},{"country":"India","share":6},{"country":"China","share":5},{"country":"Philippines","share":4},{"country":"El Salvador","share":3},{"country":"Cuba","share":2},{"country":"Other","share":58}],"growth_drivers":["高技术移民","拉美移民","全球人才流动"],"events":[{"title":"Post-COVID Migration","impact":"移民恢复增长"},{"title":"AI & Tech Immigration","impact":"技术人才集中"}]}];
+
+const GEN_COLORS = {first_gen:'#f97316',second_gen:'#8b5cf6',third_plus:'#3b82f6'};
+
+const LANG = {
+  zh: {
+    gen:{first_gen:'第一代移民',second_gen:'移民后代',third_plus:'三代以上本土'},
+    country:{'Ireland':'爱尔兰','Germany':'德国','United Kingdom':'英国','Canada':'加拿大','Italy':'意大利','Russia/Poland':'俄罗斯/波兰','Mexico':'墨西哥','China':'中国','India':'印度','Philippines':'菲律宾','Vietnam':'越南','El Salvador':'萨尔瓦多','Cuba':'古巴','Other Europe':'其他欧洲','Other Latin America':'其他拉美','Other':'其他'},
+    headerTitle:'美国人口增长<br>&amp; 移民来源',headerSub:'美国人口增长 · 移民来源 · 世代构成 · 1850–2024',
+    mapLegendTitle:'移民来源',legendCountry:'来源国',legendFlight:'飞线',
+    srcDataLine:'数据来源：美国人口普查局 · 皮尤研究中心 · 国土安全部',
+    popLabel:'人口',genLabel:'世代构成',originLabel:'主要来源',driverLabel:'增长动力',
+    eventsHeader:'历史事件',nativeLabel:'本土出生',foreignLabel:'外国出生',unit:'百万人',
+    topOriginShare:'占外国出生人口',
+    driver:{'西部扩张':'西部扩张','铁路建设':'铁路建设','农业开发':'农业开发','欧洲饥荒移民':'欧洲饥荒移民','工业革命':'工业革命','制造业':'制造业','欧洲移民潮':'欧洲移民潮','城市化':'城市化','Baby Boom':'婴儿潮','二战后经济繁荣':'二战后经济繁荣','郊区化':'郊区化','全球化':'全球化','拉美移民':'拉美移民','亚洲技术移民':'亚洲技术移民','高技术移民':'高技术移民','全球人才流动':'全球人才流动'},
+    event:{'大量爱尔兰移民进入美国':'大量爱尔兰移民进入美国','吸引欧洲及亚洲移民':'吸引欧洲及亚洲移民','制造业需要劳动力':'制造业需要劳动力','纽约成为移民入口':'纽约成为移民入口','经济扩张':'经济扩张','出生率暴增':'出生率暴增','改变移民来源结构':'改变移民来源结构','吸引亚洲人才':'吸引亚洲人才','移民恢复增长':'移民恢复增长','技术人才集中':'技术人才集中'}
+  },
+  en: {
+    gen:{first_gen:'First-gen',second_gen:'Second-gen',third_plus:'Third+ Gen'},
+    country:{'Ireland':'Ireland','Germany':'Germany','United Kingdom':'U.K.','Canada':'Canada','Italy':'Italy','Russia/Poland':'Russia/Poland','Mexico':'Mexico','China':'China','India':'India','Philippines':'Philippines','Vietnam':'Vietnam','El Salvador':'El Salvador','Cuba':'Cuba','Other Europe':'Other Europe','Other Latin America':'Other L.Am.','Other':'Other'},
+    headerTitle:'US Population Growth<br>&amp; Immigration Origins',headerSub:'US POPULATION · IMMIGRATION · GENERATIONS · 1850–2024',
+    mapLegendTitle:'Immigrant Origins',legendCountry:'Source country',legendFlight:'Flight path',
+    srcDataLine:'Data: US Census · Pew Research · DHS',
+    popLabel:'Population',genLabel:'Generations',originLabel:'Top Origin',driverLabel:'Growth Drivers',
+    eventsHeader:'Events',nativeLabel:'Native-born',foreignLabel:'Foreign-born',unit:'million',
+    topOriginShare:'of foreign-born',
+    driver:{'西部扩张':'Western Expansion','铁路建设':'Railroad','农业开发':'Agriculture','欧洲饥荒移民':'Famine Migration','工业革命':'Industrial Rev.','制造业':'Manufacturing','欧洲移民潮':'Immigration Wave','城市化':'Urbanization','Baby Boom':'Baby Boom','二战后经济繁荣':'Post-War Boom','郊区化':'Suburbanization','全球化':'Globalization','拉美移民':'Latin American Immigration','亚洲技术移民':'Asian Tech Immigration','高技术移民':'High-Skill Immigration','全球人才流动':'Global Talent Flow'},
+    event:{'大量爱尔兰移民进入美国':'Mass Irish immigration','吸引欧洲及亚洲移民':'Attracted European & Asian immigrants','制造业需要劳动力':'Manufacturing needed labor','纽约成为移民入口':'NYC: immigrant gateway','经济扩张':'Economic expansion','出生率暴增':'Baby boom','改变移民来源结构':'Shifted source countries','吸引亚洲人才':'Attracted Asian talent','移民恢复增长':'Immigration rebounded','技术人才集中':'Tech talent concentration'}
+  }
+};
+
+const COUNTRY_COORDS = {
+  'Ireland':[-9.1,53.5],'Germany':[10.5,51.2],'United Kingdom':[-3.9,54.2],
+  'Canada':[-100.0,55.0],'Italy':[12.0,42.5],'Russia/Poland':[20.0,52.0],
+  'Mexico':[-102.0,24.0],'China':[104.0,35.0],'India':[78.0,21.0],
+  'Philippines':[122.0,11.0],'Vietnam':[106.0,14.0],'El Salvador':[-89.0,13.8],
+  'Cuba':[-79.0,21.5]
+};
+
+const COUNTRY_COLORS = {
+  'Ireland':'#10b981','Germany':'#f59e0b','United Kingdom':'#ef4444',
+  'Canada':'#06b6d4','Italy':'#ec4899','Russia/Poland':'#8b5cf6',
+  'Mexico':'#f97316','China':'#ef4444','India':'#f59e0b',
+  'Philippines':'#3b82f6','Vietnam':'#10b981','El Salvador':'#84cc16',
+  'Cuba':'#06b6d4','Other Europe':'#64748b','Other Latin America':'#64748b',
+  'Other':'#64748b'
+};
+
+const US_COORDS = [-98.0,38.0];
+let currentYearIdx = 0;
+let currentLang = 'zh';
+let worldData = null;
+
+// ═══════════════════════════════════════════════════════════════
+// MAP SETUP (zoomed in 2x)
+// ═══════════════════════════════════════════════════════════════
+const mapPanel = document.getElementById('mapPanel');
+const mapSvg = d3.select('#mapSvg');
+
+function getMapScale(w) {
+  // Scale map to show full world on all screen sizes
+  if (w < 600) return 80;       // phone: full world map
+  if (w < 900) return 130;      // tablet
+  if (w < 1200) return 200;     // small desktop
+  return 360;                    // large desktop: zoomed in
+}
+
+function getMapCenter() {
+  const w = mapPanel.clientWidth;
+  if (w < 600) return [-10, 20]; // phone: center on equator
+  if (w < 900) return [-20, 30];
+  return [-60, 60];              // desktop: north america focus
+}
+
+function resizeMap() {
+  const w = mapPanel.clientWidth, h = mapPanel.clientHeight;
+  mapSvg.attr('width', w).attr('height', h);
+  projection.scale(getMapScale(w));
+  projection.center(getMapCenter());
+  if (worldData) drawMap();
+}
+window.addEventListener('resize', resizeMap);
+
+const projection = d3.geoNaturalEarth1()
+  .scale(getMapScale(mapPanel?.clientWidth || 1920))
+  .center(getMapCenter());
+let geoPath;
+
+function flightPathCoords(srcLng, srcLat, dstLng, dstLat) {
+  const s = projection([srcLng, srcLat]);
+  const d = projection([dstLng, dstLat]);
+  if (!s || !d) return null;
+  const mx = (s[0] + d[0]) / 2, my = (s[1] + d[1]) / 2;
+  const dx = d[0] - s[0], dy = d[1] - s[1];
+  const dist = Math.sqrt(dx*dx + dy*dy);
+  return `M${s[0]},${s[1]} Q${mx},${my - dist * .25} ${d[0]},${d[1]}`;
+}
+
+// ═══════════════════════════════════════════════════════════════
+// DRAW MAP
+// ═══════════════════════════════════════════════════════════════
+function drawMap() {
+  const g = mapSvg.select('g.map-content');
+  if (g.empty()) return;
+  const usProj = projection(US_COORDS);
+  if (!usProj) return;
+  geoPath = d3.geoPath().projection(projection);
+
+  const yearData = DATA[currentYearIdx];
+  const origins = yearData.immigrant_origins;
+
+  g.selectAll('path.country')
+    .data(topojson.feature(worldData, worldData.objects.countries).features)
+    .join('path').attr('class','country')
+    .attr('d', geoPath)
+    .attr('fill', d => {
+      const n = d.properties.name;
+      return origins.find(o => o.country===n||(n==='Russia'&&o.country==='Russia/Poland')) ? '#2a3a5c' : '#0f1a2e';
+    })
+    .attr('stroke','#1e2d4a').attr('stroke-width',.4);
+
+  const sourceCountries = origins.filter(o => COUNTRY_COORDS[o.country]);
+  const countryTr = LANG[currentLang].country;
+
+  g.selectAll('circle.country-dot')
+    .data(sourceCountries, d => d.country)
+    .join(
+      enter => enter.append('circle').attr('class','country-dot').attr('r',0)
+        .attr('fill',d=>COUNTRY_COLORS[d.country]||'#3b82f6').attr('stroke','#fff').attr('stroke-width',1.5)
+        .call(e=>e.transition().duration(600).attr('r',d=>5+d.share/12)),
+      update => update.transition().duration(600).attr('r',d=>5+d.share/12),
+      exit => exit.transition().duration(300).attr('r',0).remove()
+    )
+    .attr('cx',d=>{const p=projection(COUNTRY_COORDS[d.country]);return p?p[0]:0})
+    .attr('cy',d=>{const p=projection(COUNTRY_COORDS[d.country]);return p?p[1]:0});
+
+  g.selectAll('text.country-label')
+    .data(sourceCountries, d => d.country)
+    .join(
+      enter => enter.append('text').attr('class','country-label').style('opacity',0)
+        .call(e=>e.transition().duration(600).style('opacity',1)),
+      update => update,
+      exit => exit.transition().duration(300).style('opacity',0).remove()
+    )
+    .attr('x',d=>{const p=projection(COUNTRY_COORDS[d.country]);return p?p[0]:0})
+    .attr('y',d=>{const p=projection(COUNTRY_COORDS[d.country]);return p?p[1]-12-d.share/14:0})
+    .attr('font-size', d=>Math.max(9, 8+d.share/8))
+    .text(d=>`${countryTr[d.country]||d.country} ${d.share}%`);
+
+  const paths = [];
+  sourceCountries.forEach(c => {
+    const coords = COUNTRY_COORDS[c.country];
+    if (!coords) return;
+    const path = flightPathCoords(coords[0],coords[1],US_COORDS[0],US_COORDS[1]);
+    if(path) paths.push({path,color:COUNTRY_COLORS[c.country]||'#3b82f6',share:c.share,country:c.country});
+  });
+  paths.sort((a,b)=>a.share-b.share);
+
+  g.selectAll('path.flight-glow')
+    .data(paths, d=>d.country)
+    .join(
+      enter => enter.append('path').attr('class','flight-glow').style('stroke',d=>d.color).style('opacity',0)
+        .call(e=>e.transition().duration(800).style('opacity',d=>.12+d.share/300)),
+      update => update.style('stroke',d=>d.color).transition().duration(600).style('opacity',d=>.12+d.share/300),
+      exit => exit.transition().duration(400).style('opacity',0).remove()
+    ).attr('d',d=>d.path);
+
+  g.selectAll('path.flight-path')
+    .data(paths, d=>d.country)
+    .join(
+      enter => {const p=enter.append('path').attr('class','flight-path').style('stroke',d=>d.color).style('opacity',0)
+        .attr('stroke-dasharray',function(){return this.getTotalLength()||500})
+        .attr('stroke-dashoffset',function(){return this.getTotalLength()||500});
+        p.transition().duration(1000).delay((d,i)=>i*100).attr('stroke-dashoffset',0).style('opacity',d=>.4+d.share/150);return p;},
+      update => {update.style('opacity',0)
+        .attr('stroke-dasharray',function(){return this.getTotalLength()||500})
+        .attr('stroke-dashoffset',function(){return this.getTotalLength()||500});
+        update.transition().duration(800).delay((d,i)=>i*80).attr('stroke-dashoffset',0).style('opacity',d=>.4+d.share/150);return update;},
+      exit => exit.transition().duration(400).style('opacity',0).remove()
+    ).attr('d',d=>d.path).attr('stroke-width',d=>1+d.share/18);
+
+  g.selectAll('.us-group').remove();
+  const usg = g.append('g').attr('class','us-group');
+  usg.append('circle').attr('cx',usProj[0]).attr('cy',usProj[1]).attr('r',8)
+    .attr('fill','var(--accent-gold,#f5b342)').attr('stroke','#fff').attr('stroke-width',2.5);
+  usg.append('text').attr('x',usProj[0]).attr('y',usProj[1]-15).attr('text-anchor','middle')
+    .attr('fill','#fff').attr('font-size',13).attr('font-weight',700).text(currentLang === 'zh' ? '美国' : 'United States');
+
+  g.selectAll('.graticule').remove();
+  g.append('path').datum(d3.geoGraticule()()).attr('class','graticule')
+    .attr('d',geoPath).attr('fill','none').attr('stroke','#14203a').attr('stroke-width',.3);
+}
+
+// ═══════════════════════════════════════════════════════════════
+// UPDATE STATS
+// ═══════════════════════════════════════════════════════════════
+function updateStats(yearData, animate) {
+  const t = LANG[currentLang];
+  const foreignVal = (yearData.population.total - yearData.population.native_born).toFixed(2);
+
+  document.getElementById('totalPop').textContent = yearData.population.total;
+  document.getElementById('nativePop').textContent = yearData.population.native_born;
+  document.getElementById('foreignPop').textContent = foreignVal;
+
+  // Top origin
+  const top = yearData.immigrant_origins[0];
+  document.getElementById('topOrigin').textContent = tr(top.country, 'country');
+  document.getElementById('originSub').textContent = `${top.share}% ${t.topOriginShare}`;
+
+  // Generation mini bar
+  const g = yearData.generation;
+  const total = g.first_gen + g.second_gen + g.third_plus;
+  const segs = [{k:'first_gen',v:g.first_gen/total*100},{k:'second_gen',v:g.second_gen/total*100},{k:'third_plus',v:g.third_plus/total*100}];
+  const bar = document.getElementById('miniBar');
+  bar.innerHTML = '';
+  segs.forEach(s=>{const d=document.createElement('div');d.style.width=s.v+'%';d.style.background=GEN_COLORS[s.k];bar.appendChild(d);});
+  document.getElementById('barLabels').innerHTML = Object.keys(t.gen).map(k =>
+    `<span><span class="bd" style="background:${GEN_COLORS[k]}"></span>${t.gen[k]} ${g[k]}%</span>`
+  ).join('');
+
+  // Drivers tags
+  document.getElementById('driverTags').innerHTML =
+    yearData.growth_drivers.map(d => {
+      const txt = tr(d, 'driver');
+      return `<span class="tag">${txt}</span>`;
+    }).join('');
+
+  // Events
+  document.getElementById('eventsList').innerHTML =
+    yearData.events.map(e =>
+      `<div class="ev-row"><span class="ev-yr">${e.year||'—'}</span><div class="ev-body"><strong>${e.title}</strong> — <span>${t.event[e.impact]||e.impact}</span></div></div>`
+    ).join('');
+}
+
+// ═══════════════════════════════════════════════════════════════
+// TRANSLATION HELPERS
+// ═══════════════════════════════════════════════════════════════
+function tr(key, group) { return LANG[currentLang][group]?.[key] ?? key; }
+function t(key) { return LANG[currentLang][key] ?? key; }
+
+function toggleLang() {
+  currentLang = currentLang === 'zh' ? 'en' : 'zh';
+  document.getElementById('langBtn').textContent = currentLang === 'zh' ? 'EN' : '中';
+  const L = LANG[currentLang];
+  document.getElementById('headerTitle').innerHTML = L.headerTitle;
+  document.getElementById('headerSub').textContent = L.headerSub;
+  document.getElementById('mapLegendTitle').textContent = L.mapLegendTitle;
+  document.getElementById('legendCountry').textContent = L.legendCountry;
+  document.getElementById('legendFlight').textContent = L.legendFlight;
+  document.getElementById('srcDataLine').textContent = L.srcDataLine;
+  document.getElementById('eventsHeader').textContent = L.eventsHeader;
+  document.getElementById('popLabel').textContent = L.popLabel;
+  document.getElementById('genLabel').textContent = L.genLabel;
+  document.getElementById('originLabel').textContent = L.originLabel;
+  document.getElementById('driverLabel').textContent = L.driverLabel;
+  document.getElementById('nativeLabel').textContent = L.nativeLabel;
+  document.getElementById('foreignLabel').textContent = L.foreignLabel;
+  document.getElementById('popUnit').textContent = L.unit;
+  drawMap();
+  updateStats(DATA[currentYearIdx]);
+}
+
+// ═══════════════════════════════════════════════════════════════
+// YEAR NAV + AUTO PLAY
+// ═══════════════════════════════════════════════════════════════
+let playInterval = null;
+
+function prevYear() {
+  const idx = Math.max(0, currentYearIdx - 1);
+  if (idx !== currentYearIdx) switchYear(idx);
+}
+function nextYear() {
+  const idx = Math.min(DATA.length - 1, currentYearIdx + 1);
+  if (idx !== currentYearIdx) switchYear(idx);
+}
+
+function switchYear(idx) {
+  if (idx === currentYearIdx) return;
+  currentYearIdx = idx;
+  document.querySelectorAll('.year-btn').forEach((b,i)=>b.classList.toggle('active',i===idx));
+  drawMap();
+  updateStats(DATA[idx], true);
+}
+
+function togglePlay() {
+  const btn = document.getElementById('playBtn');
+  if (playInterval) {
+    clearInterval(playInterval);
+    playInterval = null;
+    btn.innerHTML = '&#9654;';
+    btn.classList.remove('play');
+    btn.style.background = '';
+    btn.title = currentLang === 'zh' ? '自动播放' : 'Auto Play';
+  } else {
+    btn.innerHTML = '&#9646;&#9646;';
+    btn.classList.add('play');
+    btn.title = currentLang === 'zh' ? '暂停' : 'Pause';
+    playInterval = setInterval(() => {
+      const next = currentYearIdx + 1;
+      if (next >= DATA.length) switchYear(0);
+      else switchYear(next);
+    }, 2800);
+  }
+}
+
+// ═══════════════════════════════════════════════════════════════
+// INIT
+// ═══════════════════════════════════════════════════════════════
+async function init() {
+  try {
+    worldData = await d3.json('https://cdn.jsdelivr.net/npm/world-atlas@2/countries-110m.json');
+  } catch(e) {
+    worldData = {objects:{countries:{features:[]}}};
+  }
+  mapSvg.append('g').attr('class','map-content');
+  resizeMap();
+  drawMap();
+  updateStats(DATA[0]);
+  setTimeout(togglePlay, 800);
+}
+init();
+</script>
+</body>
+</html>
