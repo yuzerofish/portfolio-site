@@ -1,0 +1,744 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#3a3150"><meta name="description" content="走进一幅紫藤庭院油画的想象延伸。一个可离线漫游、停留、拍摄的原创 3D 绘画世界。"><title>藤影之下，坐一会儿。｜画框之外 · The Wisteria Courtyard</title><style>:root{--ink:#eee8f3;--muted:#c6bed6;--accent:#c2a3e6;--line:rgba(226,216,244,.24);--night:#241d33;--serif:Georgia,'Songti SC','STSong','Noto Serif CJK SC',serif;--sans:-apple-system,BlinkMacSystemFont,'Segoe UI','PingFang SC','Noto Sans CJK SC',sans-serif;color-scheme:dark}*{box-sizing:border-box}html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#3a3150;color:var(--ink);font-family:var(--sans);font-size:14px}button,a,input{-webkit-tap-highlight-color:transparent}button{font:inherit;cursor:pointer;color:inherit}button:focus-visible,a:focus-visible,input:focus-visible{outline:2px solid var(--accent);outline-offset:5px}button:disabled{cursor:wait;opacity:.5}button{border:0;background:none}a{color:var(--accent);text-underline-offset:5px}#world{position:fixed;inset:0;width:100%;height:100%;display:block;touch-action:none;cursor:grab}#world:active{cursor:grabbing}.wash{position:fixed;inset:0;pointer-events:none;background:linear-gradient(180deg,rgba(26,17,40,.46),transparent 20%,rgba(24,15,36,.15) 38%,rgba(24,15,36,.62) 63%,rgba(22,14,34,.88)),radial-gradient(132% 112% at 4% 104%,rgba(20,12,32,.88),rgba(20,12,32,.30) 46%,transparent 72%);transition:opacity .9s}.frame{position:fixed;inset:15px;border:1px solid rgba(232,222,248,.20);pointer-events:none;z-index:2}.header{position:fixed;top:38px;left:43px;right:43px;display:flex;align-items:center;justify-content:space-between;gap:22px;z-index:10}.brand{display:flex;align-items:center;gap:13px;text-align:left;padding:0}.brandmark{width:27px;height:34px;border:1px solid var(--accent);transform:rotate(-7deg);position:relative}.brandmark:before{content:'';position:absolute;inset:5px;border:1px solid rgba(194,163,230,.50)}.brandmark:after{content:'✦';position:absolute;right:-5px;top:-10px;color:var(--accent);font-size:17px}.brand strong{display:block;letter-spacing:3px;font-weight:400;font-family:var(--serif);font-size:19px}.brand small{display:block;font-size:8px;letter-spacing:2.3px;margin-top:5px;color:#c9c2d8}.top-tools{display:flex;align-items:center;gap:7px}.tool{height:38px;min-width:38px;border:1px solid var(--line);border-radius:50%;background:rgba(36,29,51,.46);backdrop-filter:blur(10px);display:grid;place-items:center;padding:0;transition:background .2s,border-color .2s}.tool:hover,.tool.active{border-color:var(--accent);background:rgba(86,68,112,.72)}.tool svg{width:17px;height:17px;fill:none;stroke:currentColor;stroke-width:1.4;stroke-linecap:round;stroke-linejoin:round}.tool.word{border-radius:30px;padding:0 16px;font-size:11px;letter-spacing:.4px}.tool .sound-bars{display:flex;align-items:center;gap:2px;height:17px}.sound-bars i{width:2px;background:var(--ink);height:3px;display:block}.sound-bars i:nth-child(2){height:11px}.sound-bars i:nth-child(3){height:15px}.sound-bars i:nth-child(4){height:8px}.muted .sound-bars{opacity:.6}.muted .sound-bars:after{position:absolute;content:'';height:22px;width:1px;background:var(--ink);transform:rotate(45deg)}.hero{position:fixed;left:54px;bottom:70px;z-index:8;max-width:710px;transition:opacity .7s,transform .9s;pointer-events:auto}.eyebrow{font-size:10px;letter-spacing:3.2px;color:#e3d3f7;text-shadow:0 1px 12px rgba(16,9,28,.9);display:flex;align-items:center;gap:13px}.eyebrow:before{content:'';width:31px;height:1px;background:var(--accent)}h1{font:400 clamp(34px,3.7vw,57px)/1.5 var(--serif);letter-spacing:3px;margin:15px 0 11px;text-shadow:0 2px 30px rgba(0,0,0,.25)}.hero .sub{font-size:14px;line-height:1.9;color:#f2edf9;text-shadow:0 1px 14px rgba(16,9,28,.85);letter-spacing:1.5px;margin:0}.hero .intro{font:400 14px/1.9 var(--serif);color:#d6cee4;text-shadow:0 1px 12px rgba(16,9,28,.8);margin:8px 0 24px;max-width:440px}.entry{display:flex;align-items:center;gap:22px}.primary{height:48px;padding:0 25px;background:#b4dcc8;color:#2c3a4d;border-radius:3px;border:1px solid #cceadb;display:flex;gap:24px;align-items:center;justify-content:center;font-size:12px;letter-spacing:1px;transition:background .2s}.primary:hover{background:#c7e8d7}.primary b{font-weight:400;font-size:22px}.text-button{padding:13px 0;border-bottom:1px solid rgba(212,203,232,.35);font-size:12px;letter-spacing:.7px}.entry-note{font-size:10px;letter-spacing:.5px;color:#c8c0d8;text-shadow:0 1px 10px rgba(16,9,28,.85);margin-top:15px}.edition{position:fixed;right:51px;bottom:66px;text-align:right;z-index:5;transition:opacity .6s}.edition .v{font-family:var(--serif);font-size:17px;font-style:italic;letter-spacing:.7px}.edition .s{font-size:9px;line-height:2;letter-spacing:2px;color:#cfc8dd;text-shadow:0 1px 10px rgba(16,9,28,.8);margin-top:10px}.exploring .hero{opacity:0;transform:translateY(24px);pointer-events:none}.exploring .edition{opacity:0;pointer-events:none}.exploring .wash{opacity:.52}.explore-ui{opacity:0;pointer-events:none;transition:opacity .7s}.exploring .explore-ui{opacity:1;pointer-events:auto}.location{position:fixed;top:110px;left:46px;z-index:7}.location .overline{font-size:9px;letter-spacing:2px;color:#bfb7cf}.location h2{font:400 23px/1.4 var(--serif);letter-spacing:2px;margin:7px 0}.location p{font-size:11px;color:#bbb3cc;line-height:1.8;margin:0;max-width:320px}.dock{position:fixed;bottom:32px;left:50%;transform:translateX(-50%);display:flex;align-items:center;gap:4px;padding:9px;border:1px solid var(--line);background:rgba(36,29,51,.74);backdrop-filter:blur(16px);border-radius:8px;z-index:9}.spot{min-width:84px;min-height:57px;border-radius:3px;padding:8px 12px;color:#c1b9d1;display:flex;flex-direction:column;align-items:center;gap:6px;font-size:10px;white-space:nowrap}.spot .index{font:italic 15px var(--serif);color:#a79fba}.spot.selected{background:rgba(194,163,230,.14);color:#d6bff0}.spot.selected .index{color:#c9a9ea}.spot:hover{background:rgba(194,163,230,.12)}.dock-line{width:1px;height:34px;background:var(--line);margin:0 4px}.dock-action{width:45px;height:57px;display:flex;align-items:center;justify-content:center;font-size:18px;border-radius:4px;color:var(--accent)}.dock-action.active{background:#7d6a9a55}.hint{position:fixed;bottom:123px;left:50%;transform:translateX(-50%);font-size:10px;letter-spacing:.7px;color:#ccc4da;z-index:7;white-space:nowrap;padding:8px 17px;border-radius:30px;background:rgba(32,25,46,.50)}kbd{font:10px var(--sans);border:1px solid #8a7fa866;border-radius:3px;display:inline-block;padding:1px 4px;line-height:1.5;margin:0 1px;color:#e2daee}.mode-tools{position:fixed;bottom:36px;left:42px;display:flex;flex-direction:column;gap:8px;z-index:9}.mode-tools button{display:flex;align-items:center;gap:8px;font-size:10px;letter-spacing:.8px;color:#cbc3d8;padding:6px}.mode-tools button span:first-child{font-size:15px}.map-wrap{position:fixed;bottom:34px;right:40px;z-index:7;width:128px}.map-wrap canvas{width:128px;height:120px;display:block;border-radius:6px;border:1px solid var(--line);background:rgba(36,29,51,.52)}.map-wrap p{font-size:8px;letter-spacing:.5px;color:#c3bbd0;text-align:center;margin:8px 0 0}.tour-caption{position:fixed;bottom:175px;left:50%;transform:translate(-50%,8px);text-align:center;z-index:6;opacity:0;transition:opacity .6s,transform .6s;pointer-events:none;font:400 22px/1.6 var(--serif);letter-spacing:2px;text-shadow:0 2px 18px #10252e}.touring .tour-caption{opacity:1;transform:translate(-50%,0)}.tour-caption small{display:block;font:10px var(--sans);letter-spacing:2.7px;color:var(--accent);margin-bottom:10px}.tour-progress{position:fixed;bottom:17px;left:20px;right:20px;height:1px;background:rgba(214,205,240,.10);z-index:7;opacity:0}.touring .tour-progress{opacity:1}.tour-progress i{display:block;width:0%;height:1px;background:var(--accent)}#toast{position:fixed;bottom:166px;left:50%;transform:translate(-50%,12px);opacity:0;pointer-events:none;border:1px solid var(--line);border-radius:4px;padding:11px 18px;background:rgba(36,29,51,.90);color:#e5dbef;z-index:40;font-size:12px;transition:opacity .3s,transform .3s;max-width:90vw;text-align:center}#toast.visible{opacity:1;transform:translate(-50%,0)}.hidden-ui .header,.hidden-ui .frame,.hidden-ui .hero,.hidden-ui .edition,.hidden-ui .explore-ui,.hidden-ui .wash{opacity:0;pointer-events:none}.restore{position:fixed;bottom:24px;right:24px;z-index:50;display:none}.hidden-ui .restore{display:grid}dialog{color:var(--ink);background:rgba(35,28,50,.98);padding:0;border:1px solid #867c9a88;border-radius:8px;max-height:86vh;width:min(750px,calc(100vw - 34px));box-shadow:0 30px 120px #1e1730cc;overflow:auto}dialog::backdrop{background:rgba(26,18,38,.65);backdrop-filter:blur(6px)}.dialog-inner{padding:38px 43px}.dialog-top{display:flex;justify-content:space-between;gap:18px;align-items:center;border-bottom:1px solid var(--line);padding-bottom:24px;margin-bottom:27px}.dialog-top h2{font:400 30px var(--serif);letter-spacing:2px;margin:0}.dialog-top small{display:block;color:var(--accent);font-size:9px;letter-spacing:2.2px;margin-bottom:11px}.close{font-size:25px;width:40px;height:40px;border:1px solid var(--line);border-radius:50%;flex-shrink:0}.dialog-inner h3{font:400 18px var(--serif);color:#dcc9ef;margin:23px 0 10px}.dialog-inner p{font-size:12px;color:#c4bcd2;line-height:2;margin:0 0 12px}.spec-grid{display:grid;grid-template-columns:1fr 1fr;gap:17px;margin:20px 0}.spec{border:1px solid var(--line);padding:17px;border-radius:4px}.spec strong{font:400 19px var(--serif);display:block;margin-bottom:8px}.spec span{font-size:11px;line-height:1.8;color:#b0a8c2}.source-links{display:flex;flex-wrap:wrap;gap:16px;font-size:11px;line-height:2;margin:20px 0}.control-row{display:flex;align-items:center;justify-content:space-between;gap:28px;margin:21px 0}.control-row label{font-size:12px;line-height:1.8}.control-row label small{display:block;font-size:10px;color:#afa7c1}.control-row input[type=range]{width:175px;max-width:42vw;accent-color:var(--accent)}.select-pill{display:flex;padding:4px;border:1px solid var(--line);border-radius:4px}.select-pill button{font-size:11px;padding:8px 13px;border-radius:2px}.select-pill button.active{background:#bfa3e033;color:var(--accent)}.footer-credit{font-size:9px!important;text-align:center;border-top:1px solid var(--line);padding-top:20px;margin-top:25px!important;letter-spacing:1px}.loading{position:fixed;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;background:#3a3150;z-index:100;transition:opacity .9s;gap:13px}.loading.done{opacity:0;pointer-events:none}.loading .star{font-size:40px;color:var(--accent);animation:breathe 2s ease-in-out infinite}.loading h2{font:400 25px var(--serif);letter-spacing:4px;margin:15px}.loading p{font-size:11px;letter-spacing:1px;color:#bfb7cd}.loading-bar{width:150px;height:1px;background:#6d6484;margin:17px}.loading-bar i{display:block;width:20%;height:1px;background:#cbaaec;transition:width .4s}#error{display:none;position:fixed;inset:0;padding:15vh max(24px,15vw);background:#332b47;z-index:200}#error h2{font:30px var(--serif)}#error p{line-height:2;color:#cfc7dd;font-size:14px}#joystick{position:fixed;bottom:126px;left:27px;width:96px;height:96px;border:1px solid #c0b2e040;border-radius:50%;background:#2f274a55;z-index:20;touch-action:none;display:none}#joystick:before{content:'＋';position:absolute;inset:0;display:grid;place-items:center;color:#c2b4e444;font-size:20px}#stick{position:absolute;left:32px;top:32px;width:32px;height:32px;border:1px solid #c8bce677;border-radius:50%;background:#d6c2f033;pointer-events:none}.vertical-controls{position:fixed;bottom:136px;right:26px;display:none;flex-direction:column;gap:10px;z-index:20}.vertical-controls button{height:38px;width:38px;border:1px solid var(--line);border-radius:50%;background:#2c254699;touch-action:none}.vertical-controls .down{font-size:16px}body.touch.exploring:not(.touring) #joystick{display:block}body.touch.exploring.flying:not(.touring) .vertical-controls{display:flex}.reduced-motion *{animation:none!important;transition-duration:.01ms!important}@keyframes breathe{50%{opacity:.4;transform:scale(.91)}}@media(max-width:1150px){.map-wrap{display:none}.mode-tools{left:28px;bottom:43px}.spot{min-width:73px;padding:8px 10px}.dock{left:auto;right:30px;transform:none}.hint{left:auto;right:31px;transform:none}.tour-caption{bottom:174px}.hero{max-width:620px}.edition{right:39px}}@media(max-width:700px){.frame{inset:9px}.header{top:24px;left:24px;right:22px;gap:10px}.brand{gap:10px}.brand strong{font-size:15px;letter-spacing:2px}.brand small{font-size:6px;letter-spacing:1.5px}.brandmark{width:21px;height:28px}.tool{min-width:33px;height:33px}.tool.word{padding:0 10px;font-size:10px}.top-tools{gap:5px}.desktop-tool{display:none}.hero{left:29px;right:24px;bottom:67px;max-width:none}.eyebrow{font-size:8px;letter-spacing:2px}h1{font-size:31px;letter-spacing:1.6px;margin:15px 0 12px}.hero .sub{font-size:12px;letter-spacing:.5px}.hero .intro{font-size:12px;line-height:1.9;max-width:290px;margin-top:9px}.entry{gap:21px}.primary{padding:0 20px;height:46px;font-size:11px;gap:21px}.text-button{font-size:11px}.entry-note{font-size:9px;max-width:300px;line-height:1.8}.edition{bottom:24px;left:29px;right:auto;text-align:left;display:flex;gap:13px;align-items:baseline}.edition .v{font-size:12px}.edition .s{font-size:6px;margin:0;letter-spacing:1.2px}.location{left:26px;top:88px}.location .overline{font-size:8px}.location h2{font-size:20px}.location p{font-size:9.5px;max-width:186px}.dock{bottom:19px;left:19px;right:19px;padding:5px;transform:none;overflow-x:auto;scrollbar-width:none;justify-content:flex-start;gap:0}.spot{min-width:57px;height:54px;padding:8px 7px;font-size:9px;gap:5px}.spot .index{font-size:13px}.dock-action{min-width:37px;width:37px;font-size:16px}.dock-line{min-width:1px;margin:0 3px}.hint{bottom:89px;left:50%;right:auto;transform:translateX(-50%);font-size:9px;padding:7px 12px;max-width:94vw}.mode-tools{left:auto;right:22px;bottom:auto;top:152px;gap:4px}.mode-tools button{padding:5px;font-size:9px;background:#2a2340aa;border-radius:4px}.tour-caption{bottom:151px;font-size:18px;width:85%;letter-spacing:1px}.tour-caption small{font-size:8px;letter-spacing:2px}.tour-progress{bottom:9px;left:13px;right:13px}.dialog-inner{padding:26px 23px}.dialog-top h2{font-size:24px}.spec-grid{gap:10px}.spec{padding:13px}.spec strong{font-size:16px}.control-row{gap:10px}.control-row label{font-size:11px}.control-row input[type=range]{width:130px}.source-links{font-size:10px;gap:10px}#toast{bottom:235px;font-size:11px}.hidden-ui #joystick,.hidden-ui .vertical-controls{opacity:0;pointer-events:none}}
+@media(max-height:520px){.hero{bottom:34px}.hero h1{font-size:30px;margin:8px 0}.hero .intro,.entry-note{display:none}.hero .sub{margin-bottom:12px}.header{top:22px}.edition{bottom:34px}.location{top:83px}.hint{display:none}.tour-caption{bottom:127px}.dialog-inner{padding:24px}.dock{bottom:18px}}
+
+@media(max-width:700px){html[lang=en] .brand strong{font-size:11px;letter-spacing:.4px}html[lang=en] .brand small{font-size:5.5px;letter-spacing:.8px}html[lang=en] .brand{gap:7px}html[lang=en] .tool.word{max-width:60px;line-height:1.4;padding:0 8px}html[lang=en] .entry{gap:16px}html[lang=en] h1{font-size:32px;line-height:1.25;letter-spacing:0}}
+</style></head>
+<body>
+<canvas id="world" tabindex="0" aria-label="可自由探索的三维紫藤庭院"></canvas><div class="wash"></div><div class="frame"></div>
+<div id="loading" class="loading" role="status"><div class="star">✦</div><h2>正在走进庭院</h2><p id="loadMessage">铺好石板，让紫藤垂下来。</p><div class="loading-bar"><i id="loadBar"></i></div><p>WISTERIA · AN IMAGINED AFTERNOON</p></div>
+<div id="error" role="alert"><h2>这个下午需要 WebGL 2。</h2><p>浏览器没有成功创建三维画面。请用较新的 Chrome、Edge 或 Safari 打开，并启用硬件加速。完整错误信息如下。</p><p>This courtyard needs WebGL 2. Open it in a recent browser with hardware acceleration enabled.</p><pre id="errorDetail"></pre><button onclick="location.reload()" class="primary">重新打开 · Reload</button></div>
+<header class="header"><button class="brand" id="home" aria-label="回到画前"><span class="brandmark"></span><span><strong data-i18n="brand">画框之外</strong><small>OUTSIDE THE FRAME</small></span></button><nav class="top-tools" aria-label="世界工具栏"><button class="tool word" id="aboutButton" data-i18n="painting">关于这幅画</button><button class="tool muted" id="soundButton" aria-label="开启音乐" title="开启音乐"><span class="sound-bars"><i></i><i></i><i></i><i></i></span></button><button class="tool" id="settingsButton" aria-label="设置" title="设置"><svg viewBox="0 0 24 24"><path d="M4 7h16M4 17h16"/><circle cx="9" cy="7" r="2.5" fill="#241d33"/><circle cx="16" cy="17" r="2.5" fill="#241d33"/></svg></button><button class="tool" id="languageButton" aria-label="Switch to English" title="Switch to English">EN</button><button class="tool desktop-tool" id="fullButton" aria-label="全屏" title="全屏"><svg viewBox="0 0 24 24"><path d="M8 4H4v4m12-4h4v4M4 16v4h4m12-4v4h-4"/></svg></button></nav></header>
+<section class="hero"><div class="eyebrow">AFTER AN OIL PAINTING · WISTERIA · AN IMAGINED AFTERNOON</div><h1 data-i18n="title">藤影之下，坐一会儿。</h1><p class="sub" data-i18n="subtitle">走进一幅紫藤庭院的油画</p><p class="intro" data-i18n="intro">两个人，一张桌子，一整片垂下来的紫藤。<br>这一次，不必只站在画框外。</p><div class="entry"><button class="primary" id="enter"><span data-i18n="enter">走进庭院</span><b>↗</b></button><button class="text-button" id="freeEnter" data-i18n="freeEnter">我想自己走走</button></div><div class="entry-note" data-i18n="entryNote">28 秒庭中漫步 · 随时接手漫游 · 进入后开启轻柔配乐</div></section>
+<div class="edition"><div class="v">The Wisteria Courtyard</div><div class="s">FROM AN UNTITLED PAINTING<br>AN IMAGINED EXTENSION · NO. 02</div></div>
+<div class="explore-ui">
+ <section class="location"><div class="overline" id="locationOverline">01 / 06 · THE PAINTED COURTYARD</div><h2 id="locationTitle">入画</h2><p id="locationText">门洞偏左，紫藤压顶，两个人夹着一张桌子。你现在就在这个下午里面。</p></section>
+ <div class="tour-caption"><small id="tourSmall">01 / 05 · THE PAINTED COURTYARD</small><span id="tourWords">这一次，不必只站在画框外。</span></div>
+ <div class="hint" id="hint"></div>
+ <div class="mode-tools"><button id="flyButton"><span>◇</span><span id="flyLabel">步行 · F 切换飞行</span></button><button id="captureButton"><span>▣</span><span data-i18n="postcard">留一张明信片</span></button><button id="hideButton"><span>⌑</span><span data-i18n="hide">只看画 · H</span></button></div>
+ <nav class="dock" aria-label="六个探索地点" id="dock"><button class="spot selected" data-spot="0"><span class="index">01</span><span data-i18n="spot0">入画</span></button><button class="spot" data-spot="1"><span class="index">02</span><span data-i18n="spot1">桌边</span></button><button class="spot" data-spot="2"><span class="index">03</span><span data-i18n="spot2">藤下</span></button><button class="spot" data-spot="3"><span class="index">04</span><span data-i18n="spot3">门里</span></button><button class="spot" data-spot="4"><span class="index">05</span><span data-i18n="spot4">侧院</span></button><button class="spot" data-spot="5"><span class="index">06</span><span data-i18n="spot5">藤冠之上</span></button><div class="dock-line"></div><button class="dock-action" id="tourButton" aria-label="重播漫步" title="重播漫步">▷</button></nav>
+ <div class="map-wrap"><canvas id="map" width="256" height="240" aria-label="庭院平面（想象）"></canvas><p id="mapCaption">庭院平面（想象） · 1 / 6</p></div>
+ <div class="tour-progress"><i id="tourProgress"></i></div>
+</div>
+<div id="joystick" role="group" aria-label="触屏移动摇杆"><div id="stick"></div></div><div class="vertical-controls"><button id="upButton" aria-label="向上飞行">↑</button><button class="down" id="downButton" aria-label="向下飞行">↓</button></div>
+<button id="restoreButton" class="tool restore" aria-label="恢复界面" title="恢复界面">⌑</button><div id="toast" role="status" aria-live="polite"></div>
+<dialog id="aboutDialog"><div class="dialog-inner"><div class="dialog-top"><div><small>THE PAINTING & THE IMAGINATION</small><h2 data-i18n="aboutTitle">从一幅画，到一个下午。</h2></div><button class="close" data-close aria-label="关闭">×</button></div><p data-i18n="aboutIntro">灵感来自一幅以紫藤与两个人物为主题的油画：浅色石墙、垂落的紫藤、丁香紫的桌布、薄荷绿与紫罗兰的两个身影。参考图由用户在对话中直接提供，没有画名与作者，因此我们无法核对版本，也不主张任何商用权利。</p><div class="spec-grid"><div class="spec"><strong data-i18n="keptTitle">画里的起点</strong><span data-i18n="keptText">斜向的厚涂石墙、深蓝的门洞与窗棂、垂到桌面的紫藤、薄荷绿与紫罗兰的两个人、丁香紫的桌布、左右两把椅子。我们以这些块面和它们的冷暖关系为起点。</span></div><div class="spec"><strong data-i18n="addedTitle">画框外的想象</strong><span data-i18n="addedText">棚架的木梁与立柱、庭院铺地、门洞凹龛的深度、墙角水缸与石槽、后园矮墙、人物衣物的背面，都是本项目的艺术化补充——不是从画里"恢复"出来的信息，也不是历史复原。</span></div></div><h3 data-i18n="howTitle">不是一张会转的全景图。</h3><p data-i18n="howText">墙、门洞、桌布、椅子、紫藤花序都由三维网格搭建。你可以改变位置，也可以改变高度。纹理由程序在本地生成，画面离线运行，不调用任何模型或在线接口。背景音乐是随包提供的一首外部曲目。</p><h3 data-i18n="respectTitle">靠近它，而不是替代它。</h3><p data-i18n="respectText">这是写给这幅画的一封情书，不是它的数字修复。想认识真实的笔触与尺幅，请去看原作。本作品不声称还原，也不提供原作图像的版权许可。</p><h3 data-i18n="sourceTitle">关于来源，我们的坦白</h3><p data-i18n="sourceText">未能核对作者、画名与版本；画作图像仅保存在项目内 reference/ 供对照，未上传任何外部生成服务。画面中的法文招牌是虚构的装饰，不是画中原有文字。背景音乐《Baila despacio》为外部曲目，本作品不主张其任何权利；公开部署前请自行确认授权。</p><p class="footer-credit">MakerJackie × GPT-6 Astra Pro · 原创交互与建模 / Original interactive interpretation</p></div></dialog>
+<dialog id="settingsDialog"><div class="dialog-inner"><div class="dialog-top"><div><small>MAKE YOURSELF AT HOME</small><h2 data-i18n="settingsTitle">把这个下午调舒服。</h2></div><button class="close" data-close aria-label="关闭">×</button></div><div class="control-row"><label for="volume"><span data-i18n="volume">音乐音量</span><small data-i18n="musicNote">Baila despacio · 外部曲目</small></label><input id="volume" type="range" min="0" max="100" value="66"></div><div class="control-row"><label for="paint"><span data-i18n="paint">画布颗粒</span><small data-i18n="paintNote">只调整细微颗粒，不移除材质笔触</small></label><input id="paint" type="range" min="0" max="150" value="100"></div><div class="control-row"><label><span data-i18n="quality">画面精度</span><small data-i18n="qualityNote">卡顿时切换到轻量</small></label><div class="select-pill"><button id="qualityLow" data-i18n="low">轻量</button><button class="active" id="qualityHigh" data-i18n="high">精细</button></div></div><div class="control-row"><label><span data-i18n="motion">自动运镜</span><small data-i18n="motionNote">容易晕 3D 时选择关闭</small></label><div class="select-pill"><button id="motionOff" data-i18n="off">关闭</button><button class="active" id="motionOn" data-i18n="on">开启</button></div></div><h3 data-i18n="controlsTitle">方向交给你。</h3><p data-i18n="controlsText">电脑：拖动看四周，WASD / 方向键移动，滚轮前后移动。F 切换步行 / 飞行，飞行时 Q 下降、E 上升。双击地面走过去。P 留一张明信片，H 隐藏界面，Esc 退出自动运镜。</p><p data-i18n="touchText">手机：左下摇杆移动，拖动画面环顾四周。飞行时右侧 ↑ ↓ 调整高度。也可以点击底部地点直接抵达。</p><p data-i18n="limitsText">步行遵守墙、桌椅、水缸与棚架立柱的碰撞；飞行是自由观察模式，不模拟真实身体或建筑碰撞。庭院有明确的边界，随时可以用地点按钮回到画里。</p><p class="footer-credit">100% LOCAL · NO ACCOUNT · NO TRACKING · NO RUNTIME DEPENDENCIES</p></div></dialog>
+<script>/* Small, dependency-free WebGL2 renderer. All geometry is real 3D, batched by material. */
+'use strict';
+const V={
+ add:(a,b)=>a.map((x,i)=>x+b[i]),sub:(a,b)=>a.map((x,i)=>x-b[i]),mul:(a,s)=>a.map(x=>x*s),
+ dot:(a,b)=>a[0]*b[0]+a[1]*b[1]+a[2]*b[2],cross:(a,b)=>[a[1]*b[2]-a[2]*b[1],a[2]*b[0]-a[0]*b[2],a[0]*b[1]-a[1]*b[0]],
+ norm:a=>{let d=Math.hypot(...a)||1;return a.map(x=>x/d)},mix:(a,b,t)=>a.map((x,i)=>x+(b[i]-x)*t)
+};
+const M={
+ identity:()=>new Float32Array([1,0,0,0,0,1,0,0,0,0,1,0,0,0,0,1]),
+ perspective:(f,a,n,z)=>{let s=1/Math.tan(f/2);return new Float32Array([s/a,0,0,0,0,s,0,0,0,0,(z+n)/(n-z),-1,0,0,2*z*n/(n-z),0])},
+ look:(e,t)=>{let z=V.norm(V.sub(e,t)),x=V.norm(V.cross([0,1,0],z)),y=V.cross(z,x);return new Float32Array([x[0],y[0],z[0],0,x[1],y[1],z[1],0,x[2],y[2],z[2],0,-V.dot(x,e),-V.dot(y,e),-V.dot(z,e),1])},
+ mul:(a,b)=>{let o=new Float32Array(16);for(let c=0;c<4;c++)for(let r=0;r<4;r++)for(let k=0;k<4;k++)o[c*4+r]+=a[k*4+r]*b[c*4+k];return o}
+};
+function RNG(seed=188809){return ()=>{seed|=0;seed=seed+0x6D2B79F5|0;let t=Math.imul(seed^seed>>>15,1|seed);t=t+Math.imul(t^t>>>7,61|t)^t;return ((t^t>>>14)>>>0)/4294967296}}
+const rand=RNG();const range=(a,b)=>a+(b-a)*rand(),pick=a=>a[Math.floor(rand()*a.length)];
+function rgb(hex){if(Array.isArray(hex))return hex;return [(parseInt(hex.slice(1,3),16))/255,(parseInt(hex.slice(3,5),16))/255,(parseInt(hex.slice(5,7),16))/255]}
+function tint(c,v){return rgb(c).map(x=>Math.min(1,Math.max(0,x*v)))}
+const clamp=(x,a,b)=>Math.max(a,Math.min(b,x));const ease=t=>t*t*(3-2*t);
+
+class Batch{
+ constructor(kind='paint'){this.kind=kind;this.data=[];this.count=0;}
+ vert(p,n,uv,c,em=0,anim=0,alpha=1){if(p.length!==3||n.length!==3||uv.length!==2)throw new Error('VERTEX_STRIDE: position and normal need 3 components, uv needs 2.');this.data.push(...p,...n,...uv,...rgb(c),em,anim,alpha);}
+ tri(a,b,c,color,uv=[[0,0],[1,0],[1,1]],em=0,anim=0,alpha=1,normals=null){let n=V.norm(V.cross(V.sub(b,a),V.sub(c,a)));[a,b,c].forEach((p,i)=>this.vert(p,normals?normals[i]:n,uv[i],color,em,anim,alpha));}
+ quad(a,b,c,d,color,em=0,anim=0,alpha=1,uv=[[0,0],[1,0],[1,1],[0,1]]){this.tri(a,b,c,color,[uv[0],uv[1],uv[2]],em,anim,alpha);this.tri(a,c,d,color,[uv[0],uv[2],uv[3]],em,anim,alpha)}
+ upload(gl){this.count=this.data.length/14;this.vao=gl.createVertexArray();gl.bindVertexArray(this.vao);this.vbo=gl.createBuffer();gl.bindBuffer(gl.ARRAY_BUFFER,this.vbo);gl.bufferData(gl.ARRAY_BUFFER,new Float32Array(this.data),gl.STATIC_DRAW);let off=0;[3,3,2,3,3].forEach((s,i)=>{gl.enableVertexAttribArray(i);gl.vertexAttribPointer(i,s,gl.FLOAT,false,56,off*4);off+=s;});this.data=null;gl.bindVertexArray(null);}
+}
+class World{
+ constructor(){this.solid=new Batch();this.alpha=new Batch();this.sky=new Batch('sky');this.labels=new Batch('labels');this.colliders=[];this.stats={};this.active=this.solid;}
+ box(p,size,c,rot=0,em=0){let [x,y,z]=size.map(v=>v/2),vs=[[-x,-y,-z],[x,-y,-z],[x,y,-z],[-x,y,-z],[-x,-y,z],[x,-y,z],[x,y,z],[-x,y,z]];
+  vs=vs.map(q=>this.transform(q,p,rot));const fs=[[0,3,2,1],[4,5,6,7],[0,4,7,3],[1,2,6,5],[3,7,6,2],[0,1,5,4]];fs.forEach((f,i)=>this.active.quad(...f.map(v=>vs[v]),tint(c,[.87,1,.93,.96,1.07,.7][i]),em));}
+ transform(q,p,rot=0){let s=Math.sin(rot),c=Math.cos(rot);return [q[0]*c+q[2]*s+p[0],q[1]+p[1],q[2]*c-q[0]*s+p[2]];}
+ cylinder(a,b,r1,r2,c,sides=9,em=0){let axis=V.norm(V.sub(b,a)),u=V.norm(V.cross(axis,Math.abs(axis[1])>.9?[1,0,0]:[0,1,0])),v=V.cross(axis,u);let ring=(p,r,t)=>V.add(p,V.add(V.mul(u,Math.cos(t)*r),V.mul(v,Math.sin(t)*r)));
+  for(let i=0;i<sides;i++){let t=i/sides*Math.PI*2,nt=(i+1)/sides*Math.PI*2,aa=ring(a,r1,t),ab=ring(a,r1,nt),ba=ring(b,r2,t),bb=ring(b,r2,nt);this.active.quad(aa,ab,bb,ba,tint(c,.93+.09*Math.cos(t)),em);this.active.tri(a,ab,aa,c,undefined,em);this.active.tri(b,ba,bb,c,undefined,em);}}
+ sphere(p,s,c,seg=10,rings=6,em=0,anim=0){let pt=(a,b)=>[p[0]+s[0]*Math.sin(b)*Math.cos(a),p[1]+s[1]*Math.cos(b),p[2]+s[2]*Math.sin(b)*Math.sin(a)];
+  for(let j=0;j<rings;j++)for(let i=0;i<seg;i++){let a=i/seg*Math.PI*2,b=j/rings*Math.PI,aa=(i+1)/seg*Math.PI*2,bb=(j+1)/rings*Math.PI;let A=pt(a,b),B=pt(aa,b),D=pt(a,bb),C=pt(aa,bb),norm=q=>V.norm(q.map((v,k)=>(v-p[k])/(s[k]*s[k]))),col=tint(c,.97+.035*Math.sin(i*9+j*5));this.active.tri(A,B,C,col,[[0,0],[1,0],[1,1]],em,anim,1,[norm(A),norm(B),norm(C)]);this.active.tri(A,C,D,col,[[0,0],[1,1],[0,1]],em,anim,1,[norm(A),norm(C),norm(D)]);}}
+ tube(points,r,c,sides=6,em=0){for(let i=0;i<points.length-1;i++)this.cylinder(points[i],points[i+1],r,r,c,sides,em)}
+ ellipse(p,rx,rz,c,alpha=1,em=0){let batch=alpha<1?this.alpha:this.active;for(let i=0;i<20;i++){let a=i/20*6.283,b=(i+1)/20*6.283;batch.tri(p,[p[0]+Math.cos(a)*rx,p[1],p[2]+Math.sin(a)*rz],[p[0]+Math.cos(b)*rx,p[1],p[2]+Math.sin(b)*rz],c,undefined,em,0,alpha)}}
+ collider(x0,x1,z0,z1){this.colliders.push({x0,x1,z0,z1});}
+}
+
+const sceneVS=`#version 300 es
+precision highp float;
+layout(location=0) in vec3 aPosition;layout(location=1) in vec3 aNormal;layout(location=2) in vec2 aUV;layout(location=3) in vec3 aColor;layout(location=4) in vec3 aExtra;
+uniform mat4 uVP;uniform float uTime;out vec3 vPos;out vec3 vNormal;out vec2 vUV;out vec3 vColor;out vec3 vExtra;
+void main(){vec3 p=aPosition;if(aExtra.y>1.5&&aExtra.y<2.5){p.x+=sin(uTime*.75+p.z*.4)*.055;p.y+=sin(uTime*.9+p.x)*.035;}if(aExtra.y>2.5&&aExtra.y<3.5){p.y+=sin(uTime*.6+p.x*8.)*.22;p.x+=sin(uTime*.3+p.z)*.1;}if(aExtra.y>3.5&&aExtra.y<4.5){p.x+=sin(uTime*1.2+p.y*7.)*.05;p.y+=sin(uTime*.7+p.x)*.045;}if(aExtra.y>4.5){float ph=aUV.x*6.28315,am=aUV.y;p.x+=sin(uTime*.42+ph)*am;p.z+=cos(uTime*.36+ph*1.3)*am*.55;p.y+=sin(uTime*.50+ph*1.7)*am*.30;}vPos=p;vNormal=aNormal;vUV=aUV;vColor=aColor;vExtra=aExtra;gl_Position=uVP*vec4(p,1.);}`;
+const sceneFS=`#version 300 es
+precision highp float;in vec3 vPos;in vec3 vNormal;in vec2 vUV;in vec3 vColor;in vec3 vExtra;
+uniform sampler2D uTexture;uniform vec3 uEye;uniform float uTime;uniform int uKind;out vec4 outColor;
+void main(){vec4 tex=texture(uTexture,vUV);if(uKind==1){vec3 s=tex.rgb;s*=1.+.014*sin(uTime*.55+vUV.x*38.+vUV.y*26.);outColor=vec4(s,1.);return;}
+vec3 col=vColor;if(uKind==2){col*=tex.rgb;}else{col*=.42+tex.rgb*.84;}
+vec3 N=normalize(vNormal);float diffuse=max(dot(N,normalize(vec3(-.30,1.,.42))),0.);float fill=.72+.28*diffuse;col*=fill;
+// 紫藤棚架下的散射光：藤冠之外偏冷丁香紫，贴着奶油色石墙则有一点暖反射。
+// 这里没有人工光源——原画是一面被天光洗亮的浅色墙，不是一盏亮的灯。
+float skyLit=exp(-max(6.4-vPos.y,0.)*.30)*smoothstep(-3.2,1.8,vPos.z);
+float wallBounce=smoothstep(-1.6,-4.8,vPos.z)*clamp(1.-vPos.y/7.5,0.,1.);
+col=mix(col,col*vec3(1.05,1.005,1.15)+vec3(.010,.004,.020),clamp(skyLit,0.,1.)*.55);
+col=mix(col,col*vec3(1.13,1.075,.955)+vec3(.014,.011,.004),clamp(wallBounce,0.,1.)*.30);
+col=mix(col,vColor*(uKind==2?tex.rgb:(.47+tex.rgb*.72)),vExtra.x);
+float fog=1.-exp(-pow(length(vPos-uEye)*.0105,1.55));fog*=1.-vExtra.x*.6;col=mix(col,vec3(.545,.512,.598),fog);
+outColor=vec4(clamp(col,0.,1.),vExtra.z*(uKind==2?tex.a:1.));}`;
+const postVS=`#version 300 es
+precision highp float;out vec2 vUV;void main(){vec2 p=vec2((gl_VertexID<<1)&2,gl_VertexID&2);vUV=p;gl_Position=vec4(p*2.-1.,0.,1.);}`;
+const postFS=`#version 300 es
+precision highp float;in vec2 vUV;uniform sampler2D uScene;uniform vec2 uSize;uniform float uPaint;uniform float uFade;out vec4 outColor;
+float hash(vec2 p){return fract(sin(dot(p,vec2(127.1,311.7)))*43758.5453);}
+void main(){vec2 px=1./uSize;vec3 c=texture(uScene,vUV).rgb;vec3 sum=c;float w=1.;vec3 halo=vec3(0.);
+for(int i=0;i<4;i++){float a=float(i)*1.570796;vec2 d=vec2(cos(a),sin(a));vec3 n=texture(uScene,vUV+d*px*1.1).rgb;float k=.12*exp(-length(n-c)*11.);sum+=n*k;w+=k;vec3 b=texture(uScene,vUV+d*px*6.).rgb;halo+=max(b-vec3(.80,.76,.82),vec3(0.))*.022;}
+c=mix(c,sum/w,.75)+halo;vec2 q=vUV*uSize;float grain=hash(floor(q))-.5;float weave=sin(q.x*2.8)*sin(q.y*2.6);c*=1.+grain*.055*uPaint+weave*.014*uPaint;
+float edge=smoothstep(.23,.85,length((vUV-.5)*vec2(1.,.85)));c*=1.-edge*.16;c=mix(c,c*vec3(1.014,1.0,1.014),.45);outColor=vec4(c*(1.-uFade),1.);}`;
+class Renderer{
+ constructor(canvas){this.canvas=canvas;const gl=canvas.getContext('webgl2',{alpha:false,antialias:false,preserveDrawingBuffer:true,powerPreference:'high-performance'});if(!gl)throw new Error('WEBGL2_UNAVAILABLE');this.gl=gl;this.sceneProgram=this.program(sceneVS,sceneFS);this.postProgram=this.program(postVS,postFS);this.paint=1;this.scale=1;this.fbo=gl.createFramebuffer();this.color=gl.createTexture();this.depth=gl.createRenderbuffer();this.textureCache=[];this.draws=0;this.errors=[];this.resize();}
+ program(v,f){const g=this.gl;function compile(type,s){let x=g.createShader(type);g.shaderSource(x,s);g.compileShader(x);if(!g.getShaderParameter(x,g.COMPILE_STATUS))throw new Error(g.getShaderInfoLog(x));return x;}let p=g.createProgram();g.attachShader(p,compile(g.VERTEX_SHADER,v));g.attachShader(p,compile(g.FRAGMENT_SHADER,f));g.linkProgram(p);if(!g.getProgramParameter(p,g.LINK_STATUS))throw new Error(g.getProgramInfoLog(p));return p;}
+ texture(canvas,repeat=true){const g=this.gl,t=g.createTexture();g.bindTexture(g.TEXTURE_2D,t);g.pixelStorei(g.UNPACK_FLIP_Y_WEBGL,true);g.texImage2D(g.TEXTURE_2D,0,g.RGBA,g.RGBA,g.UNSIGNED_BYTE,canvas);g.texParameteri(g.TEXTURE_2D,g.TEXTURE_MIN_FILTER,g.LINEAR_MIPMAP_LINEAR);g.texParameteri(g.TEXTURE_2D,g.TEXTURE_MAG_FILTER,g.LINEAR);g.texParameteri(g.TEXTURE_2D,g.TEXTURE_WRAP_S,repeat?g.REPEAT:g.CLAMP_TO_EDGE);g.texParameteri(g.TEXTURE_2D,g.TEXTURE_WRAP_T,repeat?g.REPEAT:g.CLAMP_TO_EDGE);g.generateMipmap(g.TEXTURE_2D);return t;}
+ resize(){const g=this.gl;let ratio=Math.min(window.devicePixelRatio||1,1.45)*this.scale,w=Math.max(1,Math.floor(innerWidth*ratio)),h=Math.max(1,Math.floor(innerHeight*ratio));this.canvas.width=w;this.canvas.height=h;g.bindTexture(g.TEXTURE_2D,this.color);g.texImage2D(g.TEXTURE_2D,0,g.RGBA8,w,h,0,g.RGBA,g.UNSIGNED_BYTE,null);g.texParameteri(g.TEXTURE_2D,g.TEXTURE_MIN_FILTER,g.LINEAR);g.texParameteri(g.TEXTURE_2D,g.TEXTURE_MAG_FILTER,g.LINEAR);g.texParameteri(g.TEXTURE_2D,g.TEXTURE_WRAP_S,g.CLAMP_TO_EDGE);g.texParameteri(g.TEXTURE_2D,g.TEXTURE_WRAP_T,g.CLAMP_TO_EDGE);g.bindRenderbuffer(g.RENDERBUFFER,this.depth);g.renderbufferStorage(g.RENDERBUFFER,g.DEPTH_COMPONENT24,w,h);g.bindFramebuffer(g.FRAMEBUFFER,this.fbo);g.framebufferTexture2D(g.FRAMEBUFFER,g.COLOR_ATTACHMENT0,g.TEXTURE_2D,this.color,0);g.framebufferRenderbuffer(g.FRAMEBUFFER,g.DEPTH_ATTACHMENT,g.RENDERBUFFER,this.depth);if(g.checkFramebufferStatus(g.FRAMEBUFFER)!==g.FRAMEBUFFER_COMPLETE)throw new Error('Framebuffer is incomplete');g.bindFramebuffer(g.FRAMEBUFFER,null);}
+ init(world,paint,sky,labels){this.world=world;for(let b of [world.solid,world.alpha,world.sky,world.labels])b.upload(this.gl);this.paintTex=this.texture(paint);this.skyTex=this.texture(sky);this.labelTex=this.texture(labels,false);this.uniforms={};for(const n of ['uVP','uTime','uTexture','uEye','uKind'])this.uniforms[n]=this.gl.getUniformLocation(this.sceneProgram,n);this.postUniforms={};for(const n of ['uScene','uSize','uPaint','uFade'])this.postUniforms[n]=this.gl.getUniformLocation(this.postProgram,n);}
+ render(eye,target,time,fade=0){const g=this.gl,w=this.canvas.width,h=this.canvas.height;let vp=M.mul(M.perspective((innerWidth<600?66:56)*Math.PI/180,w/h,.08,260),M.look(eye,target));g.bindFramebuffer(g.FRAMEBUFFER,this.fbo);g.viewport(0,0,w,h);g.enable(g.DEPTH_TEST);g.depthMask(true);g.disable(g.CULL_FACE);g.disable(g.BLEND);g.clearColor(.30,.28,.36,1);g.clear(g.COLOR_BUFFER_BIT|g.DEPTH_BUFFER_BIT);g.useProgram(this.sceneProgram);g.uniformMatrix4fv(this.uniforms.uVP,false,vp);g.uniform1f(this.uniforms.uTime,time);g.uniform3fv(this.uniforms.uEye,eye);g.uniform1i(this.uniforms.uTexture,0);g.activeTexture(g.TEXTURE0);
+ const draw=(b,t,k)=>{g.bindTexture(g.TEXTURE_2D,t);g.uniform1i(this.uniforms.uKind,k);g.bindVertexArray(b.vao);g.drawArrays(g.TRIANGLES,0,b.count);};g.depthMask(false);draw(this.world.sky,this.skyTex,1);g.depthMask(true);draw(this.world.solid,this.paintTex,0);g.enable(g.BLEND);g.blendFunc(g.SRC_ALPHA,g.ONE_MINUS_SRC_ALPHA);draw(this.world.labels,this.labelTex,2);g.depthMask(false);draw(this.world.alpha,this.paintTex,0);g.depthMask(true);g.disable(g.BLEND);
+ g.bindFramebuffer(g.FRAMEBUFFER,null);g.disable(g.DEPTH_TEST);g.bindVertexArray(null);g.useProgram(this.postProgram);g.bindTexture(g.TEXTURE_2D,this.color);g.uniform1i(this.postUniforms.uScene,0);g.uniform2f(this.postUniforms.uSize,w,h);g.uniform1f(this.postUniforms.uPaint,this.paint);g.uniform1f(this.postUniforms.uFade,fade);g.drawArrays(g.TRIANGLES,0,3);this.draws=5;this.vp=vp;}
+}
+</script><script>/* 程序化生成的笔触、天空与标牌纹理；不使用任何下载素材、照片、字体或模型。 */
+function surface(w,h){const c=document.createElement('canvas');c.width=w;c.height=h;return [c,c.getContext('2d')];}
+
+/* 画布底子：暖奶油白，叠上向左上抬升约 32° 的厚涂笔触（与画中石墙同向）。 */
+function makePaint(){const [c,x]=surface(512,512),r=RNG(9317);x.fillStyle='#e0d6bf';x.fillRect(0,0,512,512);
+ const pigment=['#f4eddc','#efe7d2','#e6dcc6','#d6cbae','#c9a860','#d8c08a','#e3d7bd','#b9b6a4','#93a0b4','#cfc4a8'];
+ const angle=-.56;                                   // 左端低、右端高
+ for(let i=0;i<620;i++){const px=r()*512,py=r()*512,len=26+r()*118,ww=4+r()*15;
+  x.save();x.translate(px,py);x.rotate(angle+(r()-.5)*.22);x.lineCap='round';
+  x.strokeStyle=pigment[Math.floor(r()*pigment.length)];x.globalAlpha=.24+r()*.38;x.lineWidth=ww;
+  x.beginPath();x.moveTo(0,0);x.quadraticCurveTo(ww*.14,len*.46,-ww*.10,len);x.stroke();
+  for(let j=0;j<3;j++){x.lineWidth=.6+r()*.9;x.strokeStyle=j%2?'#8d8a76':'#fbf5e4';x.globalAlpha=.09+r()*.15;
+   const a=(r()-.5)*ww;x.beginPath();x.moveTo(a,3);x.quadraticCurveTo(a+1.4,len*.46,a-ww*.10,len-4);x.stroke();}
+  x.restore();}
+ x.save();x.translate(0,0);x.rotate(0);x.restore();
+ for(let i=0;i<2400;i++){const px=r()*512,py=r()*512,len=4+r()*26,v=Math.floor(170+r()*72);
+  x.save();x.translate(px,py);x.rotate(angle+(r()-.5)*.14);
+  x.strokeStyle=`rgba(${v},${v-3},${v-12},${.04+r()*.10})`;x.lineWidth=.4+r()*1.05;
+  x.beginPath();x.moveTo(0,-len/2);x.lineTo((r()-.5)*2.0,len/2);x.stroke();x.restore();}
+ const d=x.getImageData(0,0,512,512);for(let i=0;i<d.data.length;i+=4){const n=(r()-.5)*10;d.data[i]+=n;d.data[i+1]+=n;d.data[i+2]+=n;}x.putImageData(d,0,0);
+ return c;}
+
+/* 天空：紫藤缝隙里露出的淡紫奶油暮色。没有星星——这不是夜空。 */
+function makeSky(){const [c,x]=surface(2048,1024),r=RNG(4620);
+ const g=x.createLinearGradient(0,0,0,1024);
+ g.addColorStop(0,'#b3a9d2');g.addColorStop(.24,'#c6bede');g.addColorStop(.48,'#dcd3e3');
+ g.addColorStop(.70,'#ece2e2');g.addColorStop(.88,'#f1e7d6');g.addColorStop(1,'#e7dcc6');
+ x.fillStyle=g;x.fillRect(0,0,2048,1024);
+ // 高处被风拉薄的云带
+ const clouds=['#e8dfe9','#dcd2e6','#f2eade','#d4c9dd'];
+ for(let i=0;i<5600;i++){const px=r()*2048,py=Math.pow(r(),.62)*880,a=Math.sin(px*.0032+py*.0041)*.30-.05,len=14+r()*96;
+  x.save();x.translate(px,py);x.rotate(a);x.globalAlpha=.05+r()*.15;x.strokeStyle=clouds[Math.floor(r()*clouds.length)];
+  x.lineWidth=.6+r()*4.2;x.beginPath();x.moveTo(-len/2,0);x.quadraticCurveTo(0,-2.4,len/2,r()*2.4);x.stroke();x.restore();}
+ // 边缘之外的紫藤重影：大面积柔和的紫，不是花，只是被遮挡的光
+ const mass=['#a294c8','#8f80ba','#b6aad6','#7d6cae'];
+ for(let i=0;i<340;i++){const px=r()*2048,py=r()*330,s=26+r()*88;
+  const glow=x.createRadialGradient(px,py,0,px,py,s);const col=mass[Math.floor(r()*mass.length)];
+  glow.addColorStop(0,col+'55');glow.addColorStop(.55,col+'22');glow.addColorStop(1,col+'00');
+  x.fillStyle=glow;x.fillRect(px-s,py-s,s*2,s*2);}
+ // 稀疏橄榄绿：藤冠之外伸出来的叶子
+ for(let i=0;i<420;i++){const px=r()*2048,py=r()*560,a=r()*6.28,len=5+r()*17;
+  x.save();x.translate(px,py);x.rotate(a);x.globalAlpha=.10+r()*.24;
+  x.fillStyle=['#748c46','#5c7536','#8aa155','#4b6a33'][Math.floor(r()*4)];
+  x.beginPath();x.ellipse(0,0,len*.5,len*.17,0,0,6.28);x.fill();x.restore();}
+ return c;}
+
+/* 四块贴墙的小牌子。原画里的实体招牌可以保留原语言。 */
+function makeLabels(){const [c,x]=surface(1024,1024);x.textAlign='center';
+ // 0 · 后园木牌 “Sous la glycine / 藤下”
+ x.fillStyle='#6b573f';x.fillRect(0,0,512,512);
+ for(let i=0;i<150;i++){x.globalAlpha=.10+RNG(31+i)()*.16;x.strokeStyle=i%3?'#7d6849':'#57452f';x.lineWidth=1.4+RNG(77+i)()*3;
+  x.beginPath();x.moveTo(RNG(101+i)()*512,0);x.lineTo(RNG(103+i)()*512,512);x.stroke();}
+ x.globalAlpha=1;x.strokeStyle='#c9b489';x.lineWidth=6;x.strokeRect(31,31,450,450);x.lineWidth=2;x.strokeRect(43,43,426,426);
+ x.fillStyle='#efe3c6';x.font='italic 60px Georgia, serif';x.fillText('Sous la',256,190);x.fillText('glycine',256,262);
+ x.font='34px Georgia, serif';x.fillStyle='#cbbb95';x.fillText('藤  下',256,332);x.font='20px Georgia, serif';x.fillText('1670 · JARDIN',256,398);
+ // 1 · 桌上的小册子封面
+ x.fillStyle='#a8563f';x.fillRect(512,0,512,512);x.fillStyle='#8c4433';x.fillRect(512,0,44,512);
+ x.strokeStyle='#d8bda4';x.lineWidth=2;x.strokeRect(578,36,410,440);
+ x.fillStyle='#f0e2cc';x.font='italic 56px Georgia, serif';x.fillText('Les deux',768,196);x.fillText('amies',768,266);
+ x.font='19px Georgia, serif';x.fillStyle='#e0c6ae';x.fillText('six études au jardin',768,332);
+ x.lineWidth=3;x.strokeStyle='#d8bda4';x.beginPath();x.moveTo(628,370);x.lineTo(908,370);x.stroke();
+ // 2 · 倚在墙边的一张习作
+ x.fillStyle='#e7dcc4';x.fillRect(0,512,512,512);x.fillStyle='#cfc0a3';x.fillRect(24,536,464,464);
+ x.fillStyle='#3e3e8c';x.fillRect(148,652,132,270);x.fillStyle='#c8c6c0';x.fillRect(132,640,18,290);
+ x.fillStyle='#c0b2e0';x.fillRect(300,760,150,54);x.fillStyle='#9fd3b4';x.fillRect(268,690,120,140);
+ x.fillStyle='#efe4cc';x.fillRect(460,700,180,220);
+ x.fillStyle='#4a4258';x.font='italic 34px Georgia, serif';x.fillText('La porte bleue',256,606);
+ x.font='20px Georgia, sans-serif';x.fillStyle='#6b6274';x.fillText('étude · huile sur toile',256,978);
+ // 3 · 一块坦白的说明牌
+ x.fillStyle='#efe6d2';x.fillRect(512,512,512,512);x.strokeStyle='#b9ab8c';x.lineWidth=3;x.strokeRect(538,538,436,436);
+ x.fillStyle='#4a4258';x.font='italic 40px Georgia, serif';x.fillText('Ce jardin',768,620);x.fillText('est imaginé.',768,668);
+ x.font='23px Georgia, sans-serif';x.fillStyle='#716782';
+ x.fillText('此庭院为想象，不是画中信息。',768,742);x.fillText('This courtyard is an invention —',768,782);x.fillText('not information recovered from the painting.',768,816);
+ return c;}
+
+function labelQuad(world,a,b,c,d,tile=0,em=.5){const ix=tile%2,iy=Math.floor(tile/2);const u0=ix*.5+.004,u1=(ix+1)*.5-.004,v1=1-iy*.5-.004,v0=1-(iy+1)*.5+.004;world.labels.quad(a,b,c,d,'#ffffff',em,0,1,[[u0,v0],[u1,v0],[u1,v1],[u0,v1]])}
+</script><script>/* 一处想象中长满紫藤的庭院。尺寸都是艺术设定，不是测绘。
+   局部朝向约定：人物与椅子都建在“面朝局部 +z”的姿态上，
+   因此 transform 的旋转角用 atan2(dx,dz) 求出（dx/dz 是目标方向）。 */
+function makeWorld(){
+ const w=new World();
+ const rng=RNG(20260921);
+ const rr=(a,b)=>a+(b-a)*rng();
+ const pk=a=>a[Math.floor(rng()*a.length)];
+ const mixc=(a,b,t)=>{const A=rgb(a),B=rgb(b);return A.map((v,i)=>v+(B[i]-v)*t)};
+ const smooth=(e0,e1,x)=>{const t=clamp((x-e0)/((e1-e0)||1),0,1);return t*t*(3-2*t)};
+
+ // ── 色板：全部取自画作的功能色 ────────────────────────────────
+ const P={
+  wallLit:'#f4eddc', wallMid:'#ddd3bc', wallWarm:'#c9a860', wallWarm2:'#d8c08a',
+  wallCool:'#93a0b4', wallCool2:'#7c8aa3',
+  lilacLight:'#bfb2ee', lilac:'#8878cf', lilacDeep:'#6656b8', lilacDark:'#4f429e',
+  doorBlue:'#3e3e8c', doorDeep:'#2f2f72', doorRail:'#4a4a9c',
+  frameGrey:'#c8c6c0', frameGrey2:'#b0afa8',
+  mint:'#9fd3b4', mintDeep:'#6fb295', teal:'#3f7f76',
+  violet:'#8a6fbe', violetDeep:'#6b52a4',
+  cloth:'#c0b2e0', clothDeep:'#a796d2', clothFold:'#9481c4',
+  brick:'#a8563f', brickDeep:'#8c4433',
+  olive:'#6e8a3f', oliveDeep:'#4e6b33', oliveLight:'#86a04a',
+  iron:'#2e3a7e', ironDeep:'#232c63', ironRed:'#b8503c',
+  wood:'#6b543a', woodDeep:'#4e3d2a',
+  groundCool:'#a9aeb2', groundWarm:'#cdb68a',
+  potTerra:'#a9754c', water:'#7fa8a6', skin:'#c9ab86', hair:'#3b332b'
+ };
+
+ // ── 天空：360° 手绘包围球 ────────────────────────────────────
+ for(let j=0;j<32;j++)for(let i=0;i<64;i++){const a=i/64*Math.PI*2,b=j/32*Math.PI,aa=(i+1)/64*Math.PI*2,bb=(j+1)/32*Math.PI;
+  const pt=(t,h)=>[Math.cos(t)*Math.sin(h)*180,Math.cos(h)*180,Math.sin(t)*Math.sin(h)*180];
+  w.sky.quad(pt(a,b),pt(aa,b),pt(aa,bb),pt(a,bb),'#ffffff',1,0,1,[[i/64,1-j/32],[(i+1)/64,1-j/32],[(i+1)/64,1-(j+1)/32],[i/64,1-(j+1)/32]]);}
+
+ // ── 庭院地基与铺石 ──────────────────────────────────────────
+ // 地基顶面必须低于铺石顶面（铺石顶约 y=+.042），否则石头会被埋进土色板里，
+ // 只剩零散几块露头——那正是“石头撒在沙地上”的成因。
+ w.box([0,-.356,2.4],[18.8,.70,15.6],'#9a8f76');
+ let stones=0;
+ function paving(x,z,sx,sz,color){
+  const y=.012+rr(-.010,.014),a=rr(-.09,.09),r=rr(.06,.12);
+  const poly=[[-sx/2+r,-sz/2],[sx/2-r,-sz/2],[sx/2,-sz/2+r],[sx/2,sz/2-r],[sx/2-r,sz/2],[-sx/2+r,sz/2],[-sx/2,sz/2-r],[-sx/2,-sz/2+r]];
+  const top=poly.map(v=>w.transform([v[0]+rr(-.02,.02),y+.030+rr(-.005,.005),v[1]+rr(-.011,.011)],[x,0,z],a));
+  const bot=poly.map(v=>w.transform([v[0]*1.045,y-.010,v[1]*1.045],[x,0,z],a));
+  const uv=poly.map(v=>[v[0]/sx+.5,v[1]/sz+.5]);
+  for(let i=0;i<8;i++){const j=(i+1)%8;w.solid.tri([x,y+.037,z],top[j],top[i],color,[[.5,.5],uv[j],uv[i]]);w.solid.quad(bot[i],bot[j],top[j],top[i],tint(color,.66));}
+  stones++;
+ }
+ const gWarm=['#e3d4ae','#cdb68a','#d8c49b','#bfa87e','#e8dcc0'];
+ const gCool=['#b3b7b4','#a3aaa9','#c2c1b4','#9aa3a4','#cdc7b3'];
+ for(let z=7.6,row=0;z>-4.2;z-=.50,row++)
+  for(let x=-7.9+(row%2)*.42;x<7.9;x+=.80){
+   const near=x<1.4&&z<-0.6&&z>-3.6;
+   paving(x+rr(-.035,.03),z+rr(-.03,.03),rr(.70,.78),rr(.43,.485),tint(pk(near?gWarm:gCool),rr(.9,1.1)));
+  }
+ for(let x=-8.3;x<8.4;x+=.44)paving(x+rr(-.02,.02),-4.36+rr(-.02,.02),rr(.38,.44),rr(.30,.36),tint(pk(gCool),rr(.88,1.06)));
+ for(let x=-8.3;x<8.4;x+=.50)paving(x+rr(-.02,.02),8.95+rr(-.02,.02),rr(.42,.48),rr(.30,.34),tint(pk(gWarm),rr(.9,1.08)));
+ for(let z=-4.1;z<9.0;z+=.50){
+  paving(-8.28+rr(-.02,.02),z+rr(-.02,.02),rr(.32,.36),rr(.42,.48),tint(pk(gCool),rr(.88,1.06)));
+  paving(8.28+rr(-.02,.02),z+rr(-.02,.02),rr(.32,.36),rr(.42,.48),tint(pk(gCool),rr(.88,1.06)));
+ }
+
+ // ── 后墙：一整面真实的墙，正面做冷暖与明度分区 ────────────────
+ const WX0=-9,WX1=9,WY1=7.2,WZF=-4.6,WZB=-6.0;
+ const DOOR={x0:-1.30,x1:0.10,y1:3.60,zIn:-5.60};
+ function wallColor(x,y){
+  const d=Math.hypot((x+0.62)/2.55,(y-2.05)/3.15);
+  const cool=Math.pow(clamp(1-d,0,1),1.22);
+  const warm=clamp((x-0.30)/6.2,0,1)+clamp((-x-3.4)/4.6,0,1);
+  let c=mixc(P.wallMid,P.wallCool,0.68*cool);
+  c=mixc(c,P.wallWarm,0.30*clamp(warm,0,1));
+  c=mixc(c,P.wallLit,0.32*smooth(3.4,7.0,y));
+  c=mixc(c,P.wallCool2,0.22*smooth(1.4,-0.2,x));
+  return c;
+ }
+ const TILE=2.60;
+ function wallFace(x0,x1,y0,y1,z,flip){
+  const nx=Math.max(1,Math.round((x1-x0)/1.45)),ny=Math.max(1,Math.round((y1-y0)/1.15));
+  for(let i=0;i<nx;i++)for(let j=0;j<ny;j++){
+   const xa=x0+(x1-x0)*i/nx,xb=x0+(x1-x0)*(i+1)/nx,ya=y0+(y1-y0)*j/ny,yb=y0+(y1-y0)*(j+1)/ny;
+   const col=wallColor((xa+xb)/2,(ya+yb)/2);
+   const u=[[xa/TILE,ya/TILE],[xb/TILE,ya/TILE],[xb/TILE,yb/TILE],[xa/TILE,yb/TILE]];
+   if(!flip)w.solid.quad([xa,ya,z],[xb,ya,z],[xb,yb,z],[xa,yb,z],col,0,0,1,u);
+   else w.solid.quad([xb,ya,z],[xa,ya,z],[xa,yb,z],[xb,yb,z],col,0,0,1,[u[1],u[0],u[3],u[2]]);
+  }
+ }
+ wallFace(WX0,DOOR.x0,0,WY1,WZF);
+ wallFace(DOOR.x1,WX1,0,WY1,WZF);
+ wallFace(DOOR.x0,DOOR.x1,DOOR.y1,WY1,WZF);
+ w.solid.quad([WX0,WY1,WZF],[WX1,WY1,WZF],[WX1,WY1,WZB],[WX0,WY1,WZB],tint(P.wallMid,.94));
+ w.solid.quad([WX1,WY1,WZB],[WX0,WY1,WZB],[WX0,0,WZB],[WX1,0,WZB],tint(P.wallMid,.78));
+ for(const sx of [WX0,WX1])
+  w.solid.quad([sx,0,WZF],[sx,0,WZB],[sx,WY1,WZB],[sx,WY1,WZF],sx===WX0?tint(P.wallMid,.9):tint(P.wallMid,.98));
+ w.box([0,WY1+.11,-5.3],[18.5,.24,1.9],tint(P.wallLit,.95));
+
+ // ── 门洞凹龛（画中那扇竖直蓝板就在凹龛尽端） ─────────────────
+ const zIn=DOOR.zIn,dw=DOOR.x1-DOOR.x0,dm=(DOOR.x0+DOOR.x1)/2;
+ w.solid.quad([DOOR.x0,0,WZF],[DOOR.x0,0,zIn],[DOOR.x0,DOOR.y1,zIn],[DOOR.x0,DOOR.y1,WZF],tint(P.wallLit,.86));
+ w.solid.quad([DOOR.x1,DOOR.y1,WZF],[DOOR.x1,DOOR.y1,zIn],[DOOR.x1,0,zIn],[DOOR.x1,0,WZF],tint(P.wallLit,.80));
+ w.solid.quad([DOOR.x0,DOOR.y1,zIn],[DOOR.x1,DOOR.y1,zIn],[DOOR.x1,DOOR.y1,WZF],[DOOR.x0,DOOR.y1,WZF],tint(P.wallLit,.70));
+ w.box([dm,.05,(-4.6+zIn)/2],[dw,.10,.96],tint(P.groundCool,.98));
+ w.box([dm,DOOR.y1/2-.02,zIn-.07],[dw-.02,DOOR.y1-.06,.14],P.doorDeep);
+ for(let i=0;i<6;i++){const x=DOOR.x0+.12+i*(dw-.24)/5;w.box([x,DOOR.y1/2-.02,zIn+.015],[.055,DOOR.y1-.10,.035],tint(P.doorBlue,rr(.95,1.14)));}
+ w.box([dm,2.34,zIn+.02],[dw-.02,.10,.05],P.doorRail);
+ w.box([dm,.92,zIn+.02],[dw-.02,.09,.05],tint(P.doorRail,.9));
+ w.box([dm,2.86,zIn+.02],[dw-.02,.13,.06],tint(P.doorRail,1.08));
+ w.box([dm,3.22,zIn+.04],[dw-.06,.62,.06],P.doorDeep);
+ for(let i=0;i<4;i++){const x=DOOR.x0+.20+i*(dw-.40)/3;w.box([x,3.22,zIn+.10],[.045,.56,.035],tint(P.doorBlue,1.12));}
+ w.box([dm,3.22,zIn+.10],[dw-.06,.045,.035],tint(P.doorBlue,1.05));
+ w.box([dm,2.98,zIn+.06],[dw-.04,.16,.08],P.doorRail);
+ w.box([DOOR.x0-.15,1.84,WZF+.03],[.26,3.72,.20],P.frameGrey);
+ w.box([DOOR.x0-.15,1.19,WZF+.10],[.20,1.66,.05],tint(P.frameGrey2,.97));
+ w.box([DOOR.x1+.15,1.84,WZF+.03],[.26,3.72,.20],tint(P.frameGrey,.94));
+ w.box([dm,3.78,WZF+.04],[dw+.52,.30,.24],tint(P.frameGrey,1.04));
+ w.box([dm,3.99,WZF+.02],[dw+.86,.16,.20],tint(P.frameGrey2,.98));
+
+ // ── 墙面斜向厚涂笔触 ────────────────────────────────────────
+// 每一笔都取“这一处墙面本身的颜色”，只做小幅明度/色相偏移。
+// 原画里的冷暖是一整片区域，不是撒在墙上的彩色纸屑。
+function slab(ax,ay,bx,by,z,wid,dep,color){
+ const dx=bx-ax,dy=by-ay,L=Math.hypot(dx,dy)||1e-4,nx=-dy/L,ny=dx/L,h=wid/2;
+ const A=[ax+nx*h,ay+ny*h,z],B=[ax-nx*h,ay-ny*h,z],C=[bx-nx*h,by-ny*h,z],D=[bx+nx*h,by+ny*h,z];
+ w.solid.quad(A,B,C,D,color);
+ w.solid.quad(B,C,[C[0],C[1],z-dep],[B[0],B[1],z-dep],tint(color,.93));
+ w.solid.quad(D,A,[A[0],A[1],z-dep],[D[0],D[1],z-dep],tint(color,1.045));
+}
+const STROKE_ANGLE=-.62;                                  // 整面墙只有一个主方向：右高左低
+let strokes=0;
+function strokeAt(x,y,len,wid,dep,color){
+ const ang=STROKE_ANGLE+rr(-.035,.035),ux=Math.cos(ang),uy=Math.sin(ang);
+ slab(x-ux*len/2,y-uy*len/2,x+ux*len/2,y+uy*len/2,WZF+.040,wid,dep,color);strokes++;
+}
+for(let i=0;i<1500;i++){
+ const x=rr(-8.85,8.85),y=rr(.10,7.05);
+ if(x>DOOR.x0-.85&&x<DOOR.x1+.85&&y<DOOR.y1+1.25)continue;
+ const base=wallColor(x,y),r=rng();
+ // 原画的墙是「灰紫底 + 大量浅黄赭厚涂」：暖色笔触必须真的在场，不能只是偶发噪点。
+ const col=r<.20?mixc(base,P.wallWarm2,.40):r<.38?mixc(base,P.wallCool,.26):r<.58?mixc(base,P.wallLit,.34):base;
+ strokeAt(x,y,rr(.30,.92),rr(.085,.20),rr(.010,.024),tint(col,rr(.94,1.09)));
+}
+for(let i=0;i<90;i++){const y=rr(.3,5.9),x=rr(-2.75,-1.45);
+ strokeAt(x,y,rr(.45,1.35),rr(.11,.24),rr(.010,.022),tint(mixc(wallColor(x,y),P.wallCool,rr(.18,.40)),rr(.95,1.06)));}
+for(let i=0;i<150;i++){
+ const x=rng()<.55?rr(3.6,8.8):rr(-8.8,-3.2),y=rr(.2,4.6);
+ strokeAt(x,y,rr(.35,1.05),rr(.10,.22),rr(.010,.026),tint(mixc(wallColor(x,y),P.wallWarm2,rr(.30,.62)),rr(.95,1.10)));}
+
+// ── 左上角：深蓝栏杆与圆形小饰物 ─────────────────────────────
+ const RY0=5.46,RY1=6.52,RX0=-8.92,RX1=-6.86;
+ w.box([(RX0+RX1)/2,RY1,-4.42],[RX1-RX0,.13,.19],P.iron);
+ w.box([(RX0+RX1)/2,RY0,-4.42],[RX1-RX0,.10,.16],P.ironDeep);
+ for(let x=RX0+.16;x<RX1;x+=.20){
+  w.cylinder([x,RY0+.05,-4.42],[x,RY1-.06,-4.42],.030,.030,tint(P.iron,rr(.94,1.1)),6);
+  w.sphere([x,(RY0+RY1)/2,-4.42],[.045,.13,.045],tint(P.ironDeep,1.06),6,4);
+ }
+ const crest=[];for(let i=0;i<=10;i++){const t=i/10;crest.push([RX0+.10+t*(RX1-RX0-.20),RY1+.13+Math.sin(t*Math.PI)*.17,-4.42]);}
+ w.tube(crest,.032,P.iron,6);
+ const ox=-8.34,oy=4.92,oz=-4.40;
+ w.cylinder([ox,oy,oz],[ox,oy,oz+.05],.30,.30,P.iron,18);
+ w.cylinder([ox,oy,oz+.05],[ox,oy,oz+.09],.27,.27,tint(P.lilacLight,.9),18);
+ for(let i=0;i<5;i++){const a=i/5*6.283;w.sphere([ox+Math.cos(a)*.14,oy+Math.sin(a)*.14,oz+.11],[.035,.035,.02],P.ironRed,8,5);}
+ w.cylinder([ox,oy+.30,oz],[ox,oy+.62,oz],.024,.024,P.iron,6);
+
+ // ── 紫藤棚架 ────────────────────────────────────────────────
+ const POSTX=[-4.6,0,4.6],POSTZ=[-4.0,1.4],BY=4.98;
+ for(const px of POSTX)for(const pz of POSTZ){
+  w.cylinder([px,0,pz],[px,BY,pz],.115,.095,P.wood,10);
+  w.box([px,.09,pz],[.36,.18,.36],tint(P.groundCool,.94));
+  w.box([px,BY-.16,pz],[.20,.16,.20],tint(P.woodDeep,1.05));
+ }
+ for(const px of POSTX)w.box([px,BY,-1.30],[.15,.22,6.10],P.wood);
+ w.box([0,BY-.30,-4.46],[14.6,.20,.16],P.woodDeep);
+ const rafters=[];
+ for(let z=-4.24;z<1.62;z+=1.15){w.box([0,BY+.14,z],[14.6,.10,.14],tint(P.wood,rr(.92,1.08)));rafters.push(z);}
+ for(let x=-6.9;x<7.0;x+=2.30)w.cylinder([x,BY+.16,-4.30],[x,BY+.16,1.60],.026,.026,tint(P.woodDeep,1.1),5);
+
+ // ── 紫藤：压着木椽的冠层，和真正垂到桌面高度的花序 ───────────
+const strandColors=[P.lilacLight,P.lilac,P.lilacDeep,P.lilacDark,'#b3a4e6','#9884d6','#7666c0','#a878c8'];
+const leafColors=[P.olive,P.oliveDeep,P.oliveLight,'#5c7536','#7d9450','#496b30'];
+// 一小簇花：三片绕竖轴各转 60° 的锥形花瓣。收窄的上沿让轮廓不是方块，
+// 也是任何角度都有体积、却不是一颗球的最小代价。
+// uv 在这里被复用为“风相位 + 振幅”，整簇共用同一组值，所以会整体轻摆而不会散开。
+function blossom(x,y,z,s,color,sway,phase){
+ const uv=sway?[[phase,sway],[phase,sway],[phase,sway],[phase,sway]]:undefined,k=sway?5:0;
+ const lo=tint(color,.94),hi=tint(color,1.07);
+ for(let p=0;p<3;p++){
+  const a=p*Math.PI/3+rr(-.20,.20),ux=Math.cos(a),uz=Math.sin(a);
+  const wb=s*rr(.44,.58),wt=wb*rr(.42,.62),ht=s*rr(.42,.55),sk=rr(-.16,.16)*s;
+  const cl=p===1?hi:p===2?lo:color;
+  w.solid.quad([x-ux*wb,y-ht,z-uz*wb],[x+ux*wb,y-ht,z+uz*wb],
+               [x+ux*(wt+sk),y+ht,z+uz*(wt+sk)],[x-ux*(wt-sk),y+ht,z-uz*(wt-sk)],cl,0,k,1,uv);
+ }
+}
+for(let i=0;i<1250;i++){                                  // 冠层主体：明显垂到木椽下面
+ const bow=rng()<.74;
+ const x=bow?rr(-8.5,8.5):rr(-6.6,6.6),z=bow?rr(-4.36,-2.45):rr(-3.4,1.3);
+ blossom(x,rr(BY-.95,BY+.50),z,rr(.105,.255),tint(pk(strandColors),rr(.84,1.10)));
+}
+for(let i=0;i<650;i++){                                   // 冠层边缘散开的花
+ const x=rr(-8.8,8.8),z=rng()<.75?rr(-4.38,-2.4):rr(-2.4,1.7);
+ blossom(x,rr(BY-1.30,BY+.85),z,rr(.072,.155),tint(pk(strandColors),rr(.90,1.16)));
+}
+// 原画里花序一直垂到人物帽檐附近，所以中心的冠底压到 2.10，越往两边越高。
+function strandBottom(x){const k=Math.min(1,Math.abs((x-.55)/4.2));return 2.10+1.98*k*k+.88*Math.max(0,Math.abs(x)-5.4)/3.6;}
+let strands=0;
+for(let i=0;i<250;i++){
+ const x=rr(-8.3,8.3),z=rng()<.74?rr(-4.30,-2.50):rr(-2.4,1.5);
+ const yTop=rr(BY-.70,BY+.42),yBot=Math.max(yTop-2.9,strandBottom(x)+rr(-.35,.35));
+ if(yBot>=yTop-.48)continue;
+ const n=Math.max(7,Math.round((yTop-yBot)/.078)),ph=rr(0,1),am=rr(.022,.052);
+ const swayX=rr(-.14,.14),swayZ=rr(-.10,.10);
+ strands++;
+ for(let k=0;k<n;k++){
+  const t=k/(n-1),y=yTop+(yBot-yTop)*t;
+  const cx=x+swayX*t+Math.sin(t*4.6+ph*6.283)*.052,cz=z+swayZ*t;
+  const spread=.048+.066*Math.sin(Math.PI*Math.min(1,t*1.35));
+  const size=(.098+.044*Math.sin(Math.PI*t*.92))*(1-.20*t);
+  blossom(cx+rr(-spread,spread),y+rr(-.012,.012),cz+rr(-spread*.8,spread*.8),size,
+          tint(pk(strandColors),(1.10-.30*t)+rr(-.05,.05)),am,ph);
+ }
+}
+// 橄榄绿叶片：只做边缘的少量点缀，不再造第二片花海
+function leafCluster(cx,cy,cz,count,spread,size){
+ for(let i=0;i<count;i++){
+  const a=rr(0,6.283),rad=Math.sqrt(rng())*spread;
+  const x=cx+Math.cos(a)*rad,y=cy+rr(-1,1)*spread*.40,z=cz+Math.sin(a)*rad;
+  const ang=rr(0,6.283),len=rr(.55,1.6)*size,wid=len*rr(.20,.40),ux=Math.cos(ang),uz=Math.sin(ang);
+  const lc=tint(pk(leafColors),rr(.80,.98));
+  w.solid.tri([x-ux*len/2,y,z-uz*len/2],[x-uz*wid/2,y+.014,z+ux*wid/2],[x+ux*len/2,y,z+uz*len/2],lc,undefined,0,2);
+  w.solid.tri([x-ux*len/2,y,z-uz*len/2],[x+ux*len/2,y,z+uz*len/2],[x+uz*wid/2,y+.008,z-ux*wid/2],tint(lc,.86),undefined,0,2);
+ }
+}
+leafCluster(7.7,4.55,-3.7,300,1.70,.26);
+leafCluster(7.9,5.30,-3.9,150,1.30,.22);
+leafCluster(-8.4,5.15,-3.7,190,1.45,.22);
+leafCluster(-4.2,5.55,-3.4,140,1.55,.20);
+leafCluster(2.4,5.62,-3.3,120,1.45,.18);
+leafCluster(0.4,4.05,-2.1,80,1.00,.17);
+
+// ── 圆桌、椅子与桌上物件 ─────────────────────────────────────
+ const TBL={x:.85,z:-2.00,top:.78,rad:.72};
+ (function clothTable(){
+  const {x,z,top,rad}=TBL,seg=18;
+  for(let i=0;i<seg;i++){
+   const a=i/seg*6.283,b=(i+1)/seg*6.283;
+   const rimA=rad*(1+Math.sin(a*5)*.022),rimB=rad*(1+Math.sin(b*5)*.022),inR=rad*.42;
+   const ax=x+Math.cos(a)*rimA,az=z+Math.sin(a)*rimA,bx=x+Math.cos(b)*rimB,bz=z+Math.sin(b)*rimB;
+   w.solid.tri([x,top,z],[ax,top-.035,az],[bx,top-.035,bz],tint(P.cloth,rr(.97,1.03)),
+     [[.5,.5],[Math.cos(a)*.5+.5,Math.sin(a)*.5+.5],[Math.cos(b)*.5+.5,Math.sin(b)*.5+.5]],0,0,1);
+   const ma=rad*(1+Math.sin(a*5)*.016)*.62,mb=rad*(1+Math.sin(b*5)*.016)*.62;
+   w.solid.quad([x+Math.cos(a)*ma,top-.012,z+Math.sin(a)*ma],[x+Math.cos(b)*mb,top-.012,z+Math.sin(b)*mb],
+                [bx,top-.035,bz],[ax,top-.035,az],tint(P.cloth,1.03));
+   const a2=x+Math.cos(a)*(rimA-.055),z2=z+Math.sin(a)*(rimA-.055),b2=x+Math.cos(b)*(rimB-.055),zz2=z+Math.sin(b)*(rimB-.055);
+   const bottom=top-.035-rr(.38,.50)*(1+.10*Math.sin(a*4));
+   w.solid.quad([ax,top-.035,az],[bx,top-.035,bz],[b2,bottom+.02,zz2],[a2,bottom,z2],i%2?tint(P.clothDeep,rr(.96,1.04)):tint(P.clothFold,rr(.98,1.06)));
+   w.solid.quad([a2,bottom,z2],[b2,bottom+.02,zz2],[b2,bottom+.36,zz2],[a2,bottom+.34,z2],tint(P.clothDeep,.86));
+   w.solid.tri([x,top-.40,z],[a2,bottom+.02,z2],[b2,bottom,zz2],tint(P.clothFold,.8));
+  }
+  w.ellipse([x,.019,z],rad*.9,rad*.9,'#6d6250',.28);
+  w.cylinder([x,.02,z],[x,top-.10,z],.075,.062,P.woodDeep,8);
+  for(let k=0;k<3;k++){const a=k/3*6.283;w.tube([[x,.34,z],[x+Math.cos(a)*.30,.03,z+Math.sin(a)*.30],[x+Math.cos(a)*.58,.03,z+Math.sin(a)*.58]],.028,P.woodDeep,6);}
+ })();
+ w.box([TBL.x-.21,TBL.top+.030,TBL.z-.02],[.25,.055,.19],P.brick);
+ w.box([TBL.x-.21,TBL.top+.082,TBL.z-.02],[.23,.048,.175],tint(P.brickDeep,1.08));
+ w.box([TBL.x-.22,TBL.top+.128,TBL.z-.01],[.19,.036,.15],tint(P.brick,.92));
+ w.box([TBL.x-.20,TBL.top+.031,TBL.z+.20],[.20,.048,.15],tint(P.brickDeep,.94));
+ w.cylinder([TBL.x+.26,TBL.top-.006,TBL.z-.12],[TBL.x+.26,TBL.top+.016,TBL.z-.12],.155,.155,'#e7e0cd',16);
+ w.cylinder([TBL.x+.26,TBL.top+.016,TBL.z-.12],[TBL.x+.26,TBL.top+.028,TBL.z-.12],.128,.128,'#d6ceb6',16);
+ w.cylinder([TBL.x+.26,TBL.top+.028,TBL.z-.12],[TBL.x+.26,TBL.top+.038,TBL.z-.12],.086,.086,'#b9ae94',16);
+ for(let i=0;i<9;i++){const a=rr(0,6.283),rad=rr(.02,.10);
+  w.sphere([TBL.x+.26+Math.cos(a)*rad,TBL.top+.046,TBL.z-.12+Math.sin(a)*rad],[.022,.018,.022],tint(pk([P.brick,P.oliveLight,'#c9a860']),rr(.9,1.1)),6,4);}
+ w.box([TBL.x+.30,TBL.top+.028,TBL.z+.24],[.22,.05,.19],tint(P.mint,1.02),.34);
+ w.box([TBL.x+.30,TBL.top+.070,TBL.z+.24],[.20,.04,.17],tint(P.mintDeep,1.05),.34);
+
+ function chair(x,z,rot,upholstery,legc){
+  const o=[x,0,z],tr=q=>w.transform(q,o,rot);
+  w.cylinder(tr([0,.43,0]),tr([0,.47,0]),.25,.26,upholstery,12);
+  w.cylinder(tr([0,.468,0]),tr([0,.478,0]),.235,.235,tint(upholstery,1.10),12);
+  for(const a of [-1,1])for(const b of [-1,1])w.cylinder(tr([a*.21,0,b*.21]),tr([a*.16,.45,b*.16]),.024,.027,legc,6);
+  const back=[];for(let i=0;i<=14;i++){const a=Math.PI*i/14;back.push(tr([Math.cos(a)*.285,.70+Math.sin(a)*.44,-.22]));}
+  w.tube(back,.026,upholstery,6);
+  w.cylinder(tr([-.285,.47,-.22]),tr([-.285,.70,-.22]),.028,.027,legc,6);
+  w.cylinder(tr([.285,.47,-.22]),tr([.285,.70,-.22]),.028,.027,legc,6);
+  for(let k=-2;k<=2;k++)w.cylinder(tr([k*.105,.49,-.218]),tr([k*.105,.66,-.218]),.016,.016,tint(upholstery,.86),5);
+  const inner=[];for(let i=0;i<=10;i++){const a=Math.PI*i/10;inner.push(tr([Math.cos(a)*.175,.67+Math.sin(a)*.30,-.228]));}
+  w.tube(inner,.016,tint(upholstery,.92),5);
+  w.ellipse([x,.016,z],.34,.30,'#6b6151',.20);
+  return {x,z,rad:.34};
+ }
+ const CIRCLES=[chair(-2.05,-1.62,1.701,P.violet,P.woodDeep),chair(2.70,-3.05,3.66,P.violetDeep,P.woodDeep)];
+
+ // ── 两个人物：雕塑式体量，不做照片级面孔 ─────────────────────
+ function dressPour(tr,fromY,toY,rTop,rBot,c,shade,sides,folds){
+  w.cylinder(tr([0,fromY,0]),tr([0,toY,0]),rBot,rTop,c,sides);
+  for(let i=0;i<folds;i++){
+   const a=.35+i*(6.283/folds);
+   w.cylinder(tr([Math.cos(a)*rBot*.92,fromY+.03,Math.sin(a)*rBot*.85]),
+              tr([Math.cos(a)*rTop*.86,toY,Math.sin(a)*rTop*.80]),
+              .034,.026,i%2?tint(c,1.08):shade,6);
+  }
+ }
+ function hatAt(tr,sph,cyl,y,brimR,brimColor,crownColor){
+  cyl([0,y,0],[0,y+.055,0],brimR,brimR*.97,brimColor,18);
+  cyl([0,y+.055,0],[0,y+.075,0],brimR*.99,brimR*.42,brimColor,18);
+  cyl([0,y+.070,0],[0,y+.225,0],brimR*.40,brimR*.355,crownColor,16);
+  cyl([0,y+.220,0],[0,y+.240,0],brimR*.375,brimR*.30,tint(crownColor,1.08),16);
+  sph([0,y+.165,0],[brimR*.40,brimR*.13,brimR*.40],tint(crownColor,.94));
+  sph([0,y+.075,.02],[brimR*.99,.02,brimR*.99],tint(brimColor,.9));
+ }
+ function standingFigure(x,z,rot){
+  const o=[x,0,z],tr=q=>w.transform(q,o,rot);
+  const sph=(q,s,c)=>w.sphere(tr(q),s,c,10,6,0);
+  const cyl=(a,b,r1,r2,c,s)=>w.cylinder(tr(a),tr(b),r1,r2,c,s||10);
+  const dress=P.mint,deep=P.mintDeep,shade=P.teal;
+  w.ellipse([x,.018,z],.40,.34,'#6b6151',.18);
+  for(const s of [-1,1]){cyl([s*.09,.015,0],[s*.09,.10,0],.075,.062,shade,8);cyl([s*.09,.015,.055],[s*.09,.075,.17],.055,.05,shade,6);}
+  dressPour(tr,.05,.72,.255,.375,dress,shade,14,7);
+  cyl([0,.70,0],[0,1.06,0],.255,.215,dress,14);
+  for(let i=0;i<5;i++){const a=.5+i*.52;cyl([Math.cos(a)*.17,.95,Math.sin(a)*.13],[Math.cos(a)*.15,1.26,Math.sin(a)*.12],.030,.024,i%2?tint(deep,1.08):tint(dress,.96),6);}
+  sph([0,1.17,0],[.195,.175,.150],dress);
+  cyl([0,1.20,0],[0,1.385,0],.200,.145,deep,14);          // 肩：做成收上去的桶形，不是一块平板
+  sph([0,1.375,0],[.150,.088,.130],deep);
+  cyl([0,1.33,0],[0,1.45,0],.055,.058,P.skin,8);
+  sph([0,1.53,.005],[.108,.142,.100],P.skin);
+  sph([0,1.50,-.055],[.115,.135,.095],P.hair);
+  sph([0,1.60,-.02],[.118,.100,.112],P.hair);
+  sph([0,1.47,.098],[.028,.045,.026],P.skin);
+  cyl([.185,1.28,.02],[.300,1.06,.16],.062,.050,dress,8); cyl([.295,1.05,.16],[.410,.84,.30],.050,.034,dress,8);
+  sph([.420,.83,.31],[.040,.062,.038],P.skin);
+  cyl([-.175,1.28,.02],[-.245,1.09,.15],.060,.048,dress,8); cyl([-.235,1.08,.16],[-.225,.86,.30],.048,.032,dress,8);
+  sph([-.215,.85,.31],[.038,.058,.036],P.skin);
+  sph([0,1.545,.02],[.055,.075,.05],'#2f2a24');
+  hatAt(tr,sph,cyl,1.600,.335,deep,tint(P.mint,1.02));
+ }
+ function seatedFigure(x,z,rot){
+  const o=[x,0,z],tr=q=>w.transform(q,o,rot);
+  const sph=(q,s,c)=>w.sphere(tr(q),s,c,10,6,0);
+  const cyl=(a,b,r1,r2,c,s)=>w.cylinder(tr(a),tr(b),r1,r2,c,s||10);
+  const dress=P.violet,deep=P.violetDeep,shade='#54408a';
+  w.ellipse([x,.018,z],.36,.32,'#6b6151',.18);
+  cyl([0,.44,.02],[0,.62,0],.215,.225,dress,13);
+  cyl([0,.60,0],[0,.96,0],.220,.190,dress,13);
+  for(let i=0;i<6;i++){const a=.4+i*.48;cyl([Math.cos(a)*.20,.60,Math.sin(a)*.18],[Math.cos(a)*.175,.95,Math.sin(a)*.165],.030,.024,i%2?tint(deep,1.06):shade,6);}
+  cyl([0,1.00,0],[0,1.075,0],.190,.140,deep,13);          // 肩：同样是收上去的桶形
+  sph([0,1.065,0],[.142,.082,.124],deep);
+  for(const s of [-1,1]){
+   cyl([s*.115,.50,0],[s*.115,.46,.34],.105,.095,tint(dress,.93),8);
+   cyl([s*.115,.45,.34],[s*.118,.09,.40],.090,.058,tint(dress,.86),8);
+   sph([s*.118,.06,.44],[.062,.048,.11],'#3a3040');
+  }
+  cyl([0,1.01,0],[0,1.13,0],.055,.058,P.skin,8);
+  sph([0,1.21,.01],[.106,.138,.098],P.skin);
+  sph([0,1.18,-.055],[.113,.130,.093],P.hair);
+  sph([0,1.27,-.02],[.116,.098,.110],P.hair);
+  sph([0,1.15,.095],[.028,.044,.026],P.skin);
+  cyl([.175,.97,.02],[.255,.90,.12],.060,.048,dress,8); cyl([.265,.90,.13],[.295,.84,.26],.048,.032,dress,8);
+  sph([.305,.83,.27],[.038,.056,.036],P.skin);
+  cyl([-.175,.97,.02],[-.265,.86,.16],.058,.046,dress,8); cyl([-.275,.86,.17],[-.330,.82,.26],.046,.030,dress,8);
+  sph([-.340,.81,.27],[.036,.054,.034],P.skin);
+  sph([0,1.23,.02],[.054,.072,.05],'#2f2a24');
+  hatAt(tr,sph,cyl,1.262,.325,deep,tint(P.violet,1.06));
+  cyl([.30,.30,.22],[.34,.62,.24],.20,.17,tint(P.mint,.97),10);
+ }
+ standingFigure(0.02,-2.60,0.945);
+ seatedFigure(1.85,-2.34,-1.263);
+
+ // ── 画框外的庭院：院墙、后园矮墙、水缸、石槽、盆栽 ────────────
+ for(const face of [-8.4,8.4]){
+  const c=wallColor(face*.4,2.6);
+  w.solid.quad([face,0,-4.6],[face,0,9.6],[face,4.2,9.6],[face,4.2,-4.6],c);
+  w.box([face+(face<0?-.16:.16),2.1,2.5],[.32,4.2,14.2],tint(P.wallMid,.92));
+  w.box([face+(face<0?-.16:.16),4.30,2.5],[.44,.24,14.3],tint(P.wallLit,.94));
+  for(let i=0;i<200;i++){
+   const z=rr(-4.4,9.4),y=rr(.3,4.0);
+   w.box([face+(face<0?-.33:.33),y,z],[.02,rr(.10,.34),rr(.05,.20)],tint(pk([P.wallLit,P.wallMid,P.wallWarm,P.wallCool]),rr(.92,1.1)));
+  }
+ }
+ w.box([0,.75,9.72],[17.6,1.5,.42],tint(P.wallMid,1.01));
+ w.box([0,1.54,9.72],[17.9,.16,.54],tint(P.wallLit,.98));
+ for(let x=-8.4;x<8.5;x+=.62)w.box([x,.75,9.50],[.03,1.30,.03],tint(P.wallCool,.94));
+ const VAT={x:7.35,z:7.60,rad:.42};
+ w.cylinder([VAT.x,-.02,VAT.z],[VAT.x,.30,VAT.z],VAT.rad*.86,VAT.rad,P.potTerra,16);
+ w.cylinder([VAT.x,.28,VAT.z],[VAT.x,.86,VAT.z],VAT.rad,VAT.rad*.98,tint(P.potTerra,.94),16);
+ w.cylinder([VAT.x,.86,VAT.z],[VAT.x,.92,VAT.z],VAT.rad*1.05,VAT.rad,P.potTerra,16);
+ w.cylinder([VAT.x,.80,VAT.z],[VAT.x,.82,VAT.z],VAT.rad*.9,VAT.rad*.9,tint(P.water,.98),16);
+ w.sphere([VAT.x,.815,VAT.z],[VAT.rad*.75,.006,VAT.rad*.75],tint(P.wallLit,1.02),14,5);
+ for(let z=.4;z<4.0;z+=1.2){
+  w.box([-7.55,.42,z],[1.5,.84,1.16],tint(P.groundCool,.84));
+  w.box([-7.55,.80,z],[1.30,.14,1.00],tint(P.water,.70));
+  w.box([-7.55,.88,z],[1.16,.05,.88],tint(P.wallLit,.80));
+ }
+ for(const [px,pz,s] of [[-6.9,-3.6,.62],[6.9,3.4,.70],[5.4,8.1,.58],[-4.4,7.9,.52]]){
+  w.cylinder([px,0,pz],[px,.30*s,pz],.28*s,.26*s,tint(P.potTerra,.95),12);
+  w.cylinder([px,.30*s,pz],[px,.38*s,pz],.31*s,.31*s,tint(P.potTerra,1.08),12);
+  for(let k=0;k<14;k++){
+   const a=k/14*6.283,rad=rr(.06,.22)*s,h=rr(.28,.78)*s;
+   w.cylinder([px,.32*s,pz],[px+Math.cos(a)*rad,.34*s+h,pz+Math.sin(a)*rad],.010,.007,P.oliveDeep,5);
+   w.sphere([px+Math.cos(a)*rad,.34*s+h,pz+Math.sin(a)*rad],[.09*s,.13*s,.045*s],pk(leafColors),6,4);
+  }
+ }
+ // 铭牌要压在笔触前面：笔触停在 WZF+.040，画框前脸落在 -4.460，铭牌再前 0.005。
+ labelQuad(w,[-5.62,1.16,-4.455],[-4.24,1.16,-4.455],[-4.24,2.54,-4.455],[-5.62,2.54,-4.455],2,.36);
+ w.box([-4.93,1.85,-4.500],[1.72,1.72,.08],tint(P.frameGrey2,.97));
+ w.box([-4.93,.06,-4.28],[1.70,.12,.44],tint(P.wood,.9));
+ labelQuad(w,[-3.05,1.30,-4.455],[-2.15,1.30,-4.455],[-2.15,2.18,-4.455],[-3.05,2.18,-4.455],0,.40);
+ w.box([-2.60,1.74,-4.500],[1.06,1.04,.08],tint(P.wood,.9));
+ labelQuad(w,[5.42,1.24,-4.455],[6.62,1.24,-4.455],[6.62,2.42,-4.455],[5.42,2.42,-4.455],3,.34);
+ w.box([6.02,1.83,-4.500],[1.38,1.36,.08],tint(P.frameGrey,.94));
+ // 桌上的小册子：立着靠在桌布上，正面朝外。原先它悬在椅背上方，像一张浮着的卡。
+ w.box([0.95,.872,-1.616],[.32,.262,.032],tint(P.brickDeep,.92));
+ labelQuad(w,[0.80,.755,-1.598],[1.10,.755,-1.598],[1.10,.995,-1.598],[0.80,.995,-1.598],1,.30);
+
+ // ── 碰撞 ─────────────────────────────────────────────────────
+ w.collider(-9.4,DOOR.x0-.15,-6.2,-4.5);
+ w.collider(DOOR.x1+.15,9.4,-6.2,-4.5);
+ w.collider(DOOR.x0-.20,DOOR.x0,-5.72,-4.5);
+ w.collider(DOOR.x1,DOOR.x1+.20,-5.72,-4.5);
+ w.collider(DOOR.x0-.20,DOOR.x1+.20,-5.74,-5.56);
+ w.collider(-9.5,-8.32,-6.2,9.9);
+ w.collider(8.32,9.5,-6.2,9.9);
+ w.collider(-9.5,9.5,9.42,10.0);
+ for(const px of POSTX)for(const pz of POSTZ)w.collider(px-.17,px+.17,pz-.17,pz+.17);
+ w.collider(-8.34,-6.76,-.22,4.62);
+ for(const [px,pz] of [[-6.9,-3.6],[5.4,8.1],[-4.4,7.9]])w.collider(px-.35,px+.35,pz-.35,pz+.35);
+ w.tables=[{x:TBL.x,z:TBL.z,rad:TBL.rad}].concat(CIRCLES,[{x:VAT.x,z:VAT.z,rad:VAT.rad}]);
+
+ w.stats={stones,strokes,rafters:rafters.length,strands,
+  triangles:(w.solid.data.length+w.alpha.data.length+w.labels.data.length+w.sky.data.length)/42,
+  opaqueVertices:w.solid.data.length/14};
+ return w;
+}
+</script><script>/* Background score: “Baila despacio”, an external track supplied by the user for this build.
+   Played through a plain <audio> element rather than a Web Audio graph, so the page also works
+   when opened straight from file:// — a MediaElementSource would be blocked there by CORS.
+   Fades ramp .volume on a short timer, which keeps the whole thing dependency-free.
+
+   关于音量：这首曲子是商业母带电平（实测整体 RMS ≈ -17.0 dBFS、峰值 -2.6 dBFS），
+   比原来那套稀疏的程序化钢琴响得多，所以滑块要经过 MUSIC_HEADROOM 折算。
+   默认 66% × .50 ≈ .33，落在 -27 dBFS 上下——是背景，不是主角。 */
+const MUSIC_HEADROOM=.50;
+class CourtyardMusic{
+ constructor(){
+  this.el=null;this.on=false;this.volume=.66;this.targetVolume=.33;this.level=0;
+  this.rampTimer=null;this.pauseTimer=null;this.token=0;this.lastError=null;
+  this.title='Baila despacio';this.source='audio/baila-despacio.mp3';
+  this.init();
+ }
+ init(){
+  if(this.el)return this.el;
+  const a=this.el=document.createElement('audio');
+  a.src=this.source;a.loop=true;a.preload='auto';a.volume=0;
+  a.setAttribute('playsinline','');
+  a.style.cssText='position:absolute;left:-9999px;width:1px;height:1px;opacity:0;pointer-events:none';
+  document.body.appendChild(a);
+  return a;
+ }
+ get state(){const a=this.el;if(!a)return'idle';return a.paused?(a.currentTime>0?'paused':'idle'):'playing';}
+ get played(){return this.el?this.el.currentTime:0;}
+ get duration(){const a=this.el;return a&&isFinite(a.duration)?a.duration:0;}
+ /* 线性斜坡，不依赖 Web Audio。33ms 一步，足够顺，也不会吵醒 CPU。 */
+ fade(to,seconds){
+  const a=this.el;if(!a)return;
+  clearInterval(this.rampTimer);this.rampTimer=null;
+  const from=clamp(this.level,0,1),steps=Math.max(1,Math.round(seconds*30));
+  if(steps<=1||from===to){this.level=to;try{a.volume=clamp(to,0,1)}catch(e){}return;}
+  const t0=performance.now();
+  this.rampTimer=setInterval(()=>{
+   const k=Math.min(1,(performance.now()-t0)/(seconds*1000));
+   this.level=clamp(from+(to-from)*k,0,1);
+   try{a.volume=this.level}catch(e){}
+   if(k>=1){clearInterval(this.rampTimer);this.rampTimer=null;}
+  },33);
+ }
+ async set(on){
+  const a=this.init();
+  this.on=!!on;
+  const token=++this.token;
+  clearTimeout(this.pauseTimer);this.pauseTimer=null;
+  if(on){
+   if(a.paused){
+    a.volume=clamp(this.level,0,1);
+    try{await a.play();}catch(e){this.on=false;this.lastError=e;this.fade(0,.2);throw e;}
+   }
+   if(token===this.token)this.fade(this.targetVolume,1.1);
+  }else{
+   this.fade(0,.40);
+   /* 等淡出走完再真正暂停；期间若又被打开，token 变化，这里就放弃。 */
+   this.pauseTimer=setTimeout(()=>{if(token===this.token&&!this.on){try{a.pause()}catch(e){}}},440);
+  }
+ }
+ setVolume(value){
+  this.volume=clamp(value,0,1);
+  this.targetVolume=clamp(this.volume*MUSIC_HEADROOM,0,1);
+  if(this.on)this.fade(this.targetVolume,.16);
+ }
+}
+</script><script>/* Interaction, accessible bilingual UI, camera choreography and postcard export. */
+const COPY={
+ zh:{brand:'画框之外',painting:'关于这幅画',title:'藤影之下，坐一会儿。',subtitle:'走进一幅紫藤庭院的油画',intro:'两个人，一张桌子，一整片垂下来的紫藤。<br>这一次，不必只站在画框外。',enter:'走进庭院',freeEnter:'我想自己走走',entryNote:'28 秒庭中漫步 · 随时接手漫游 · 进入后开启轻柔配乐',postcard:'留一张明信片',hide:'只看画 · H',spot0:'入画',spot1:'桌边',spot2:'藤下',spot3:'门里',spot4:'侧院',spot5:'藤冠之上',aboutTitle:'从一幅画，到一个下午。',aboutIntro:'灵感来自一幅以紫藤与两个人物为主题的油画：浅色石墙、垂落的紫藤、丁香紫的桌布、薄荷绿与紫罗兰的两个身影。参考图由用户在对话中直接提供，没有画名与作者，因此我们无法核对版本，也不主张任何商用权利。',keptTitle:'画里的起点',keptText:'斜向的厚涂石墙、深蓝的门洞与窗棂、垂到桌面的紫藤、薄荷绿与紫罗兰的两个人、丁香紫的桌布、左右两把椅子。我们以这些块面和它们的冷暖关系为起点。',addedTitle:'画框外的想象',addedText:'棚架的木梁与立柱、庭院铺地、门洞凹龛的深度、墙角水缸与石槽、后园矮墙、人物衣物的背面，都是本项目的艺术化补充——不是从画里"恢复"出来的信息，也不是历史复原。',howTitle:'不是一张会转的全景图。',howText:'墙、门洞、桌布、椅子、紫藤花序都由三维网格搭建。你可以改变位置，也可以改变高度。纹理由程序在本地生成，画面离线运行，不调用任何模型或在线接口。背景音乐是随包提供的一首外部曲目。',respectTitle:'靠近它，而不是替代它。',respectText:'这是写给这幅画的一封情书，不是它的数字修复。想认识真实的笔触与尺幅，请去看原作。本作品不声称还原，也不提供原作图像的版权许可。',sourceTitle:'关于来源，我们的坦白',sourceText:'未能核对作者、画名与版本；画作图像仅保存在项目内 reference/ 供对照，未上传任何外部生成服务。画面中的法文招牌是虚构的装饰，不是画中原有文字。背景音乐《Baila despacio》为外部曲目，本作品不主张其任何权利；公开部署前请自行确认授权。',settingsTitle:'把这个下午调舒服。',volume:'音乐音量',musicNote:'Baila despacio · 外部曲目',paint:'画布颗粒',paintNote:'只调整细微颗粒，不移除材质笔触',quality:'画面精度',qualityNote:'卡顿时切换到轻量',low:'轻量',high:'精细',motion:'自动运镜',motionNote:'容易晕 3D 时选择关闭',off:'关闭',on:'开启',controlsTitle:'方向交给你。',controlsText:'电脑：拖动看四周，WASD / 方向键移动，滚轮前后移动。F 切换步行 / 飞行，飞行时 Q 下降、E 上升。双击地面走过去。P 留一张明信片，H 隐藏界面，Esc 退出自动运镜。',touchText:'手机：左下摇杆移动，拖动画面环顾四周。飞行时右侧 ↑ ↓ 调整高度。也可以点击底部地点直接抵达。',limitsText:'步行遵守墙、桌椅、水缸与棚架立柱的碰撞；飞行是自由观察模式，不模拟真实身体或建筑碰撞。庭院有明确的边界，随时可以用地点按钮回到画里。',walk:'步行 · F 切换飞行',fly:'飞行 · F 回到地面',walkTouch:'步行 · 切换飞行',flyTouch:'飞行 · 回到地面',hintWalk:'拖动环顾 · <kbd>W A S D</kbd> 移动 · 双击地面走过去',hintFly:'拖动环顾 · <kbd>W A S D</kbd> 移动 · <kbd>Q</kbd> 下降 <kbd>E</kbd> 上升',hintTouch:'左下摇杆移动 · 拖动画面环顾 · 点击地点抵达',hintTour:'自动漫步中 · 拖动画面或按方向键，随时接手',tourEnd:'漫步结束。接下来，方向交给你。',freeToast:'没有任务，也不必赶路。喜欢哪一处，就在那儿停一会儿。',blocked:'这边是墙、桌子或者水缸。绕一下，或者切换飞行。',audioError:'当前浏览器没能启动音频，仍可继续漫游。',captureOK:'这一刻，已经装进明信片。',captureError:'当前浏览器没能保存截图，请使用系统截图。',onSound:'关闭音乐',offSound:'开启音乐',settings:'设置',full:'全屏',hideLabel:'隐藏界面',restore:'恢复界面',tour:'重播漫步',tourStop:'停止漫步',close:'关闭',map:'庭院平面（想象）',soundIntro:'轻柔配乐已开启，可点右上角关闭。',motionOffToast:'已关闭自动运镜。'},
+ en:{brand:'Beyond the frame',painting:'The painting',title:'Sit a while beneath the wisteria.',subtitle:'Step into a wisteria-courtyard oil painting',intro:'Two people. One table. A whole canopy of wisteria.<br>This time you need not stay outside the frame.',enter:'Step into the courtyard',freeEnter:'Wander on my own',entryNote:'A 28-second walk · Take over anytime · Gentle music starts on entry',postcard:'Keep a postcard',hide:'Just the painting · H',spot0:'Into the frame',spot1:'At the cloth',spot2:'Under the wisteria',spot3:'Inside the doorway',spot4:'The side court',spot5:'Above the canopy',aboutTitle:'A painting becomes an afternoon.',aboutIntro:'Inspired by an oil painting of wisteria and two figures: a pale stone wall, hanging blossom, a lilac tablecloth, and one figure in mint beside one in violet. The reference was supplied by the user in conversation with no title and no attribution, so we cannot verify its version and claim no commercial rights to it.',keptTitle:'Where the painting begins',keptText:'A diagonally impastoed wall, a deep blue doorway, wisteria hanging to table height, one figure in mint and one in violet, a lilac cloth, two chairs. These masses and their warm-to-cool relations are our starting point.',addedTitle:'Where imagination continues',addedText:'The pergola beams and posts, the paving, the depth of the doorway alcove, the water butt and stone trough, the rear garden wall, the backs of the figures are artistic additions — not information recovered from the painting, and not a reconstruction.',howTitle:'Not a panorama that turns.',howText:'The wall, doorway, cloth, chairs and every wisteria cluster are real 3D meshes. You can change your position, and your height. Textures are generated locally in code — no models, no online APIs. The background music is an external track shipped alongside this build.',respectTitle:'Come closer. Not replace it.',respectText:'This is a love letter to the painting, not a digital restoration. To meet the real brushwork and scale, go and see the original. This work claims no reconstruction and grants no rights to the original image.',sourceTitle:'About the source, plainly',sourceText:'We could not verify the artist, title or version. The painting image is kept only inside the project under reference/ for comparison, and was never uploaded to any external generation service. The French signs in the scene are invented decoration, not text that exists in the painting. The background track “Baila despacio” is external; this work claims no rights to it — please verify its licensing before any public deployment.',settingsTitle:'Make the afternoon comfortable.',volume:'Music volume',musicNote:'Baila despacio · An external track',paint:'Canvas grain',paintNote:'Adjusts fine grain only; the material brushwork stays',quality:'Render quality',qualityNote:'Switch to light if it stutters',low:'Light',high:'Fine',motion:'Automatic camera',motionNote:'Turn off if 3D motion is uncomfortable',off:'Off',on:'On',controlsTitle:'The direction is yours.',controlsText:'Desktop: drag to look around, WASD or arrow keys to move, scroll wheel to move forward and back. F toggles walking and flying; while flying, Q descends and E rises. Double-click the ground to walk there. P keeps a postcard, H hides the interface, Esc leaves the automatic camera.',touchText:'Mobile: the lower-left stick moves you, drag the view to look around. While flying, the arrows on the right change height. You can also tap a place at the bottom to go straight there.',limitsText:'Walking respects the wall, the table, the chairs, the water butt and the pergola posts. Flying is a free observation mode and does not simulate a real body or real architecture. The courtyard is bounded; the place buttons always bring you back into the painting.',walk:'Walking · F to fly',fly:'Flying · F to land',walkTouch:'Walking · Tap to fly',flyTouch:'Flying · Tap to land',hintWalk:'Drag to look · <kbd>W A S D</kbd> to move · double-click the ground',hintFly:'Drag to look · <kbd>W A S D</kbd> to move · <kbd>Q</kbd> down <kbd>E</kbd> up',hintTouch:'Lower-left stick to move · drag to look · tap a place to go there',hintTour:'Automatic walk · drag or press an arrow key to take over',tourEnd:'The walk is over. The direction is yours.',freeToast:'No task, no hurry. Stay wherever you like.',blocked:'A wall, the table or the water butt. Go around it, or switch to flying.',audioError:'This browser could not start audio. You can still wander.',captureOK:'The moment is in your postcard.',captureError:'This browser could not save the image. Use your system screenshot.',onSound:'Turn music off',offSound:'Turn music on',settings:'Settings',full:'Fullscreen',hideLabel:'Hide interface',restore:'Show interface',tour:'Replay the walk',tourStop:'Stop the walk',close:'Close',map:'Imagined courtyard plan',soundIntro:'Gentle music is on. Turn it off at the top right.',motionOffToast:'Automatic camera is off.'}
+};
+const PLACES=[
+ {p:[1.90,1.70,6.60],t:[0.62,2.10,-4.60],zh:['入画','门洞偏左，紫藤压顶，两个人夹着一张桌子。你现在就在这个下午里面。'],en:['Into the frame','The doorway sits left of centre, wisteria holds the top, two figures flank one table. You are inside the afternoon now.'],tag:'THE PAINTED COURTYARD'},
+ {p:[-0.60,1.60,1.10],t:[0.85,0.88,-2.05],zh:['桌边','丁香紫的桌布有几道真实的褶。上面是两叠红棕色的书、一只圈足碟，和一本立着的小册子。'],en:['At the cloth','The lilac cloth carries a few real folds. On top: two small stacks of brick-red books, a footed dish, and one little book standing upright.'],tag:'A CLOSER LOOK'},
+ {p:[0.10,1.68,-0.90],t:[-0.20,5.30,-3.40],zh:['藤下','每一串花序都从木椽上垂下来。上面密，越往下越稀——和画里一样。'],en:['Under the wisteria','Every cluster hangs from a real rafter. Dense at the top, thinner as it falls — the way it reads in the painting.'],tag:'THE HANGING BLOSSOM'},
+ {p:[-0.60,1.72,-5.05],t:[0.60,1.35,0.60],zh:['门里','退进墙里一米，再往外看。画里那个平面，忽然有了厚度。'],en:['Inside the doorway','Step a metre into the wall and look back out. The flat shape in the painting suddenly has thickness.'],tag:'BEHIND THE BLUE DOOR'},
+ {p:[-6.20,1.68,2.60],t:[0.90,1.30,-2.80],zh:['侧院','从侧面看：墙有多厚、椅子背对着谁、两个人的侧影，都在这里。'],en:['The side court','From the side: how thick the wall is, which way the chair faces, and the two figures in profile.'],tag:'BESIDE THE PAINTING'},
+ {p:[3.20,10.60,7.60],t:[0.20,4.90,-4.20],zh:['藤冠之上','升起来才看得清：紫藤、棚架、庭院和那面墙，是一个真实的空间。'],en:['Above the canopy','Only from up here: the wisteria, the pergola, the court and the wall are one real space.'],tag:'ABOVE THE WISTERIA'}
+];
+const TOUR={p:[[1.90,1.70,6.60],[1.30,1.60,1.70],[-1.20,1.70,-0.10],[-0.50,2.70,-1.70],[2.20,7.20,2.20],[3.20,10.60,7.60]],t:[[0.62,2.10,-4.60],[0.85,0.85,-2.10],[0.10,1.60,-2.40],[0.30,5.50,-4.10],[0.40,4.95,-2.30],[0.20,4.90,-4.20]]};
+const TOUR_COPY={zh:['这一次，不必只站在画框外。','桌面上的东西不多：几本书，一只碟。','请让一下——从这边看，人是有背面的。','抬头。花是从木头上长下来的，不是画上去的。','原来这个下午，有这么大。'],en:['This time you need not stay outside the frame.','Not much on the table: a few books, one dish.','Excuse me — from here, people have backs.','Look up. The blossom grows from timber, not from paint.','So this afternoon is this large.']};
+const TOUR_TAGS=['THE PAINTED COURTYARD','THE TABLE','THE SIDE COURT','THE CANOPY','ABOVE THE WISTERIA'];
+const $=id=>document.getElementById(id),body=document.body;
+let renderer,world,music,ready=false,lang=(document.documentElement.lang==='en'?'en':'zh'),mode='landing',fly=false,reduced=matchMedia('(prefers-reduced-motion: reduce)').matches,eye=PLACES[0].p.slice(),yaw=0,pitch=0,goalYaw=0,goalPitch=0,selected=0,age=0,tourTime=0,last=0,frame=0,fade=0,transition=null,moveGoal=null,visit=new Set([0]),joy=[0,0],vertical=0,keys=new Set(),dialogOpen=false,touch=matchMedia('(pointer: coarse)').matches,toastTimer=null,animationFrame=null,lastBlockToast=0;
+function t(k){return COPY[lang][k]||k;}
+function aim(target){let d=V.norm(V.sub(target,eye));yaw=goalYaw=Math.atan2(d[0],-d[2]);pitch=goalPitch=Math.asin(clamp(d[1],-.999,.999));}
+function forward(){return [Math.sin(yaw)*Math.cos(pitch),Math.sin(pitch),-Math.cos(yaw)*Math.cos(pitch)];}
+function toast(text){$('toast').textContent=text;$('toast').classList.add('visible');clearTimeout(toastTimer);toastTimer=setTimeout(()=>$('toast').classList.remove('visible'),3300);}
+function updateLocation(){const s=PLACES[selected],c=s[lang];$('locationOverline').textContent=`0${selected+1} / 06 · ${s.tag}`;$('locationTitle').textContent=c[0];$('locationText').textContent=c[1];document.querySelectorAll('[data-spot]').forEach(b=>b.classList.toggle('selected',+b.dataset.spot===selected));$('mapCaption').textContent=`${t('map')} · ${visit.size} / 6`;}
+function updateUI(){document.querySelector('.hero').inert=mode!=='landing';document.querySelector('.explore-ui').inert=mode==='landing';body.classList.toggle('exploring',mode!=='landing');body.classList.toggle('touring',mode==='tour');body.classList.toggle('flying',fly);body.classList.toggle('touch',touch);body.classList.toggle('reduced-motion',reduced);$('flyLabel').textContent=t(fly?(touch?'flyTouch':'fly'):(touch?'walkTouch':'walk'));$('hint').innerHTML=t(mode==='tour'?'hintTour':touch?'hintTouch':fly?'hintFly':'hintWalk');$('tourButton').textContent=mode==='tour'?'Ⅱ':'▷';$('tourButton').classList.toggle('active',mode==='tour');$('tourButton').title=$('tourButton').ariaLabel=t(mode==='tour'?'tourStop':'tour');$('soundButton').classList.toggle('muted',!music?.on);$('soundButton').title=$('soundButton').ariaLabel=t(music?.on?'onSound':'offSound');$('motionOff').classList.toggle('active',reduced);$('motionOn').classList.toggle('active',!reduced);updateLocation();}
+function applyLanguage(){const isZh=lang==='zh';$('home').ariaLabel=isZh?'回到画前':'Return to the painting';$('joystick').ariaLabel=isZh?'触屏移动摇杆':'Movement joystick';$('upButton').ariaLabel=isZh?'向上飞行':'Rise';$('downButton').ariaLabel=isZh?'向下飞行':'Descend';$('dock').ariaLabel=isZh?'六个探索地点':'Six places to explore';$('map').ariaLabel=isZh?'局部想象地图':'Imagined local map';document.querySelector('.top-tools').ariaLabel=isZh?'世界工具栏':'World toolbar';document.querySelector('#loading h2').textContent=isZh?'正在走进庭院':'Stepping into the courtyard';$('loadMessage').textContent=isZh?'铺好石板，让紫藤垂下来。':'Laying the paving. Letting the wisteria fall.';document.querySelector('#error h2').textContent=isZh?'这个下午需要 WebGL 2。':'This courtyard needs WebGL 2.';document.querySelector('#error p').textContent=isZh?'浏览器没有成功创建三维画面。请启用硬件加速，并使用支持 WebGL2 的浏览器。':'The browser could not create a 3D view. Enable graphics acceleration and use a WebGL2-capable browser.';document.documentElement.lang=lang==='zh'?'zh-CN':'en';document.querySelectorAll('[data-i18n]').forEach(n=>n.innerHTML=t(n.dataset.i18n));$('languageButton').textContent=lang==='zh'?'EN':'中';$('languageButton').title=$('languageButton').ariaLabel=lang==='zh'?'Switch to English':'切换中文';[['settingsButton','settings'],['fullButton','full'],['restoreButton','restore'],['hideButton','hideLabel']].forEach(([id,k])=>$(id).title=$(id).ariaLabel=t(k));document.querySelectorAll('[data-close]').forEach(b=>b.ariaLabel=t('close'));$('world').ariaLabel=lang==='zh'?'可自由探索的三维紫藤庭院':'An explorable three-dimensional wisteria courtyard';document.title=lang==='zh'?'藤影之下，坐一会儿。｜画框之外':'Sit a while beneath the wisteria. | Beyond the frame';updateUI();}
+async function sound(on){try{await music.set(on);updateUI();}catch(e){toast(t('audioError'));if(music)music.on=false;updateUI();}}
+function stopTour(){if(mode==='tour'){mode='free';fly=eye[1]>2.6;updateUI();}}
+function enter(free=false){if(!ready)return;mode='free';if(music&&!music.on)sound(true);if(free||reduced){eye=PLACES[0].p.slice();aim(PLACES[0].t);fly=false;updateUI();toast(t('freeToast'));}else startTour();$('world').focus({preventScroll:true});}
+function startTour(){if(!ready)return;if(reduced){mode='free';jump(0);toast(t('motionOffToast'));return;}transition=null;moveGoal=null;mode='tour';tourTime=0;eye=TOUR.p[0].slice();aim(TOUR.t[0]);fly=false;selected=0;updateUI();}
+function jump(id,instant=false){if(!ready)return;stopTour();mode='free';keys.clear();moveGoal=null;joy=[0,0];$('stick').style.transform='';const change=()=>{selected=id;visit.add(id);eye=PLACES[id].p.slice();aim(PLACES[id].t);fly=eye[1]>2.6;updateUI();};if(instant||reduced){change();transition=null;fade=0;}else transition={age:0,swapped:false,change};updateUI();}
+function home(){if(!ready)return;transition=null;moveGoal=null;mode='landing';selected=0;eye=PLACES[0].p.slice();aim(PLACES[0].t);fly=false;keys.clear();fade=0;body.classList.remove('hidden-ui');updateUI();}
+function canWalk(x,z){if(x<-12.6||x>13.6||z<-10.4||z>14.6)return false;const r=.17;for(let c of world.colliders)if(x>c.x0-r&&x<c.x1+r&&z>c.z0-r&&z<c.z1+r)return false;for(let c of world.tables)if(Math.hypot(x-c.x,z-c.z)<c.rad+.11)return false;return true;}
+function moveBy(delta){let nx=eye[0]+delta[0],nz=eye[2]+delta[2];if(fly){eye[0]=clamp(nx,-19,20);eye[1]=clamp(eye[1]+delta[1],.70,27);eye[2]=clamp(nz,-14,19);return true;}let did=false;if(canWalk(nx,eye[2])){eye[0]=nx;did=true;}if(canWalk(eye[0],nz)){eye[2]=nz;did=true;}return did;}
+function toggleFly(){if(mode==='landing')enter(true);stopTour();fly=!fly;moveGoal=null;if(!fly){if(!canWalk(eye[0],eye[2]))eye=[1.0,1.68,clamp(eye[2],-4.0,10.5)];else eye[1]=1.68;}updateUI();}
+function curve(points,t){let q=clamp(t,0,1)*(points.length-1),i=Math.min(points.length-2,Math.floor(q)),u=q-i;const a=points[Math.max(0,i-1)],b=points[i],c=points[i+1],d=points[Math.min(points.length-1,i+2)];return b.map((v,k)=>.5*((2*v)+(-a[k]+c[k])*u+(2*a[k]-5*v+4*c[k]-d[k])*u*u+(-a[k]+3*v-3*c[k]+d[k])*u*u*u));}
+function updateTour(dt){tourTime=Math.min(28,tourTime+dt);let k=tourTime/28;eye=curve(TOUR.p,k);aim(curve(TOUR.t,k));let section=Math.min(4,Math.floor(k*5));$('tourSmall').textContent=`0${section+1} / 05 · ${TOUR_TAGS[section]}`;$('tourWords').textContent=TOUR_COPY[lang][section];$('tourProgress').style.width=`${k*100}%`;let id=k<.20?0:k<.42?1:k<.62?4:k<.82?2:5;if(id!==selected){selected=id;visit.add(id);updateLocation();}if(tourTime>=28){mode='free';fly=true;selected=5;updateUI();toast(t('tourEnd'));}}
+function drawMap(){const c=$('map'),x=c.getContext('2d'),W=c.width,H=c.height;x.clearRect(0,0,W,H);const tr=(a,b)=>[127+a*9.4,124+b*8.4],rect=(x0,z0,x1,z1,fill,stroke)=>{const A=tr(x0,z0),B=tr(x1,z1);x.fillStyle=fill;x.fillRect(A[0],A[1],B[0]-A[0],B[1]-A[1]);if(stroke){x.strokeStyle=stroke;x.lineWidth=1;x.strokeRect(A[0]+.5,A[1]+.5,B[0]-A[0]-1,B[1]-A[1]-1);}},dot=(a,b,r,fill,stroke)=>{const P=tr(a,b);x.beginPath();x.arc(P[0],P[1],r,0,6.283);x.fillStyle=fill;x.fill();if(stroke){x.strokeStyle=stroke;x.lineWidth=1;x.stroke();}},label=(zh,en,tx,ty)=>x.fillText(lang==='zh'?zh:en,tx,ty);rect(-8.6,-4.45,8.6,9.5,'#d6ceb33a');rect(-9,-6.0,9,-4.6,'#a89e8470');rect(-1.3,-6.05,.1,-4.55,'#3e3e8cd0');world.colliders.forEach(o=>rect(o.x0,o.z0,o.x1,o.z1,'#8f9c8c22'));for(const px of [-4.6,0,4.6])for(const pz of [-4.0,1.4]){const P=tr(px,pz);x.fillStyle='#6b543ab8';x.fillRect(P[0]-1.6,P[1]-1.6,3.2,3.2);}const T=tr(-8.6,-4.45),B2=tr(8.6,9.5);x.strokeStyle='#a29a8355';x.lineWidth=1;x.strokeRect(T[0]+.5,T[1]+.5,B2[0]-T[0]-1,B2[1]-T[1]-1);world.tables.forEach((tb,i)=>dot(tb.x,tb.z,tb.rad*9.4,i===0?'#b6a6d8d4':'#8e77bc8c',i===0?'#6b54a099':'#6b54a055'));const Q=tr(eye[0],eye[2]);x.save();x.translate(Q[0],Q[1]);x.rotate(yaw);x.fillStyle='#b8503c';x.beginPath();x.moveTo(0,-7);x.lineTo(4.2,4);x.lineTo(0,2.2);x.lineTo(-4.2,4);x.closePath();x.fill();x.restore();x.font='9px Georgia,serif';x.fillStyle='#8d8574';label('紫藤墙','WISTERIA WALL',7,13);x.fillStyle='#3e3e8c';x.fillRect(7,17,8,5);x.fillStyle='#8d8574';label('门洞','DOORWAY',19,22);x.fillStyle='#b6a6d8';x.beginPath();x.arc(11,30,3.4,0,6.283);x.fill();x.fillStyle='#8d8574';label('圆桌','TABLE',19,33);}
+function loop(stamp){if(!ready)return;const elapsed=Math.min((stamp-last)/1000||.016,1),dt=Math.min(elapsed,.08);last=stamp;age+=dt;frame++;
+ if(!dialogOpen){if(mode==='tour')updateTour(elapsed);else if(mode==='free'){
+  yaw+=(goalYaw-yaw)*(1-Math.exp(-dt*15));pitch+=(goalPitch-pitch)*(1-Math.exp(-dt*15));let z=(keys.has('KeyW')||keys.has('ArrowUp')?1:0)-(keys.has('KeyS')||keys.has('ArrowDown')?1:0)-joy[1],xx=(keys.has('KeyD')||keys.has('ArrowRight')?1:0)-(keys.has('KeyA')||keys.has('ArrowLeft')?1:0)+joy[0],up=(keys.has('KeyE')?1:0)-(keys.has('KeyQ')?1:0)+vertical;let sp=(keys.has('ShiftLeft')?5.0:2.15)*(fly?1.8:1)*dt,den=Math.max(1,Math.hypot(xx,z));let f=fly?forward():[Math.sin(yaw),0,-Math.cos(yaw)],right=[Math.cos(yaw),0,Math.sin(yaw)];if(z||xx||up){moveGoal=null;moveBy(V.add(V.mul(V.add(V.mul(f,z/den),V.mul(right,xx/den)),sp),[0,up*sp,0]));if(!fly)eye[1]+=(1.68-eye[1])*(1-Math.exp(-dt*5));}
+  if(moveGoal){let d=V.sub(moveGoal,eye);d[1]=0;let dist=Math.hypot(...d);if(dist<.14)moveGoal=null;else{let old=eye.slice();moveBy(V.mul(V.norm(d),Math.min(dist,dt*2.1)));eye[1]+=(1.68-eye[1])*.08;if(Math.hypot(eye[0]-old[0],eye[2]-old[2])<.001){moveGoal=null;toast(t('blocked'));}}}
+ }
+ if(transition){transition.age+=elapsed;let tt=transition.age;if(tt<.22)fade=ease(tt/.22)*.97;else{if(!transition.swapped){transition.change();transition.swapped=true;}fade=(1-ease(clamp((tt-.22)/.40,0,1)))*.97;if(tt>=.63){transition=null;fade=0;}}}}
+ let target=V.add(eye,forward()),renderEye=eye;if(mode==='landing'&&!reduced){let drift=Math.sin(age*.17)*.065;renderEye=[eye[0]+drift,eye[1]+Math.sin(age*.21)*.026,eye[2]];target=PLACES[0].t;}
+ renderer.render(renderEye,target,reduced?0:age,fade);if(frame%5===0&&mode!=='landing')drawMap();animationFrame=requestAnimationFrame(loop);
+}
+function showDialog(id){stopTour();keys.clear();joy=[0,0];dialogOpen=true;$(id).showModal();}
+function closeDialog(d){d.close();dialogOpen=false;keys.clear();last=performance.now();}
+function bind(){
+ $('enter').onclick=()=>enter(false);$('freeEnter').onclick=()=>enter(true);$('home').onclick=home;$('soundButton').onclick=()=>sound(!music.on);$('languageButton').onclick=()=>{lang=lang==='zh'?'en':'zh';applyLanguage();};$('tourButton').onclick=()=>mode==='tour'?stopTour():startTour();$('flyButton').onclick=toggleFly;$('aboutButton').onclick=()=>showDialog('aboutDialog');$('settingsButton').onclick=()=>showDialog('settingsDialog');
+ document.querySelectorAll('[data-close]').forEach(b=>b.onclick=()=>closeDialog(b.closest('dialog')));document.querySelectorAll('dialog').forEach(d=>{d.addEventListener('close',()=>{dialogOpen=false;keys.clear();});d.addEventListener('click',e=>{if(e.target===d){let r=d.getBoundingClientRect();if(e.clientX<r.left||e.clientX>r.right||e.clientY<r.top||e.clientY>r.bottom)closeDialog(d);}})});
+ document.querySelectorAll('[data-spot]').forEach(b=>b.onclick=()=>jump(+b.dataset.spot));$('hideButton').onclick=()=>body.classList.add('hidden-ui');$('restoreButton').onclick=()=>body.classList.remove('hidden-ui');$('fullButton').onclick=async()=>{try{if(!document.fullscreenElement)await document.documentElement.requestFullscreen();else await document.exitFullscreen();}catch(e){toast(lang==='zh'?'浏览器不允许全屏；可用浏览器自带全屏。':'Use the browser’s fullscreen command.');}};
+ $('volume').oninput=e=>music.setVolume(+e.target.value/100);$('paint').oninput=e=>renderer.paint=+e.target.value/100;function quality(scale){renderer.scale=scale;renderer.resize();$('qualityLow').classList.toggle('active',scale<1);$('qualityHigh').classList.toggle('active',scale===1);}$('qualityLow').onclick=()=>quality(.70);$('qualityHigh').onclick=()=>quality(1);$('motionOff').onclick=()=>{reduced=true;stopTour();updateUI();};$('motionOn').onclick=()=>{reduced=false;updateUI();};$('captureButton').onclick=postcard;
+ let drag=null;const cv=$('world');cv.addEventListener('pointerdown',e=>{if(e.pointerType==='touch'&&!touch){touch=true;updateUI();}if(mode==='landing'){enter(true);}stopTour();moveGoal=null;drag={id:e.pointerId,x:e.clientX,y:e.clientY};cv.setPointerCapture(e.pointerId);});cv.addEventListener('pointermove',e=>{if(!drag||drag.id!==e.pointerId||dialogOpen)return;let dx=e.clientX-drag.x,dy=e.clientY-drag.y;goalYaw-=dx*.0035;goalPitch=clamp(goalPitch-dy*.003,-1.32,1.40);drag.x=e.clientX;drag.y=e.clientY;});const endDrag=e=>{if(drag?.id===e.pointerId)drag=null;};cv.addEventListener('pointerup',endDrag);cv.addEventListener('pointercancel',endDrag);cv.addEventListener('lostpointercapture',()=>drag=null);
+ cv.addEventListener('wheel',e=>{if(dialogOpen)return;e.preventDefault();if(mode==='landing')enter(true);stopTour();moveBy(V.mul(fly?forward():[Math.sin(yaw),0,-Math.cos(yaw)],-Math.sign(e.deltaY)*.50));},{passive:false});
+ cv.addEventListener('dblclick',e=>{if(mode!=='free'||fly||dialogOpen)return;let f=forward(),right=V.norm(V.cross(f,[0,1,0])),up=V.cross(right,f),ff=Math.tan((innerWidth<600?66:56)*Math.PI/360),nx=(e.clientX/innerWidth*2-1)*ff*innerWidth/innerHeight,ny=(1-e.clientY/innerHeight*2)*ff,dir=V.norm(V.add(f,V.add(V.mul(right,nx),V.mul(up,ny))));if(dir[1]>-.015)return;let dist=(.05-eye[1])/dir[1],dest=V.add(eye,V.mul(dir,dist));if(dist<30&&canWalk(dest[0],dest[2]))moveGoal=dest;else toast(t('blocked'));});
+ window.addEventListener('keydown',e=>{if(dialogOpen)return;if(['INPUT','TEXTAREA','SELECT'].includes(document.activeElement?.tagName))return;if(e.code==='Escape'){stopTour();body.classList.remove('hidden-ui');return;}if(e.code==='KeyH'){body.classList.toggle('hidden-ui');return;}if(e.code==='KeyP'){postcard();return;}if(e.code==='KeyF'){if(!e.repeat)toggleFly();return;}if(['KeyW','KeyA','KeyS','KeyD','KeyQ','KeyE','ArrowUp','ArrowDown','ArrowLeft','ArrowRight','ShiftLeft'].includes(e.code)){e.preventDefault();if(mode==='landing')enter(true);stopTour();keys.add(e.code);}});window.addEventListener('keyup',e=>keys.delete(e.code));window.addEventListener('blur',()=>{keys.clear();joy=[0,0];vertical=0;drag=null;});
+ let jid=null;const joystick=$('joystick');function joystickMove(e){if(e.pointerId!==jid)return;let r=joystick.getBoundingClientRect(),xx=(e.clientX-r.left-r.width/2)/35,yy=(e.clientY-r.top-r.height/2)/35,d=Math.max(1,Math.hypot(xx,yy));joy=[xx/d,yy/d];$('stick').style.transform=`translate(${joy[0]*29}px,${joy[1]*29}px)`;}
+ joystick.addEventListener('pointerdown',e=>{e.preventDefault();stopTour();jid=e.pointerId;joystick.setPointerCapture(e.pointerId);joystickMove(e)});joystick.addEventListener('pointermove',joystickMove);for(let ev of ['pointerup','pointercancel','lostpointercapture'])joystick.addEventListener(ev,()=>{jid=null;joy=[0,0];$('stick').style.transform='';});[['upButton',1],['downButton',-1]].forEach(([id,val])=>{$(id).addEventListener('pointerdown',e=>{e.preventDefault();vertical=val;$(id).setPointerCapture(e.pointerId);});for(let ev of ['pointerup','pointercancel','lostpointercapture'])$(id).addEventListener(ev,()=>vertical=0);});
+ window.addEventListener('resize',()=>{if(renderer)renderer.resize();});document.addEventListener('visibilitychange',()=>{keys.clear();joy=[0,0];if(document.hidden&&music?.on)sound(false);last=performance.now();});cv.addEventListener('webglcontextlost',e=>{e.preventDefault();ready=false;cancelAnimationFrame(animationFrame);$('error').style.display='block';$('errorDetail').textContent=lang==='zh'?'显卡上下文已丢失。请重新打开页面。':'The graphics context was lost. Reload the page.';if(music?.on)sound(false);});
+}
+function postcard(){if(!ready)return;try{renderer.render(eye,V.add(eye,forward()),reduced?0:age,0);let cv=$('world'),out=document.createElement('canvas'),W=cv.width,H=cv.height,margin=Math.max(25,Math.round(W*.035)),footer=Math.max(95,Math.round(W*.083));out.width=W+margin*2;out.height=H+margin*2+footer;let x=out.getContext('2d');x.fillStyle='#ece4cf';x.fillRect(0,0,out.width,out.height);x.drawImage(cv,margin,margin);x.fillStyle='#365158';x.textAlign='left';x.font=`italic ${Math.round(W*.025)}px Georgia, serif`;x.fillText(lang==='zh'?'在藤影里，多坐一会儿。':'A while longer beneath the wisteria.',margin,margin+H+footer*.46);x.font=`${Math.max(10,Math.round(W*.008))}px sans-serif`;x.fillStyle='#737c6c';x.fillText(lang==='zh'?'紫藤庭院 · 艺术化空间演绎':'THE WISTERIA COURTYARD · AN IMAGINED EXTENSION',margin,margin+H+footer*.76);x.textAlign='right';x.fillText('MakerJackie × GPT-6 Astra Pro',out.width-margin,margin+H+footer*.76);out.toBlob(blob=>{if(!blob){toast(t('captureError'));return;}let url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download='sous-la-glycine.png';a.click();setTimeout(()=>URL.revokeObjectURL(url),20000);toast(t('captureOK'));},'image/png');}catch(e){toast(t('captureError'));}}
+async function boot(){try{applyLanguage();await new Promise(r=>requestAnimationFrame(r));renderer=new Renderer($('world'));$('loadBar').style.width='25%';await new Promise(r=>setTimeout(r,20));let paint=makePaint(),sky=makeSky(),labels=makeLabels();$('loadBar').style.width='55%';$('loadMessage').textContent=lang==='zh'?'搭好棚架，让花序一串串垂下来。':'Raising the pergola. Hanging the clusters one by one.';await new Promise(r=>setTimeout(r,20));world=makeWorld();$('loadBar').style.width='84%';await new Promise(r=>setTimeout(r,20));renderer.init(world,paint,sky,labels);music=new CourtyardMusic();aim(PLACES[0].t);bind();applyLanguage();ready=true;last=performance.now();renderer.render(eye,PLACES[0].t,0);$('loadBar').style.width='100%';$('loading').classList.add('done');animationFrame=requestAnimationFrame(loop);
+ window.wisteriaWorld={get ready(){return ready},getState:()=>({mode,fly,eye:eye.slice(),yaw,pitch,selected,visits:[...visit],lang,reduced,stats:world.stats,drawCalls:renderer.draws,audioOn:music.on,audioState:music.state,audioSeconds:Math.round(music.played),audioLevel:+music.level.toFixed(3),frame,canvas:[$('world').width,$('world').height]}),jump:(id)=>jump(id,true),setTourTime:sec=>{mode='tour';tourTime=clamp(sec,0,28);updateTour(0);updateUI();},setPose:(p,target)=>{mode='free';eye=p.slice();aim(target);fly=eye[1]>2.6;updateUI()},setLanguage:l=>{lang=l;applyLanguage()},capture:postcard,canWalk,home,stop:()=>{cancelAnimationFrame(animationFrame);},render:()=>renderer.render(eye,V.add(eye,forward()),0,0),glError:()=>renderer.gl.getError(),breakdown:()=>({stones:world.stats.stones,strokes:world.stats.strokes,strands:world.stats.strands,rafters:world.stats.rafters}),painting:'wisteria-courtyard'};
+ }catch(e){console.error(e);$('error').style.display='block';$('errorDetail').textContent=e.message||String(e);$('loading').classList.add('done');}}
+boot();
+</script>
+</body></html>

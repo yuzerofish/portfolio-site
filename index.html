@@ -716,6 +716,19 @@
 
   <!-- Project Grid -->
   <div class="project-grid">
+    <!-- 藤影之下 · 紫藤庭院 -->
+    <a href="wisteria-courtyard/index.en.html" id="wisteriaCard" target="_blank" rel="noopener" class="project-card reveal">
+      <div class="project-card-visual" style="background:linear-gradient(135deg,#2a2040 0%,#4a3a6e 50%,#7a5ea8 100%);">
+        <img src="assets/wisteria-courtyard.jpg" alt="The Wisteria Courtyard — an explorable 3D world" loading="lazy" style="width:100%;height:100%;object-fit:cover;display:block;">
+      </div>
+      <div class="project-card-body">
+        <h3 data-i18n="project.wisteria.title">The Wisteria Courtyard</h3>
+        <p data-i18n="project.wisteria.desc">An oil painting rebuilt as a world you can walk into. A hand-written WebGL renderer, procedurally generated textures, real geometry in every direction, and an interface that speaks both Chinese and English.</p>
+        <span class="status live" data-i18n="project.wisteria.status">● Interactive 3D</span>
+        <span class="project-card-url">wisteria-courtyard/</span>
+      </div>
+    </a>
+
     <!-- 世界的形状 -->
     <a href="https://shapeof.world/t/world-gdp" target="_blank" rel="noopener" class="project-card reveal">
       <div class="project-card-visual" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
@@ -814,6 +827,9 @@ const translations = {
     'feat.tech4': 'PostgreSQL', 'feat.link': 'Visit Live →',
     'project.shapeofworld.desc': 'A Treemap data exploration platform that visualizes how the world is composed — GDP, population, trade, and more. Observe complex data through beautiful, interactive maps.',
     'project.shapeofworld.status': '● Live',
+    'project.wisteria.title': 'The Wisteria Courtyard',
+    'project.wisteria.desc': 'An oil painting rebuilt as a world you can walk into. A hand-written WebGL renderer, procedurally generated textures, real geometry in every direction, and an interface that speaks both Chinese and English.',
+    'project.wisteria.status': '● Interactive 3D',
     'project.media.title': '自媒体运营全维度调研',
     'project.media.desc': 'A comprehensive research report on self-media operations across major Chinese platforms in 2025–2026. Deep analysis of content strategies, monetization, and platform algorithms.',
     'project.media.status': '● Research',
@@ -838,6 +854,9 @@ const translations = {
     'feat.tech4': 'PostgreSQL', 'feat.link': '访问网站 →',
     'project.shapeofworld.desc': '一个 Treemap 数据探索平台，用可视化图表展示世界的构成 — GDP、人口、贸易等。通过美观的交互式地图观察复杂数据。',
     'project.shapeofworld.status': '● 已上线',
+    'project.wisteria.title': '藤影之下 · 紫藤庭院',
+    'project.wisteria.desc': '一幅油画被重建为一个可以走进去的世界 — 手写的 WebGL 渲染器、程序化生成的纹理、每个方向都有真实几何，以及中英双语界面。不是世界的图片，而是一个世界。',
+    'project.wisteria.status': '● 交互式 3D',
     'project.media.title': '自媒体运营全维度调研',
     'project.media.desc': '一份关于 2025–2026 年中国主流平台自媒体运营的全维度研究报告。深度分析内容策略、变现模式和平台算法机制。',
     'project.media.status': '● 研究报告',
@@ -863,6 +882,8 @@ function switchLanguage(lang) {
   document.querySelectorAll('.lang-switch button').forEach(btn => {
     btn.classList.toggle('active', btn.dataset.lang === lang);
   });
+  const wCard = document.getElementById('wisteriaCard');
+  if (wCard) wCard.href = lang === 'zh' ? 'wisteria-courtyard/index.html' : 'wisteria-courtyard/index.en.html';
   document.documentElement.classList.toggle('zh', lang === 'zh');
   document.documentElement.lang = lang === 'zh' ? 'zh' : 'en';
 }
